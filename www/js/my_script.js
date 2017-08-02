@@ -2,7 +2,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
 
-    var url = "http://webhq.ie/wp-json/wp/v2/posts";
+    var url = "https://webhq.ie/wp-json/wp/v2/posts";
 
     jQuery.ajax({
         type: 'GET',
