@@ -8,6 +8,7 @@ function onDeviceReady() {
         type: 'GET',
         url: url,
         dataType: 'jsonp',
+        crossDomain: true,
         success: function(data){
             jQuery.each(data, function(index, value) {
                 console.log(value);
