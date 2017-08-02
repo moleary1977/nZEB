@@ -7,7 +7,7 @@ function onDeviceReady() {
     jQuery.ajax({
         type: 'GET',
         url: url,
-        dataType: 'json',
+        dataType: 'jsonp',
         success: function(data){
             jQuery.each(data, function(index, value) {
                 console.log(value);
