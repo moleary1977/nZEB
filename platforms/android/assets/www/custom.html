@@ -5,52 +5,52 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>Concept App</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/mdb.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <div class="row">
-            <h1>Nearly Zero Energy Building</h1>
-            <p>List of custom posts with type "quiz" belonging to webhq.ie</p>            
+<body class="container green lighten-2">
 
+    <a class="btn btn-sm white green-text" href="./index.html">Home</a>
+
+    <div class="row">
+        <div class="col-sm-12 card-panel">
+            <div class="flow-text">Nearly Zero Energy Building App Concept</div>
+            <small>List of CPTS (quiz) belonging to webhq.ie</small>
             <!-- CONTENT HERE -->
             <ul id="customList"></ul>
-
-            <a href="./index.html">Home</a>
         </div>
+    </div>
 
     </div>
 
     <script type="text/javascript" src="cordova.js"></script>
-    <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-    
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/mdb.min.js"></script>
+
     <script type="text/javascript">
-    document.addEventListener("deviceready", onDeviceReady, false);
+        document.addEventListener("deviceready", onDeviceReady, false);
 
-    function onDeviceReady() {
+        function onDeviceReady() {
 
-        var url = "https://webhq.ie/wp-json/wp/v2/quiz";
+            var url = "https://webhq.ie/wp-json/wp/v2/quiz";
 
-        jQuery.ajax({
-            type: 'GET',
-            url: url,
-            dataType: 'json',
-            crossDomain: true,
-            success: function(data){
-                jQuery.each(data, function(index, value) {
-                    console.log(value);
-                    jQuery('#customList').append('<li>' +
-                        '<h3>CPT Title: '+ value.title.rendered +'</h3>' + 
-                        '<div>CPT Content: ' + value.content.rendered + '</div></li>');
-                });
-            }
-        });
-    }
+            jQuery.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                crossDomain: true,
+                success: function (data) {
+                    jQuery.each(data, function (index, value) {
+                        console.log(value);
+                        jQuery('#customList').append('<li class="list-group-item">' +
+                            '<p>CPT Title: ' + value.title.rendered + 
+                            '. CPT Content: ' + value.content.rendered + '</p></li>');
+                    });
+                }
+            });
+        }
     </script>
 
 </body>
