@@ -13,14 +13,11 @@
     <div class="container">
         <div class="row">
             <h1>Nearly Zero Energy Building</h1>
-            <div>Navigation:</div>
+            <p>List of posts belonging to webhq.ie</p>            
+            <!-- CONTENT HERE -->
+            <ul id="postList"></ul>
 
-            <ul id="listview">
-                <li><a href="./pages.html">Pages</a></li>
-                <li><a href="./posts.html">Posts</a></li>
-                <li><a href="./custom.html">Custom Post Types</a></li>
-            </ul>
-
+            <a href="/">Home</a>
         </div>
 
     </div>
@@ -30,7 +27,30 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./js/my_script.js"></script>
+
+    <script type="text/javascript">
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    function onDeviceReady() {
+
+        var url = "https://webhq.ie/wp-json/wp/v2/posts";
+
+        jQuery.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data){
+                jQuery.each(data, function(index, value) {
+                    console.log(value);
+                    jQuery('#postList').append('<li>' +
+                        '<h3>Post Title: '+ value.title.rendered +'</h3>' + 
+                        '<div>Post Content: ' + value.content.rendered + '</div></li>');
+                });
+            }
+        });
+    }
+    </script>
 
 </body>
 
