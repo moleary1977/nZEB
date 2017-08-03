@@ -34,8 +34,12 @@
 
         function onDeviceReady() {
 
-            var url = "https://webhq.ie/wp-json/wp/v2/quiz";
-
+           var url = "https://webhq.ie/wp-json/wp/v2/pages";
+            if(localStorage.getItem("user_language") != "en"){
+                var lang = "/?lang="+localStorage.getItem("user_language");
+                url += lang;
+            }
+            
             jQuery.ajax({
                 type: 'GET',
                 url: url,
