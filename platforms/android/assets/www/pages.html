@@ -33,6 +33,10 @@
         function onDeviceReady() {
 
             var url = "https://webhq.ie/wp-json/wp/v2/pages";
+            if(localStorage.getItem("user_language") != "en"){
+                var lang = "/?lang="+localStorage.getItem("user_language");
+                url += lang;
+            }
 
             jQuery.ajax({
                 type: 'GET',
@@ -43,7 +47,8 @@
                     jQuery.each(data, function (index, value) {
                         console.log(value);
                         jQuery('#pageList').append('<li class="list-group-item">' +
-                            '<p>Page Title: ' + value.title.rendered + '</p></li>');
+                            '<p>Page Title: ' + value.title.rendered + '</p>' + 
+                             value.content.rendered +'</li>');
                     });
                 }
             });
