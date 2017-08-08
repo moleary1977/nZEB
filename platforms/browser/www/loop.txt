@@ -1,0 +1,18 @@
+// for each training post type
+                    jQuery.each(data, function (idx, value) {
+                        jQuery('#customList').append("<h1>" + value.title.rendered + "</h1>");
+
+                        // for each mcq in a training post
+                        jQuery.each(value.acf.mcq, function (index, val) {
+                            jQuery('#customList').append("<form class='question_" + index + "'></form>")
+                            jQuery('form.question_'+index).append(val.question);
+                            jQuery('form.question_'+index).append("<input id='correct_answer' type='hidden' value='" + val.correct_answer + "'>");
+                            // for each set of answers
+                            jQuery.each(val.answers, function (i, ans) {
+                                console.log(index + ": "+ i);
+                                // console.log(ans.answer);
+                                jQuery('form.question_'+index).append('<li><input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
+                            });
+                            jQuery('form.question_'+index).append("<a id='submit' class='btn btn-sm submit'>Submit Answer</a>");
+                        });
+                    });

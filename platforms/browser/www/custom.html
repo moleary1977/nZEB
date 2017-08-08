@@ -7,6 +7,8 @@
     <title>Concept App</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/mdb.min.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+
 </head>
 
 <body class="container green lighten-2">
@@ -18,9 +20,15 @@
             <div class="flow-text">Nearly Zero Energy Building App Concept</div>
             <small>List of CPTS (training) belonging to webhq.ie</small>
             <!-- CONTENT HERE -->
-            <div id="customList"></div>
 
-            <div id="answer"></div>
+            <ul class="nav nav-tabs">
+
+            </ul>
+
+            <div class="tab-content">
+
+            </div>
+
         </div>
     </div>
 
@@ -51,41 +59,76 @@
                 crossDomain: true,
                 success: function (data) {
 
-                    // for each training post type
-                    jQuery.each(data, function (index, value) {
-                        jQuery('#customList').append("<h1>" + value.title.rendered + "</h1>");
-
-                        // for each mcq in a training post
+                    // for each training post type ("training section")
+                    jQuery.each(data, function (idx, value) {
+                        // for each mcq in a training post ("multiple choice question")
                         jQuery.each(value.acf.mcq, function (index, val) {
-                            jQuery('#customList').append(val.question);
-                            jQuery('#customList').append("<input id='correct_answer' type='hidden' value='" + val.correct_answer + "'>");
-                            // for each set of answers
+                            // for each set of answers ("answers")
+                            // add one to each index so they don't start from zero
+                            index = index + 1;
+                            // add a new tab to the top
+                            jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>Question " + index + "</a></li>");
+                            // add a new content area for the new tab
+                            jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'>" + val.question + " </div>");
+                            // insert a form into the new content area
+                            jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>");
+                            // add a hidden input field containing the correct answer
+                            jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + val.correct_answer + "'>");
+                            // for each answer option
                             jQuery.each(val.answers, function (i, ans) {
-                                // console.log(index);
-                                // console.log(ans.answer);
-                                jQuery('#customList').append('<li><input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
+                                // put it onto the page
+                                jQuery('form#question-' + index).append('<li>'+(i+1)+'. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
                             });
-                            jQuery('#customList').append("<a id='submit' class='btn btn-sm submit'>Submit Answer</a>");
+                            // add a submit button
+                            jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='btn btn-sm submit'>Submit Answer</a>");
+                            // add a continue button
+                            jQuery('form#question-' + index).append("<a id='continue-" + index + "' class='btn btn-sm submit'>Continue</a>");
+                            // but hide the continue button initially
+                            jQuery('a#continue-'+index).hide();
+                            // add a div for answer feedback
+                            jQuery('form#question-' + index).append("<div id='answer'></div>");
+                            // hide all tabs except the first one
+                            jQuery('ul.nav-tabs li').not(":first").hide();
+                            // make the first one active
+                            jQuery('ul.nav-tabs li').not(":first").hide();
                         });
                     });
-                    jQuery('#customList').wrapInner('<form></form>');
                 }
             });
         }
 
-        jQuery(document).on('click', '#submit', function () {
-            if (jQuery('input:radio').is(':checked')) {
-                var user_ans = jQuery('input:radio:checked').val();
-                var correct_ans = jQuery('input#correct_answer').val();
-                if(user_ans ==  correct_ans){
-                    jQuery('div#answer').attr('class','').addClass("badge green").text("CORRECT ANSWER");
+        // when I click on a submit button
+        jQuery(document).on('click', '.submit', function () {
+            // get the ID of the form that the button is part of, which will be question-#
+            var $form = jQuery(this).parent().attr('id');
+            // if there is a checked radio button inside that form
+            if ('#' + $form + ' input:radio:checked') {
+                // find all radio buttons in it and disable them
+                jQuery($form).find('input:radio').attr('disabled', '');
+                // disable the submit button
+                jQuery(this).attr('disabled', '').text("Answer submitted");
+                // store the user's selected answer
+                var user_ans = jQuery('#' + $form + ' input:radio:checked').val();
+                // store the correct answer
+                var correct_ans = jQuery('#' + $form + ' input#correct_answer').val();
+                // if the user's answer matches the correct answer
+                if (user_ans == correct_ans) {
+                    // they got it right
+                    jQuery('#' + $form + ' div#answer').attr('class', '').addClass("badge green").text("CORRECT ANSWER");
                 } else {
-                    jQuery('div#answer').attr('class','').addClass("badge red").text("WRONG ANSWER");
+                    // otherwise, they got it wrong - but give them the right answer so they can learn from it
+                    jQuery('#' + $form + ' div#answer').attr('class', '').addClass("badge red").text("WRONG ANSWER - Correct answer is " + correct_ans);
                 }
-            } else {
-                jQuery('div#answer').attr('class','').addClass("badge red").text("Please choose an answer");
+                // whether it's right or wrong, show the next question 
+                jQuery('#'+$form).parent().next().show();
+            }
+            // if no radio button is selected
+            else {
+                // tell the user to make a selection
+                jQuery('#' + $form + ' div#answer').attr('class', '').addClass("badge red").text("Please choose an answer");
             }
         });
+
     </script>
 
 </body>
