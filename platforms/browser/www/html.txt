@@ -1,0 +1,55 @@
+<div class="row">
+        <div class="card-panel col-sm-12">
+            <div class="flow-text">Register</div>
+
+            <form role="form" id="regForm">
+
+                <div class="form-group">
+                    <label for="fname">First Name:</label>
+                    <input type="text" name="fname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" name="lname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" id="register" name="register" class="btn btn-sm white green-text">Register</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+<div class="row">
+        <div class="card-panel col-sm-12">
+            <div class="flow-text">Login</div>
+
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+
+            <button onclick="login()" type="submit" id="login" name="login" class="btn btn-sm white green-text">Login</button>
+        </div>
+    </div>
+
+
+TSIqdNlL28@l#wXfiXW$v7h6

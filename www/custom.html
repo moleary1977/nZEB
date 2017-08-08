@@ -16,9 +16,11 @@
     <div class="row">
         <div class="col-sm-12 card-panel">
             <div class="flow-text">Nearly Zero Energy Building App Concept</div>
-            <small>List of CPTS (quiz) belonging to webhq.ie</small>
+            <small>List of CPTS (training) belonging to webhq.ie</small>
             <!-- CONTENT HERE -->
-            <ul id="customList"></ul>
+            <div id="customList"></div>
+
+            <div id="answer"></div>
         </div>
     </div>
 
@@ -28,15 +30,17 @@
     <script src="./js/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
+    <script type="text/javascript" src="./js/my_script.js"></script>
+
 
     <script type="text/javascript">
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
 
-           var url = "https://webhq.ie/wp-json/wp/v2/quiz";
-            if(localStorage.getItem("user_language") != "en"){
-                var lang = "/?lang="+localStorage.getItem("user_language");
+            var url = "https://webhq.ie/wp-json/wp/v2/training";
+            if (localStorage.getItem("user_language") != "en") {
+                var lang = "/?lang=" + localStorage.getItem("user_language");
                 url += lang;
             }
 
@@ -46,15 +50,42 @@
                 dataType: 'json',
                 crossDomain: true,
                 success: function (data) {
+
+                    // for each training post type
                     jQuery.each(data, function (index, value) {
-                        console.log(value);
-                        jQuery('#customList').append('<li class="list-group-item">' +
-                            '<p>CPT Title: ' + value.title.rendered +
-                            '. CPT Content: ' + value.content.rendered + '</p></li>');
+                        jQuery('#customList').append("<h1>" + value.title.rendered + "</h1>");
+
+                        // for each mcq in a training post
+                        jQuery.each(value.acf.mcq, function (index, val) {
+                            jQuery('#customList').append(val.question);
+                            jQuery('#customList').append("<input id='correct_answer' type='hidden' value='" + val.correct_answer + "'>");
+                            // for each set of answers
+                            jQuery.each(val.answers, function (i, ans) {
+                                // console.log(index);
+                                // console.log(ans.answer);
+                                jQuery('#customList').append('<li><input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
+                            });
+                            jQuery('#customList').append("<a id='submit' class='btn btn-sm submit'>Submit Answer</a>");
+                        });
                     });
+                    jQuery('#customList').wrapInner('<form></form>');
                 }
             });
         }
+
+        jQuery(document).on('click', '#submit', function () {
+            if (jQuery('input:radio').is(':checked')) {
+                var user_ans = jQuery('input:radio:checked').val();
+                var correct_ans = jQuery('input#correct_answer').val();
+                if(user_ans ==  correct_ans){
+                    jQuery('div#answer').attr('class','').addClass("badge green").text("CORRECT ANSWER");
+                } else {
+                    jQuery('div#answer').attr('class','').addClass("badge red").text("WRONG ANSWER");
+                }
+            } else {
+                jQuery('div#answer').attr('class','').addClass("badge red").text("Please choose an answer");
+            }
+        });
     </script>
 
 </body>
