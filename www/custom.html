@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-sm-12 card-panel">
             <div class="flow-text">Nearly Zero Energy Building App Concept</div>
-            <small>List of CPTS (training) belonging to webhq.ie</small>
+            <small></small>
             <!-- CONTENT HERE -->
             <ul class="nav nav-tabs"></ul>
             <div class="tab-content"></div>
@@ -54,16 +54,21 @@
                 success: function (data) {
                     // for each training post type ("training section")
                     jQuery.each(data, function (idx, value) {
+                        jQuery("small").text(value.title.rendered);
                         // get the number of questions from the post
                         var questions = value.acf.mcq.length;
+                        if(questions < 5){
+                            var qneeded = questions;
+                        }else{
+                            var qneeded = 5;
+                        }
                         // loop until we have 5 unique questions loaded
-                        while (already_selected.length < 5) {
+                        while (already_selected.length < qneeded) {
                             // get a random number based on the number of questions available
                             var random = Math.floor(Math.random() * questions);
                             // if the number is already in the array 
                             if (jQuery.inArray(random, already_selected) !== -1) {
                                 // then it already exists, don't need to add it again
-                                console.log(random + " - This is already selected");
                             } else {
                                 // otherwise, add it into the array
                                 already_selected.push(random);
@@ -86,7 +91,9 @@
                                 jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='btn btn-sm submit'>Submit Answer</a>");
                                 // add a div for answer feedback
                                 jQuery('form#question-' + index).append("<div id='answer'></div>");
-                                console.log(random + " - New number, added to array");
+                                // make the first tab and content active
+                                jQuery('ul.nav li:first-child').addClass("active");
+                                jQuery('div.tab-content div:first-child').addClass("active in");
                             }
                         }
                     });
@@ -102,7 +109,6 @@
             if ($form + ' input:radio:checked') {
                 // update answers
                 ++answers_submitted;
-                console.log(answers_submitted);
                 // remove the button's ID
                 jQuery(this).removeClass('submit');
                 // find all radio buttons in it and disable them
@@ -154,7 +160,7 @@
             jQuery('div#results table tbody').append('<tr><th>Wrong answers</th><td>'+wrong_answers+'</td></tr>');
             jQuery('div#results table tbody').append('<tr><th>Total score</th><td>'+grade+'%</td></tr>');
             // add a continue button
-            jQuery('div#results').append("<a class='btn btn-sm submit'>Continue [TO-DO]</a>");
+            jQuery('div#results').append("<a class='btn btn-sm'>Continue [TO-DO]</a>");
         }
     </script>
 
