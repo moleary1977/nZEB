@@ -44,6 +44,9 @@
     <script type="text/javascript">
         document.addEventListener("deviceready", onDeviceReady, false);
 
+        var answers_submitted = 0;
+        var already_selected = [];
+
         function onDeviceReady() {
 
             var url = "https://webhq.ie/wp-json/wp/v2/training";
@@ -58,40 +61,51 @@
                 dataType: 'json',
                 crossDomain: true,
                 success: function (data) {
-
                     // for each training post type ("training section")
                     jQuery.each(data, function (idx, value) {
-                        // for each mcq in a training post ("multiple choice question")
-                        jQuery.each(value.acf.mcq, function (index, val) {
-                            // for each set of answers ("answers")
-                            // add one to each index so they don't start from zero
-                            index = index + 1;
-                            // add a new tab to the top
-                            jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>Question " + index + "</a></li>");
-                            // add a new content area for the new tab
-                            jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'>" + val.question + " </div>");
-                            // insert a form into the new content area
-                            jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>");
-                            // add a hidden input field containing the correct answer
-                            jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + val.correct_answer + "'>");
-                            // for each answer option
-                            jQuery.each(val.answers, function (i, ans) {
-                                // put it onto the page
-                                jQuery('form#question-' + index).append('<li>'+(i+1)+'. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
-                            });
-                            // add a submit button
-                            jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='btn btn-sm submit'>Submit Answer</a>");
-                            // add a continue button
-                            jQuery('form#question-' + index).append("<a id='continue-" + index + "' class='btn btn-sm submit'>Continue</a>");
-                            // but hide the continue button initially
-                            jQuery('a#continue-'+index).hide();
-                            // add a div for answer feedback
-                            jQuery('form#question-' + index).append("<div id='answer'></div>");
-                            // hide all tabs except the first one
-                            jQuery('ul.nav-tabs li').not(":first").hide();
-                            // make the first one active
-                            jQuery('ul.nav-tabs li').not(":first").hide();
-                        });
+                        console.log("Number of questions: " + value.acf.mcq.length);
+                        var questions = value.acf.mcq.length;
+                        // loop through the number of questions belonging to that section
+                        for (var i = 0; i < questions; i++) {
+                            // get a random number based on the number of questions available
+                            var random = Math.floor(Math.random() * questions);
+                            // if the number is already in the array 
+                            if (jQuery.inArray(random, already_selected) !== -1) {
+                                // then it already exists, don't need to add it again
+                                console.log(random + " - This is already selected");
+                            } else {
+                                // otherwise, add it into the array
+                                already_selected.push(random);
+                                // we only want to display 2 of the random questions 
+                                if (already_selected.length <= 2) {
+                                    // console.log(value.acf.mcq[random]);
+                                    // add 1 to the index
+                                    index = random + 1;
+                                    // add a new tab to the top
+                                    jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>Question " + index + "</a></li>");
+                                    // add a new content area for the new tab
+                                    jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'>" + value.acf.mcq[random].question + " </div>");
+                                    // insert a form into the new content area
+                                    jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>");
+                                    // add a hidden input field containing the correct answer
+                                    jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + value.acf.mcq[random].correct_answer + "'>");
+                                    // for each answer option
+                                    jQuery.each(value.acf.mcq[random].answers, function (i, ans) {
+                                        // put it onto the page
+                                        jQuery('form#question-' + index).append('<li>' + (i + 1) + '. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
+                                    });
+                                    // add a submit button
+                                    jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='btn btn-sm submit'>Submit Answer</a>");
+                                    // add a continue button
+                                    jQuery('form#question-' + index).append("<a id='continue-" + index + "' class='btn btn-sm submit'>Continue</a>");
+                                    // but hide the continue button initially
+                                    jQuery('a#continue-' + index).hide();
+                                    // add a div for answer feedback
+                                    jQuery('form#question-' + index).append("<div id='answer'></div>");
+                                }
+                                console.log(random + " - New number, added to array");
+                            }
+                        }
                     });
                 }
             });
@@ -100,35 +114,48 @@
         // when I click on a submit button
         jQuery(document).on('click', '.submit', function () {
             // get the ID of the form that the button is part of, which will be question-#
-            var $form = jQuery(this).parent().attr('id');
+            var $form = "#" + jQuery(this).parent().attr('id');
             // if there is a checked radio button inside that form
-            if ('#' + $form + ' input:radio:checked') {
+            if ($form + ' input:radio:checked') {
+                // increment answers_submitted
+                ++answers_submitted;
+                // remove the button's ID
+                jQuery(this).removeClass('submit');
                 // find all radio buttons in it and disable them
                 jQuery($form).find('input:radio').attr('disabled', '');
                 // disable the submit button
                 jQuery(this).attr('disabled', '').text("Answer submitted");
                 // store the user's selected answer
-                var user_ans = jQuery('#' + $form + ' input:radio:checked').val();
+                var user_ans = jQuery($form + ' input:radio:checked').val();
                 // store the correct answer
-                var correct_ans = jQuery('#' + $form + ' input#correct_answer').val();
+                var correct_ans = jQuery($form + ' input#correct_answer').val();
                 // if the user's answer matches the correct answer
                 if (user_ans == correct_ans) {
                     // they got it right
-                    jQuery('#' + $form + ' div#answer').attr('class', '').addClass("badge green").text("CORRECT ANSWER");
+                    jQuery($form + ' div#answer').attr('class', '').addClass("badge green").text("CORRECT ANSWER");
                 } else {
                     // otherwise, they got it wrong - but give them the right answer so they can learn from it
-                    jQuery('#' + $form + ' div#answer').attr('class', '').addClass("badge red").text("WRONG ANSWER - Correct answer is " + correct_ans);
+                    jQuery($form + ' div#answer').attr('class', '').addClass("badge red").text("WRONG ANSWER - Correct answer is " + correct_ans);
                 }
-                // whether it's right or wrong, show the next question 
-                jQuery('#'+$form).parent().next().show();
+
+                if (answers_submitted == 3) {
+                    console.log("all answers submitted");
+                    showResults();
+                }
             }
             // if no radio button is selected
             else {
                 // tell the user to make a selection
-                jQuery('#' + $form + ' div#answer').attr('class', '').addClass("badge red").text("Please choose an answer");
+                jQuery($form + ' div#answer').attr('class', '').addClass("badge red").text("Please choose an answer");
             }
         });
 
+        function showResults() {
+            // add a new tab to the top
+            jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#results>Results</a></li>");
+            // add a new content area for the new tab
+            jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='results'>Results</div>");
+        }
     </script>
 
 </body>
