@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wordpress</title>
+    <script
+            src="http://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            jQuery("#register").click(function(){
+                var display_name = jQuery("#display_name").val();
+                var email = jQuery("#email").val();
+                var username = jQuery("#username").val();
+                var password = jQuery("#password").val();
+                jQuery.ajax({
+                    type: "POST",
+                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=register",
+                    crossDomain: true,
+                    dataType: 'jsonp',
+                    cache: false,
+                    success: function(data){
+                        var nonce = data.nonce;
+                        var dataString = "display_name="+display_name+"&email="+email+"&username="+username+"&password="+password+"&nonce="+nonce+"&insecure=cool";
+                        jQuery.ajax({
+                            type: "POST",
+                            url:"http://www.webhq.ie/api/user/register",
+                            dataType: "jsonp",
+                            data: dataString,
+                            crossDomain: true,
+                            cache: false,
+                            success: function(data){
+                                alert(JSON.stringify(data));
+                            },
+                            error:function(x,e) {
+                                if (x.status == 0) {
+                                    alert('You are offline!!\n Please Check Your Network.');
+                                } else if (x.status == 404) {
+                                    alert('Requested URL not found.');
+                                } else if (x.status == 500) {
+                                    alert('Internel Server Error.');
+                                } else if (e == 'parsererror') {
+                                    alert('Error.\nParsing JSON Request failed.');
+                                } else if (e == 'timeout') {
+                                    alert('Request Time out.');
+                                } else {
+                                    alert('Unknow Error.\n' + x.responseText);
+                                }
+                            }
+                        });
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<input type="text" id="display_name" placeholder="Display Name">
+<input type="text" id="email" placeholder="Email Address">
+<input type="text" id="username" placeholder="Username">
+<input type="text" id="password" placeholder="Password">
+<button id="register">Register</button>
+</body>
+</html>

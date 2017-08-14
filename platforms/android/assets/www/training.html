@@ -29,7 +29,7 @@
     <script src="./js/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
-    <script type="text/javascript" src="./js/my_script.js"></script>
+    <script type="text/javascript" src="./js/functions.js"></script>
     <script type="text/javascript">
         document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -40,7 +40,7 @@
 
         function onDeviceReady() {
 
-            var url = "https://webhq.ie/wp-json/wp/v2/training";
+            var url = "https://webhq.ie/wp-json/wp/v2/training?filter[orderby]=date&order=asc";
             if (localStorage.getItem("user_language") != "en") {
                 var lang = "/?lang=" + localStorage.getItem("user_language");
                 url += lang;
@@ -53,10 +53,11 @@
                 crossDomain: true,
                 success: function (data) {
                     // for each training post type ("training section")
-                    jQuery.each(data, function (idx, value) {
-                        jQuery("small").text(value.title.rendered);
+                    // console.log(data[0].title.rendered);
+                    //jQuery.each(data, function (idx, value) {
+                        jQuery("small").text(data[0].title.rendered);
                         // get the number of questions from the post
-                        var questions = value.acf.mcq.length;
+                        var questions = data[0].acf.mcq.length;
                         if(questions < 5){
                             var qneeded = questions;
                         }else{
@@ -77,13 +78,13 @@
                                 // add a new tab to the top
                                 jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>Question</a></li>");
                                 // add a new content area for the new tab
-                                jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'>" + value.acf.mcq[random].question + " </div>");
+                                jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'>" + data[0].acf.mcq[random].question + " </div>");
                                 // insert a form into the new content area
                                 jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>");
                                 // add a hidden input field containing the correct answer
-                                jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + value.acf.mcq[random].correct_answer + "'>");
+                                jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + data[0].acf.mcq[random].correct_answer + "'>");
                                 // for each answer option
-                                jQuery.each(value.acf.mcq[random].answers, function (i, ans) {
+                                jQuery.each(data[0].acf.mcq[random].answers, function (i, ans) {
                                     // put it onto the page
                                     jQuery('form#question-' + index).append('<li>' + (i + 1) + '. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
                                 });
@@ -96,7 +97,7 @@
                                 jQuery('div.tab-content div:first-child').addClass("active in");
                             }
                         }
-                    });
+                    //});
                 }
             });
         }
@@ -145,6 +146,13 @@
         function showResults() {
             // calculate the user's grade for that quiz
             var grade = (correct_answers / 5) * 100;
+            // decide if its a pass or fail
+            var result;
+            if(grade < 80){
+                result = "Fail";
+            } else if(grade >= 80){
+                result = "Pass";
+            }
             // make anything active not-active 
             jQuery('li').attr("class", "");
             jQuery('div.tab-content > div').attr("class", "tab-pane fade");
@@ -159,6 +167,7 @@
             jQuery('div#results table tbody').append('<tr><th>Correct answers</th><td>'+correct_answers+'</td></tr>');
             jQuery('div#results table tbody').append('<tr><th>Wrong answers</th><td>'+wrong_answers+'</td></tr>');
             jQuery('div#results table tbody').append('<tr><th>Total score</th><td>'+grade+'%</td></tr>');
+            jQuery('div#results table tbody').append('<tr><th>Overall result</th><td>'+result+'</td></tr>');
             // add a continue button
             jQuery('div#results').append("<a class='btn btn-sm'>Continue [TO-DO]</a>");
         }

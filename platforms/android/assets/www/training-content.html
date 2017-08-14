@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Concept App</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/mdb.min.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+
+</head>
+
+<body class="container green lighten-2">
+
+    <a class="btn btn-sm white green-text" href="./index.html">Home</a>
+    <a class="btn btn-sm white green-text" href="./training-hub.html">Back to Hub</a>
+
+    <div class="row">
+        <div class="col-sm-12 card-panel">
+            <div class="flow-text">NZEB Training Course Quiz</div>
+            <!-- CONTENT HERE -->
+            <ul class="nav nav-tabs"></ul>
+            <div class="tab-content"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/mdb.min.js"></script>
+    <script type="text/javascript" src="./js/functions.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        var answers_submitted = 0;
+        var correct_answers = 0;
+        var wrong_answers = 0;
+        var already_selected = [];
+        var course_to_get = getCourseToView();
+
+        function onDeviceReady() {
+
+            var url = "https://webhq.ie/wp-json/wp/v2/training?filter[orderby]=date&order=asc";
+            if (localStorage.getItem("user_language") != "en") {
+                var lang = "/?lang=" + localStorage.getItem("user_language");
+                url += lang;
+            }
+
+            jQuery.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                crossDomain: true,
+                success: function (data) {
+                    // for each training post type ("training section")
+                    // console.log(data[0].title.rendered);
+                    jQuery("div.flow-text").text(data[course_to_get].title.rendered);
+                    // get the number of questions from the post
+                    var questions = data[course_to_get].acf.mcq.length;
+                    if (questions < 5) {
+                        var qneeded = questions;
+                    } else {
+                        var qneeded = 5;
+                    }
+                    // loop until we have 5 unique questions loaded
+                    while (already_selected.length < qneeded) {
+                        // get a random number based on the number of questions available
+                        var random = Math.floor(Math.random() * questions);
+                        // if the number is already in the array 
+                        if (jQuery.inArray(random, already_selected) !== -1) {
+                            // then it already exists, don't need to add it again
+                        } else {
+                            // otherwise, add it into the array
+                            already_selected.push(random);
+                            // add 1 to the index
+                            index = random + 1;
+                            // add a new tab to the top
+                            jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>Question</a></li>");
+                            // add a new content area for the new tab
+                            jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'>" + data[course_to_get].acf.mcq[random].question + " </div>");
+                            // insert a form into the new content area
+                            jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>");
+                            // add a hidden input field containing the correct answer
+                            jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + data[course_to_get].acf.mcq[random].correct_answer + "'>");
+                            // for each answer option
+                            jQuery.each(data[course_to_get].acf.mcq[random].answers, function (i, ans) {
+                                // put it onto the page
+                                jQuery('form#question-' + index).append('<li>' + (i + 1) + '. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
+                            });
+                            // add a submit button
+                            jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='btn btn-sm submit'>Submit Answer</a>");
+                            // add a div for answer feedback
+                            jQuery('form#question-' + index).append("<div id='answer'></div>");
+                            // make the first tab and content active
+                            jQuery('ul.nav li:first-child').addClass("active");
+                            jQuery('div.tab-content div:first-child').addClass("active in");
+                        }
+                    }
+                }
+            });
+        }
+
+        // when I click on a submit button
+        jQuery(document).on('click', '.submit', function () {
+            // get the ID of the form that the button is part of, which will be question-#
+            var $form = "#" + jQuery(this).parent().attr('id');
+            // if there is a checked radio button inside that form
+            if ($form + ' input:radio:checked') {
+                // update answers
+                ++answers_submitted;
+                // remove the button's ID
+                jQuery(this).removeClass('submit');
+                // find all radio buttons in it and disable them
+                jQuery($form).find('input:radio').attr('disabled', '');
+                // disable the submit button
+                jQuery(this).attr('disabled', '').text("Answer submitted");
+                // store the user's selected answer
+                var user_ans = jQuery($form + ' input:radio:checked').val();
+                // store the correct answer
+                var correct_ans = jQuery($form + ' input#correct_answer').val();
+                // if the user's answer matches the correct answer
+                if (user_ans == correct_ans) {
+                    // they got it right
+                    jQuery($form + ' div#answer').attr('class', '').addClass("badge green").text("CORRECT ANSWER");
+                    ++correct_answers;
+                } else {
+                    // otherwise, they got it wrong - but give them the right answer so they can learn from it
+                    jQuery($form + ' div#answer').attr('class', '').addClass("badge red").text("WRONG ANSWER - Correct answer is " + correct_ans);
+                    ++wrong_answers;
+                }
+                if (answers_submitted == 5) {
+                    showResults();
+                }
+            }
+            // if no radio button is selected
+            else {
+                // tell the user to make a selection
+                jQuery($form + ' div#answer').attr('class', '').addClass("badge red").text("Please choose an answer");
+                ++wrong_answers;
+                ++answers_submitted;
+            }
+        });
+
+        function showResults() {
+            // calculate the user's grade for that quiz
+            var grade = (correct_answers / 5) * 100;
+            // decide if its a pass or fail
+            var result;
+            if (grade < 80) {
+                result = "Repeat";
+            } else if (grade >= 80) {
+                result = "Pass";
+            }
+            // make anything active not-active 
+            jQuery('li').attr("class", "");
+            jQuery('div.tab-content > div').attr("class", "tab-pane fade");
+            // add a new tab to the top
+            jQuery('ul.nav-tabs').append("<li class='active'><a data-toggle='tab' href='#results'>Results</a></li>");
+            // add a new content area for the new tab
+            jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade active in' id='results'></div>");
+            // add a results table to the content area
+            jQuery('div#results').append("<table class='table'><tbody></tbody></table>");
+            // add information to the table about the user's results
+            jQuery('div#results table tbody').append('<tr><th>Total questions</th><td>5</td></tr>');
+            jQuery('div#results table tbody').append('<tr><th>Correct answers</th><td>' + correct_answers + '</td></tr>');
+            jQuery('div#results table tbody').append('<tr><th>Wrong answers</th><td>' + wrong_answers + '</td></tr>');
+            jQuery('div#results table tbody').append('<tr><th>Total score</th><td>' + grade + '%</td></tr>');
+            jQuery('div#results table tbody').append('<tr><th>Overall result</th><td>' + result + '</td></tr>');
+            // add a button to continue depending on result
+            if(result == "Pass"){
+                // if the user has passed increment the number of completed courses
+                setCoursesCompleted(++course_to_get);
+                // set the next course as the one to view next
+                setCourseToView(course_to_get);
+                jQuery('div#results').append("<a class='btn btn-sm' href='./training-content.html'>Continue to next course</a>");
+            } else if(result == "Repeat"){
+                jQuery('div#results').append("<a class='btn btn-sm' href='./training-content.html'>Repeat this course now</a>");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

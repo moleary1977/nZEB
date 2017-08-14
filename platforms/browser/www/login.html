@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wordpress</title>
+    <script
+            src="http://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            jQuery("#login").click(function(){
+                var username = jQuery("#username").val();
+                var password = jQuery("#password").val();
+                var dataString = "username="+username+"&password="+password+"&insecure=cool";
+                jQuery.ajax({
+                    type: "POST",
+                    url:"http://www.webhq.ie/api/user/generate_auth_cookie/?",
+                    data: dataString,
+                    crossDomain: true,
+                    dataType: 'jsonp',
+                    cache: false,
+                    success: function(data){
+                        alert(JSON.stringify(data));
+                    },
+                    error: function(data){
+                        alert("error");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<input type="text" id="username">
+<input type="text" id="password">
+<button id="login">Login</button>
+</body>
+</html>
