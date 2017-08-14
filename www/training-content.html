@@ -48,6 +48,15 @@
                 url += lang;
             }
 
+            /**
+             * data[course_to_get] is very important in getting information from a
+             * specific custom post type of training
+             * 
+             * we will use a local storage variable to handle different views
+             * such as material and quiz
+             * 
+             */
+
             jQuery.ajax({
                 type: 'GET',
                 url: url,
