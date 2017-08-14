@@ -38,6 +38,7 @@
         var wrong_answers = 0;
         var already_selected = [];
         var course_to_get = getCourseToView();
+        var courses_completed = getCoursesCompleted();
 
         function onDeviceReady() {
 
@@ -169,10 +170,19 @@
             jQuery('div#results table tbody').append('<tr><th>Overall result</th><td>' + result + '</td></tr>');
             // add a button to continue depending on result
             if(result == "Pass"){
-                // if the user has passed increment the number of completed courses
-                setCoursesCompleted(++course_to_get);
-                // set the next course as the one to view next
-                setCourseToView(course_to_get);
+                // get the next course
+                ++course_to_get
+                // if the user is not repeating a course already passed
+                if(course_to_get >= courses_completed){
+                    // increment the number of completed courses
+                    setCoursesCompleted(course_to_get);
+                    // set the next course as the one to view next
+                    setCourseToView(course_to_get);
+                } else {
+                    // just set the next course as the one to view next
+                    setCourseToView(course_to_get);
+                }
+            
                 jQuery('div#results').append("<a class='btn btn-sm' href='./training-content.html'>Continue to next course</a>");
             } else if(result == "Repeat"){
                 jQuery('div#results').append("<a class='btn btn-sm' href='./training-content.html'>Repeat this course now</a>");
