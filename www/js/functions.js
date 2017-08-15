@@ -5,11 +5,11 @@ document.addEventListener("deviceready", onDeviceReady, false);
 */
 function onDeviceReady() {
 
-    if (getLanguage != null) {
-        jQuery("#activeLang").text(getLanguage());
-        console.log(getLanguage());
-    } else {
+    if (getLanguage() == null) {
         jQuery("#activeLang").text("No language selected");
+        setLanguage("en");
+    } else {
+        jQuery("#activeLang").text(getLanguage());
     }
 
     if (getCourseToView() == null) {
@@ -18,6 +18,14 @@ function onDeviceReady() {
 
     if (getCoursesCompleted() == null){
         setCoursesCompleted(0);
+    }
+
+    if (getContentView() == null) {
+        setContentView("Material");
+    }
+
+    if (getAttempts() == null) {
+        setAttempts(3);
     }
 }
 
@@ -50,10 +58,34 @@ function getCourseToView() {
 
 // Set the number of courses completed by a user
 function setCoursesCompleted(courses) {
-        localStorage.setItem("courses_completed", courses);
+    localStorage.setItem("courses_completed", courses);
 }
 
 // Get the number of courses completed by a user
 function getCoursesCompleted() {
-        return localStorage.getItem("courses_completed");
+    return localStorage.getItem("courses_completed");
+}
+
+
+
+// Set the view for training content
+function setContentView(view) {
+    localStorage.setItem("content_view", view)
+}
+
+// Get the view for training content
+function getContentView() {
+    return localStorage.getItem("content_view");
+}
+
+
+
+// Set the number of quiz attempts
+function setAttempts(attempts) {
+    localStorage.setItem("attempts", attempts);
+}
+
+// Get the number of quiz attempts
+function getAttempts() {
+    return localStorage.getItem("attempts");
 }
