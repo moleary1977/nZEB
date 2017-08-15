@@ -32,7 +32,9 @@
                             crossDomain: true,
                             cache: false,
                             success: function(data){
-                                alert(JSON.stringify(data));
+                                //alert(JSON.stringify(data));
+                                document.cookie = data.cookie;
+                                console.log(document.cookie);
                             },
                             error:function(x,e) {
                                 if (x.status == 0) {
@@ -46,7 +48,7 @@
                                 } else if (e == 'timeout') {
                                     alert('Request Time out.');
                                 } else {
-                                    alert('Unknow Error.\n' + x.responseText);
+                                    alert('Unknown Error.\n' + x.responseText);
                                 }
                             }
                         });

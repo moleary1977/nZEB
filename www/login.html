@@ -14,16 +14,41 @@
             jQuery("#login").click(function(){
                 var username = jQuery("#username").val();
                 var password = jQuery("#password").val();
-                var dataString = "username="+username+"&password="+password+"&insecure=cool";
                 jQuery.ajax({
                     type: "POST",
-                    url:"http://www.webhq.ie/api/user/generate_auth_cookie/?",
-                    data: dataString,
+                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=generate_auth_cookie",
                     crossDomain: true,
                     dataType: 'jsonp',
                     cache: false,
                     success: function(data){
-                        alert(JSON.stringify(data));
+                        var nonce = data.nonce;
+                        var dataString = "nonce="+nonce+"&username="+username+"&password="+password+"&insecure=cool";
+                        jQuery.ajax({
+                            type: "POST",
+                            url: "http://www.webhq.ie/api/user/generate_auth_cookie/?",
+                            data: dataString,
+                            crossDomain: true,
+                            cache: false,
+                            success: function(data){
+                                alert(JSON.stringify(data));
+                                document.cookie = data.cookie;
+                            },
+                            error: function(x,e){ 
+                                if (x.status == 0) {
+                                    alert('You are offline!!\n Please Check Your Network.');
+                                } else if (x.status == 404) {
+                                    alert('Requested URL not found.');
+                                } else if (x.status == 500) {
+                                    alert('Internel Server Error.');
+                                } else if (e == 'parsererror') {
+                                    alert('Error.\nParsing JSON Request failed.');
+                                } else if (e == 'timeout') {
+                                    alert('Request Time out.');
+                                } else {
+                                    alert('Unknown Error.\n' + x.responseText);
+                                }
+                            }
+                        })
                     },
                     error: function(data){
                         alert("error");
