@@ -31,7 +31,36 @@
                             cache: false,
                             success: function(data){
                                 alert(JSON.stringify(data));
+                                console.log(JSON.stringify(data.user.id));
                                 document.cookie = data.cookie;
+                                localStorage.setItem("user_id", data.user.id);
+
+                                jQuery.ajax({
+                                    type: "POST",
+                                    url: "http://www.webhq.ie/api/user/update_user_meta/?",
+                                    data: "cookie="+data.cookie+"&meta_key=test_key&meta_value=test_value&insecure=cool",
+                                    crossDomain: true,
+                                    cache: false,
+                                    success: function(data){
+                                        alert(JSON.stringify(data));
+                                    },
+                                    error: function(x,e){ 
+                                        if (x.status == 0) {
+                                            alert('You are offline!!\n Please Check Your Network.');
+                                        } else if (x.status == 404) {
+                                            alert('Requested URL not found.');
+                                        } else if (x.status == 500) {
+                                            alert('Internel Server Error.');
+                                        } else if (e == 'parsererror') {
+                                            alert('Error.\nParsing JSON Request failed.');
+                                        } else if (e == 'timeout') {
+                                            alert('Request Time out.');
+                                        } else {
+                                            alert('Unknown Error.\n' + x.responseText);
+                                        }
+                                    }
+                                })
+
                             },
                             error: function(x,e){ 
                                 if (x.status == 0) {
