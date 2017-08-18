@@ -118,7 +118,7 @@
                                         jQuery('form#question-' + index).append('<li>' + (i + 1) + '. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
                                     });
                                     // add a submit button
-                                    jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='btn btn-sm submit'>Submit Answer</a>");
+                                    jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='btn btn-block green white-text submit'>Submit Answer</a>");
                                     // add a div for answer feedback
                                     jQuery('form#question-' + index).append("<div id='answer'></div>");
                                     // make the first tab and content active
@@ -226,20 +226,20 @@
                         // just set the next course as the one to view next
                         setCourseToView(course_to_get);
                     }
-                    jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-sm' href='./training-content.html'>Continue to next course</a>");
+                    jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block green white-text' href='./training-content.html'>Continue to next course</a>");
                 } else if (result == "Repeat") {
                     setAttempts(--attempts);
                     // if the user still has attempts
                     if (attempts > 0) {
                         // option to re-attempt the quiz
-                        jQuery('div#results').append("<a class='btn btn-sm' href='./training-content.html'>Repeat this quiz</a>");
+                        jQuery('div#results').append("<a class='btn btn-block green white-text' href='./training-content.html'>Repeat this quiz</a>");
                         // option to review material
-                        jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-sm' href='./training-content.html'>Review training material</a>");
+                        jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block green white-text' href='./training-content.html'>Review training material</a>");
                         // if they run out of attempts
                     } else if (attempts == 0) {
                         // get the user to review the material again before trying the quiz
                         jQuery('div#results').append("<p>You have repeated this quiz a number of times, we recommened you review the material before trying again</p>")
-                            .append("<a onclick='setContentView(\"Material\")' class='btn btn-sm' href='./training-content.html'>Review training material</a>");
+                            .append("<a onclick='setContentView(\"Material\")' class='btn btn-block green white-text' href='./training-content.html'>Review training material</a>");
                     }
                 }
             }
