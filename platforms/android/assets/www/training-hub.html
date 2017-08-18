@@ -17,13 +17,6 @@
 
     <div class="row">
         <div class="col-sm-12 card-panel">
-            <div class="flow-text">NZEB Training Hub</div>
-
-            <p>Take Course</p>
-            <div id="course_to_continue"></div>
-
-            <p>Courses Completed</p>
-            <div id="courses_completed"></div>
         </div>
     </div>
 
@@ -34,6 +27,14 @@
     <script type="text/javascript" src="./js/functions.js"></script>
     <script type="text/javascript">
 
+    if(document.cookie){
+
+        jQuery("div.card-panel").append("<h1>NZEB Training Hub</h1><hr>");
+        jQuery("div.card-panel").append("<p>Take Course</p>");
+        jQuery("div.card-panel").append("<div id='course_to_continue'></div>");
+        jQuery("div.card-panel").append("<p>Courses Complete</p>");
+        jQuery("div.card-panel").append("<div id='courses_completed'></div>");
+
         // set the view to Material
         setContentView("Material");
         // get the number of courses completed
@@ -42,20 +43,30 @@
         // if 0 courses have been compelted
         if (completed_courses == 0) {
             // inform the user of this
-            jQuery("div#courses_completed").text("No courses completed");
+            jQuery("#courses_completed").text("No courses completed");
             // and have a button linking to the first course
-            jQuery("div#course_to_continue").append("<a class='btn btn-sm btn-link'onclick='setCourseToView(0)' href='./training-content.html'>Get Started</a>");
+            jQuery("#course_to_continue").append("<a class='btn btn-block green white-text btn-link'onclick='setCourseToView(0)' href='./training-content.html'>Get Started</a>");
         }
         // if more than 0 courses have been taken
         else if (completed_courses > 0) {
             // show a button for the user to continue to the next course
-            jQuery("div#course_to_continue").append("<a class='btn btn-sm btn-link'onclick='setCourseToView(" + completed_courses + ")' href='./training-content.html'>Continue</a>");  
+            jQuery("#course_to_continue").append("<a class='btn btn-block green white-text btn-link'onclick='setCourseToView(" + completed_courses + ")' href='./training-content.html'>Continue</a>");  
             // for each completed course
             for (var i = 0; i < completed_courses; i++) {
                 // show a button so the user can look back on completed courses
-                jQuery("div#courses_completed").append("<a class='btn btn-sm btn-link' onclick='setCourseToView(" + i + ")' href='./training-content.html'>Course Unit " + (i + 1) + "</a>");
+                jQuery("#courses_completed").append("<a class='btn btn-block green white-text btn-link' onclick='setCourseToView(" + i + ")' href='./training-content.html'>Course Unit " + (i + 1) + "</a>");
             }
         }
+
+        jQuery("div.row").before('<a class="btn btn-sm white green-text" id="logout" href="./index.html">Logout</a>');
+
+        jQuery("a#logout").on("click", function(){
+            document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        });
+    } else if(!document.cookie){
+        jQuery("div.card-panel").append("Please <a href='./index.html'>login</a> to continue");
+    }
+
     </script>
 
 </body>

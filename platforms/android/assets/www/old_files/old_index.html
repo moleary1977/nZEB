@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Concept App</title>
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/mdb.min.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+
+</head>
+
+<body class="container green lighten-2">
+
+    <div class="row">
+        <div class="card-panel col-sm-12">
+            <div class="flow-text">Nearly Zero Energy Building App Concept</div>
+            <small>Retrieving JSON data from www.webhq.ie below:</small>
+
+            <ul id="listview">
+                <li><a class="green-text" href="./pages.html">Pages</a></li>
+                <li><a class="green-text" href="./posts.html">Posts</a></li>
+                <li><a class="green-text" href="./training-hub.html">Training</a></li>
+                <li><a class="green-text" href="./login.html">Login</a></li>
+                <li><a class="green-text" href="./register.html">Register</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="card-panel col-sm-12">
+            <div class="flow-text">Choose Language</div>
+            <small id="activeLang"></small>
+            <div id="lang">
+                <button class="btn btn-sm" onclick="setLanguage('en')">English</button>
+                <button class="btn btn-sm" onclick="setLanguage('bg')">Bulgarian</button>
+                <button class="btn btn-sm" onclick="setLanguage('cs')">Czech</button>
+                <button class="btn btn-sm" onclick="setLanguage('ro')">Romanian</button>
+                <button class="btn btn-sm" onclick="setLanguage('tr')">Turkish</button>
+                <button class="btn btn-sm" onclick="setLanguage('uk')">Ukrainian</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/mdb.min.js"></script>
+    <script type="text/javascript" src="./js/functions.js"></script>
+
+</body>
+
+</html>

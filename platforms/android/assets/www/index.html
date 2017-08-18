@@ -15,33 +15,7 @@
 <body class="container green lighten-2">
 
     <div class="row">
-        <div class="card-panel col-sm-12">
-            <div class="flow-text">Nearly Zero Energy Building App Concept</div>
-            <small>Retrieving JSON data from www.webhq.ie below:</small>
-
-            <ul id="listview">
-                <li><a class="green-text" href="./pages.html">Pages</a></li>
-                <li><a class="green-text" href="./posts.html">Posts</a></li>
-                <li><a class="green-text" href="./training-hub.html">Training</a></li>
-                <li><a class="green-text" href="./login.html">Login</a></li>
-                <li><a class="green-text" href="./register.html">Register</a></li>
-            </ul>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="card-panel col-sm-12">
-            <div class="flow-text">Choose Language</div>
-            <small id="activeLang"></small>
-            <div id="lang">
-                <button class="btn btn-sm" onclick="setLanguage('en')">English</button>
-                <button class="btn btn-sm" onclick="setLanguage('bg')">Bulgarian</button>
-                <button class="btn btn-sm" onclick="setLanguage('cs')">Czech</button>
-                <button class="btn btn-sm" onclick="setLanguage('ro')">Romanian</button>
-                <button class="btn btn-sm" onclick="setLanguage('tr')">Turkish</button>
-                <button class="btn btn-sm" onclick="setLanguage('uk')">Ukrainian</button>
-            </div>
+        <div class="card-panel col-sm-12 index">
         </div>
     </div>
 
@@ -50,6 +24,81 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+
+            if(document.cookie){
+                console.log("Cookie");
+                jQuery("div.index").append('<h1>NZEB Home</h1><hr>');
+                jQuery("div.index").append('<div>Welcome to the Near-Zero Energy Building app. Take our training courses now!</div>');
+                jQuery("div.index").append("<a onclick='setContentView(\"Material\")' class='btn btn-block green white-text' href='./training-hub.html'>Training Hub</a>");
+                jQuery("div.row").before('<a class="btn btn-sm white green-text" id="logout" href="./index.html">Logout</a>');
+                jQuery("a#logout").on("click", function(){
+                    document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                });
+            } else if(!document.cookie){
+                console.log("No cookie");
+                jQuery("div.index").append('<h1>NZEB Login</h1><hr>');
+                jQuery("div.index").append('<label for="username">Username:</label>');
+                jQuery("div.index").append('<input type="text" name="username" id="username" placeholder="Enter your username..." />');
+                jQuery("div.index").append('<label for="password">Password:</label>');
+                jQuery("div.index").append('<input type="password" name="password" id="password" placeholder="Enter your password..." />');
+                jQuery("div.index").append('<button class="btn btn-block green white-text" id="login">Login</button>');
+            }
+
+            jQuery("#login").click(function(){
+                var username = jQuery("#username").val();
+                var password = jQuery("#password").val();
+
+                jQuery.ajax({
+                    type: "POST",
+                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=generate_auth_cookie",
+                    crossDomain: true,
+                    dataType: 'jsonp',
+                    cache: false,
+                    success: function(data){
+                        var nonce = data.nonce;
+                        var dataString = "nonce="+nonce+"&username="+username+"&password="+password+"&insecure=cool";
+
+                        jQuery.ajax({
+                            type: "POST",
+                            url: "http://www.webhq.ie/api/user/generate_auth_cookie/?",
+                            data: dataString,
+                            crossDomain: true,
+                            cache: false,
+                            success: function(data){
+                                //alert(JSON.stringify(data));
+                                //console.log(JSON.stringify(data.user.id));
+                                document.cookie = data.cookie;
+                                localStorage.setItem("user_id", data.user.id);
+                                location.href = "./index.html";
+                            },
+                            error: function(x,e){ 
+                                if (x.status == 0) {
+                                    alert('You are offline!!\n Please Check Your Network.');
+                                } else if (x.status == 404) {
+                                    alert('Requested URL not found.');
+                                } else if (x.status == 500) {
+                                    alert('Internel Server Error.');
+                                } else if (e == 'parsererror') {
+                                    alert('Error.\nParsing JSON Request failed.');
+                                } else if (e == 'timeout') {
+                                    alert('Request Time out.');
+                                } else {
+                                    alert('Unknown Error.\n' + x.responseText);
+                                }
+                            }
+                        })
+                    },
+                    error: function(data){
+                        alert("error");
+                    }
+                });
+            });
+        });
+
+    </script>
 
 </body>
 
