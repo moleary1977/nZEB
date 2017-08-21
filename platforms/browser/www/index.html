@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>Concept App</title>
+    <title>NZEB Home</title>
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/mdb.min.css" rel="stylesheet">
@@ -12,7 +12,7 @@
 
 </head>
 
-<body class="container green lighten-2">
+<body class="container elegant-color-dark">
 
     <div class="row">
         <div class="card-panel col-sm-12 index">
@@ -31,11 +31,16 @@
             // if the cookie exists, the user is logged in
             if(document.cookie){
                 console.log("Cookie");
+                jQuery("body")
+                    .prepend('<a class="btn btn-sm white black-text" href="./contact.html">Contact</a>')
+                    .prepend('<a class="btn btn-sm white black-text" href="./training-hub.html">Training</a>')
+                    .prepend('<a class="btn btn-sm white black-text" href="./about.html">About NZEB</a>')
+                    .prepend('<a class="btn btn-sm white black-text" href="./index.html">Home</a>');
                 jQuery("div.index")
                     .append('<h1>NZEB Home</h1><hr>')
                     .append('<div>Welcome <span></span> to the Near-Zero Energy Building app. Take our training courses now!</div>')
-                    .append("<a onclick='setContentView(\"Material\")' class='btn btn-block green white-text' href='./training-hub.html'>Training Hub</a>");
-                jQuery("div.row").before('<a class="btn btn-sm white green-text" id="logout" href="./index.html">Logout</a>');
+                    .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-hub.html'>Training Hub</a>");
+                jQuery("div.row").before('<a class="btn btn-sm white black-text" id="logout" href="./index.html">Logout</a>');
 
                 jQuery("a#logout").on("click", function(){
                     document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
@@ -56,7 +61,7 @@
                     .append('<input type="text" name="username" id="username" placeholder="Enter your username..." />')
                     .append('<label for="password">Password:</label>')
                     .append('<input type="password" name="password" id="password" placeholder="Enter your password..." />')
-                    .append('<button class="btn btn-block green white-text" id="login">Login</button>')
+                    .append('<button class="btn btn-block elegant-color white-text" id="login">Login</button>')
                     .append('<a id="showRegister">Not a member? Sign up now.</a>');
 
                 // Register User form
@@ -75,7 +80,7 @@
                     .append('<input type="text" name="lastname" id="lastname" placeholder="Enter your last name..." />')
                     .append('<label for="displayname">Display Name:</label>')
                     .append('<input type="text" name="displayname" id="displayname" placeholder="Enter your display name..." />')
-                    .append('<button class="btn btn-block green white-text" id="register">Register</button>')
+                    .append('<button class="btn btn-block elegant-color white-text" id="register">Register</button>')
                     .append('<a id="showLogin">Already a member? Login now.</a>').hide();
 
                 

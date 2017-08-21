@@ -11,10 +11,13 @@
 
 </head>
 
-<body class="container green lighten-2">
+<body class="container elegant-color-dark">
 
-    <a class="btn btn-sm white green-text" href="./index.html">Home</a>
-
+    <a class="btn btn-sm white black-text" href="./index.html">Home</a>
+    <a class="btn btn-sm white black-text" href="./about.html">About NZEB</a>
+    <a class="btn btn-sm white black-text" href="./training-hub.html">Training</a>        
+    <a class="btn btn-sm white black-text" href="./contact.html">Contact</a>
+    
     <div class="row">
         <div class="col-sm-12 card-panel">
         </div>
@@ -45,20 +48,20 @@
             // inform the user of this
             jQuery("#courses_completed").text("No courses completed");
             // and have a button linking to the first course
-            jQuery("#course_to_continue").append("<a class='btn btn-block green white-text btn-link'onclick='setCourseToView(0)' href='./training-content.html'>Get Started</a>");
+            jQuery("#course_to_continue").append("<a class='btn btn-block elegant-color white-text btn-link'onclick='setCourseToView(0)' href='./training-content.html'>Get Started</a>");
         }
         // if more than 0 courses have been taken
         else if (completed_courses > 0) {
             // show a button for the user to continue to the next course
-            jQuery("#course_to_continue").append("<a class='btn btn-block green white-text btn-link'onclick='setCourseToView(" + completed_courses + ")' href='./training-content.html'>Continue</a>");  
+            jQuery("#course_to_continue").append("<a class='btn btn-block elegant-color white-text btn-link'onclick='setCourseToView(" + completed_courses + ")' href='./training-content.html'>Continue</a>");  
             // for each completed course
             for (var i = 0; i < completed_courses; i++) {
                 // show a button so the user can look back on completed courses
-                jQuery("#courses_completed").append("<a class='btn btn-block green white-text btn-link' onclick='setCourseToView(" + i + ")' href='./training-content.html'>Course Unit " + (i + 1) + "</a>");
+                jQuery("#courses_completed").append("<a class='btn btn-block elegant-color white-text btn-link' onclick='setCourseToView(" + i + ")' href='./training-content.html'>Course Unit " + (i + 1) + "</a>");
             }
         }
 
-        jQuery("div.row").before('<a class="btn btn-sm white green-text" id="logout" href="./index.html">Logout</a>');
+        jQuery("div.row").before('<a class="btn btn-sm white black-text" id="logout" href="./index.html">Logout</a>');
 
         jQuery("a#logout").on("click", function(){
             document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
