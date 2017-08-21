@@ -28,6 +28,7 @@
     <script type="text/javascript">
         jQuery(document).ready(function(){
 
+            // if the cookie exists, the user is logged in
             if(document.cookie){
                 console.log("Cookie");
                 jQuery("div.index").append('<h1>NZEB Home</h1><hr>');
@@ -37,19 +38,55 @@
                 jQuery("a#logout").on("click", function(){
                     document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
                 });
+            // if the cookie does not exist, the user must log in
             } else if(!document.cookie){
                 console.log("No cookie");
-                jQuery("div.index").append('<h1>NZEB Login</h1><hr>');
-                jQuery("div.index").append('<label for="username">Username:</label>');
-                jQuery("div.index").append('<input type="text" name="username" id="username" placeholder="Enter your username..." />');
-                jQuery("div.index").append('<label for="password">Password:</label>');
-                jQuery("div.index").append('<input type="password" name="password" id="password" placeholder="Enter your password..." />');
-                jQuery("div.index").append('<button class="btn btn-block green white-text" id="login">Login</button>');
+
+                // Login User form
+                jQuery("div.index").append('<div class="login"></div>');
+                jQuery("div.login")
+                    .append('<h1>NZEB Login</h1><hr>')
+                    .append('<label for="username">Username:</label>')
+                    .append('<input type="text" name="username" id="username" placeholder="Enter your username..." />')
+                    .append('<label for="password">Password:</label>')
+                    .append('<input type="password" name="password" id="password" placeholder="Enter your password..." />')
+                    .append('<button class="btn btn-block green white-text" id="login">Login</button>')
+                    .append('<a id="showRegister">Not a member? Sign up now.</a>');
+
+                // Register User form
+                jQuery("div.index").append('<div class="register"></div>');
+                jQuery("div.register")
+                    .append('<h1>NZEB Register</h1><hr>')
+                    .append('<label for="username">Username:</label>')
+                    .append('<input type="text" name="username" id="username" placeholder="Enter your username..." />')
+                    .append('<label for="password">Password:</label>')
+                    .append('<input type="password" name="password" id="password" placeholder="Enter your password..." />')
+                    .append('<label for="email">Email:</label>')
+                    .append('<input type="email" name="email" id="email" placeholder="Enter your email..." />')
+                    .append('<label for="firstname">First Name:</label>')
+                    .append('<input type="text" name="firstname" id="firstname" placeholder="Enter your first name..." />')
+                    .append('<label for="lastname">Last Name:</label>')
+                    .append('<input type="text" name="lastname" id="lastname" placeholder="Enter your last name..." />')
+                    .append('<label for="displayname">Display Name:</label>')
+                    .append('<input type="text" name="displayname" id="displayname" placeholder="Enter your display name..." />')
+                    .append('<button class="btn btn-block green white-text" id="register">Register</button>')
+                    .append('<a id="showLogin">Already a member? Login now.</a>').hide();
+
+                jQuery("a#showRegister").on('click', function(){
+                    jQuery("div.login").hide();
+                    jQuery("div.register").show();
+                });
+
+                jQuery("a#showLogin").on('click', function(){
+                    jQuery("div.login").show();
+                    jQuery("div.register").hide();
+                });
             }
 
             jQuery("#login").click(function(){
-                var username = jQuery("#username").val();
-                var password = jQuery("#password").val();
+
+                var username = jQuery(".login #username").val();
+                var password = jQuery(".login #password").val();
 
                 jQuery.ajax({
                     type: "POST",
@@ -58,6 +95,9 @@
                     dataType: 'jsonp',
                     cache: false,
                     success: function(data){
+
+                        console.log(JSON.stringify(data));
+
                         var nonce = data.nonce;
                         var dataString = "nonce="+nonce+"&username="+username+"&password="+password+"&insecure=cool";
 
@@ -68,17 +108,23 @@
                             crossDomain: true,
                             cache: false,
                             success: function(data){
-                                //alert(JSON.stringify(data));
-                                //console.log(JSON.stringify(data.user.id));
-                                document.cookie = data.cookie;
-                                localStorage.setItem("user_id", data.user.id);
-                                location.href = "./index.html";
+                                if(data.status == "ok"){
+                                    //console.log(JSON.stringify(data));
+                                    alert(JSON.stringify(data.user));
+                                    document.cookie = data.cookie;
+                                    location.href = "./index.html";
+                                } else if(data.status == "error"){ 
+                                    jQuery("div.alert").detach();
+                                    jQuery("div.login").prepend("<div class='alert alert-danger'>Invalid Username and/or Password details</div>");
+                                }
                             },
                             error: function(x,e){ 
                                 if (x.status == 0) {
                                     alert('You are offline!!\n Please Check Your Network.');
                                 } else if (x.status == 404) {
-                                    alert('Requested URL not found.');
+                                    //alert('Requested URL not found \n Username and/or email is incorrect.');
+                                    jQuery("div.alert").detach();
+                                    jQuery("div.login").prepend("<div class='alert alert-danger'>Invalid Username and/or Password details</div>");
                                 } else if (x.status == 500) {
                                     alert('Internel Server Error.');
                                 } else if (e == 'parsererror') {
@@ -96,6 +142,72 @@
                     }
                 });
             });
+
+            jQuery("#register").click(function(){
+
+                var display_name = jQuery(".register #displayname").val();
+                var email = jQuery(".register #email").val();
+                var username = jQuery(".register #username").val();
+                var password = jQuery(".register #password").val();
+                var first_name = jQuery(".register #firstname").val();
+                var last_name = jQuery(".register #lastname").val();
+
+                jQuery.ajax({
+                    type: "POST",
+                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=register",
+                    crossDomain: true,
+                    dataType: 'jsonp',
+                    cache: false,
+                    success: function(data){
+
+                        alert(JSON.stringify(data));
+                        console.log(JSON.stringify(data));
+
+
+                        var nonce = data.nonce;
+                        var dataString = "display_name="+display_name+"&email="+email+"&username="+username+"&user_pass="+password+"&nonce="+nonce+"&insecure=cool";
+                        dataString += "&first_name="+first_name+"&last_name="+last_name;
+                        
+                        jQuery.ajax({
+                            type: "POST",
+                            url:"http://www.webhq.ie/api/user/register",
+                            dataType: "jsonp",
+                            data: dataString,
+                            crossDomain: true,
+                            cache: false,
+                            success: function(data){
+
+                                alert(JSON.stringify(data));
+                                console.log(JSON.stringify(data));
+                                //console.log(dataString);
+
+                                document.cookie = data.cookie;
+                                console.log(document.cookie);
+                                location.href = "./index.html";
+                            },
+                            error:function(x,e) {
+                                if (x.status == 0) {
+                                    alert('You are offline!!\n Please Check Your Network.');
+                                } else if (x.status == 404) {
+                                    alert('Requested URL not found.');
+                                } else if (x.status == 500) {
+                                    alert('Internel Server Error.');
+                                } else if (e == 'parsererror') {
+                                    alert('Error.\nParsing JSON Request failed.');
+                                } else if (e == 'timeout') {
+                                    alert('Request Time out.');
+                                } else {
+                                    alert('Unknown Error.\n' + x.responseText);
+                                }
+                            }
+                        });
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            });
+
         });
 
     </script>
