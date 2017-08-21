@@ -126,7 +126,7 @@
                                     location.href = "./index.html";
                                 } else if(data.status == "error"){ 
                                     jQuery("div.alert").detach();
-                                    jQuery("div.login").prepend("<div class='alert alert-danger'>Invalid Username and/or Password details</div>");
+                                    jQuery("#login").before("<div class='alert alert-danger'>Invalid Username and/or Password</div>");
                                 }
                             },
                             error: function(x,e){ 
@@ -135,7 +135,7 @@
                                 } else if (x.status == 404) {
                                     //alert('Requested URL not found \n Username and/or email is incorrect.');
                                     jQuery("div.alert").detach();
-                                    jQuery("div.login").prepend("<div class='alert alert-danger'>Invalid Username and/or Password details</div>");
+                                    jQuery("#login").before("<div class='alert alert-danger'>Invalid Username and/or Password</div>");
                                 } else if (x.status == 500) {
                                     alert('Internel Server Error.');
                                 } else if (e == 'parsererror') {
@@ -184,9 +184,15 @@
                             crossDomain: true,
                             cache: false,
                             success: function(data){
+                                if(data.status == "ok"){
+                                    document.cookie = data.cookie;
+                                    location.href = "./index.html";
+                                } else {
+                                    jQuery("div.alert").detach();
+                                    jQuery("#register").before("<div class='alert alert-danger'>Please fill in every field</div>");
+                                }
 
-                                document.cookie = data.cookie;
-                                location.href = "./index.html";
+                                
                             },
                             error:function(x,e) {
                                 if (x.status == 0) {
