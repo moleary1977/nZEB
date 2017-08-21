@@ -31,13 +31,19 @@
             // if the cookie exists, the user is logged in
             if(document.cookie){
                 console.log("Cookie");
-                jQuery("div.index").append('<h1>NZEB Home</h1><hr>');
-                jQuery("div.index").append('<div>Welcome to the Near-Zero Energy Building app. Take our training courses now!</div>');
-                jQuery("div.index").append("<a onclick='setContentView(\"Material\")' class='btn btn-block green white-text' href='./training-hub.html'>Training Hub</a>");
+                jQuery("div.index")
+                    .append('<h1>NZEB Home</h1><hr>')
+                    .append('<div>Welcome <span></span> to the Near-Zero Energy Building app. Take our training courses now!</div>')
+                    .append("<a onclick='setContentView(\"Material\")' class='btn btn-block green white-text' href='./training-hub.html'>Training Hub</a>");
                 jQuery("div.row").before('<a class="btn btn-sm white green-text" id="logout" href="./index.html">Logout</a>');
+
                 jQuery("a#logout").on("click", function(){
                     document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                    localStorage.setItem("user_id", "");
                 });
+
+                // TODO - get_user_meta user's name for welcome message after logging in
+
             // if the cookie does not exist, the user must log in
             } else if(!document.cookie){
                 console.log("No cookie");
@@ -72,17 +78,20 @@
                     .append('<button class="btn btn-block green white-text" id="register">Register</button>')
                     .append('<a id="showLogin">Already a member? Login now.</a>').hide();
 
+                
+                
+                
                 jQuery("a#showRegister").on('click', function(){
                     jQuery("div.login").hide();
                     jQuery("div.register").show();
                 });
-
                 jQuery("a#showLogin").on('click', function(){
                     jQuery("div.login").show();
                     jQuery("div.register").hide();
                 });
             }
 
+            // Click login button
             jQuery("#login").click(function(){
 
                 var username = jQuery(".login #username").val();
@@ -96,8 +105,6 @@
                     cache: false,
                     success: function(data){
 
-                        console.log(JSON.stringify(data));
-
                         var nonce = data.nonce;
                         var dataString = "nonce="+nonce+"&username="+username+"&password="+password+"&insecure=cool";
 
@@ -109,8 +116,7 @@
                             cache: false,
                             success: function(data){
                                 if(data.status == "ok"){
-                                    //console.log(JSON.stringify(data));
-                                    alert(JSON.stringify(data.user));
+                                    localStorage.setItem("user_id", data.user.id)
                                     document.cookie = data.cookie;
                                     location.href = "./index.html";
                                 } else if(data.status == "error"){ 
@@ -143,6 +149,7 @@
                 });
             });
 
+            // Click register button
             jQuery("#register").click(function(){
 
                 var display_name = jQuery(".register #displayname").val();
@@ -160,10 +167,6 @@
                     cache: false,
                     success: function(data){
 
-                        alert(JSON.stringify(data));
-                        console.log(JSON.stringify(data));
-
-
                         var nonce = data.nonce;
                         var dataString = "display_name="+display_name+"&email="+email+"&username="+username+"&user_pass="+password+"&nonce="+nonce+"&insecure=cool";
                         dataString += "&first_name="+first_name+"&last_name="+last_name;
@@ -177,12 +180,7 @@
                             cache: false,
                             success: function(data){
 
-                                alert(JSON.stringify(data));
-                                console.log(JSON.stringify(data));
-                                //console.log(dataString);
-
                                 document.cookie = data.cookie;
-                                console.log(document.cookie);
                                 location.href = "./index.html";
                             },
                             error:function(x,e) {
@@ -207,7 +205,6 @@
                     }
                 });
             });
-
         });
 
     </script>
