@@ -28,3 +28,13 @@ img{
     max-width: 100%;
     height: auto;
 }
+
+input{
+    margin-bottom: 0 !important;
+    border: solid 1px #eeeeee !important;
+    padding-left: 10px !important;
+}
+
+label{
+    margin-bottom: 15px !important;
+}
