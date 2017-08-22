@@ -7,17 +7,22 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-    <name>Concept</name>
+    <name>Train-to-nZEB</name>
     <description>
-        A blank PhoneGap app.
+        Train-to-nZEB app.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="aaron@irishwebhq.com" href="http://irishwebhq.com">
+        Aaron Roles
     </author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="market:*" />
+    <icon density="mdpi" src="res/android/nzeb-48.png" />
+    <icon density="hdpi" src="res/android/nzeb-72.png" />
+    <icon density="xhdpi" src="res/android/nzeb-96.png" />
+    <icon density="xxhdpi" src="res/android/nzeb-144.png" />
+    <icon density="xxxhdpi" src="res/android/nzeb-192.png" />
     <preference name="loglevel" value="DEBUG" />
 </widget>

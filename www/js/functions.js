@@ -16,7 +16,7 @@ function onDeviceReady() {
         setCourseToView(0);
     }
 
-    if (getCoursesCompleted() == null){
+    if (getCoursesCompleted() == null) {
         setCoursesCompleted(0);
     }
 
@@ -88,4 +88,90 @@ function setAttempts(attempts) {
 // Get the number of quiz attempts
 function getAttempts() {
     return localStorage.getItem("attempts");
+}
+
+function showResults() {
+    // calculate the user's grade for that quiz
+    var grade = (correct_answers / 5) * 100;
+    // decide if its a pass or fail
+    var result;
+    if (grade < 80) {
+        result = "Repeat";
+    } else if (grade >= 80) {
+        result = "Pass";
+    }
+    // make anything active not-active 
+    jQuery('li').attr("class", "");
+    jQuery('div.tab-content > div').attr("class", "tab-pane fade");
+    // add a new tab to the top
+    jQuery('ul.nav-tabs').append("<li class='active'><a data-toggle='tab' href='#results'>Results</a></li>");
+    // add a new content area for the new tab
+    jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade active in' id='results'></div>");
+    // add a results table to the content area
+    jQuery('div#results').append("<table class='table'><tbody></tbody></table>");
+    // add information to the table about the user's results
+    jQuery('div#results table tbody').append('<tr><th>Total questions</th><td>5</td></tr>');
+    jQuery('div#results table tbody').append('<tr><th>Correct answers</th><td>' + correct_answers + '</td></tr>');
+    jQuery('div#results table tbody').append('<tr><th>Wrong answers</th><td>' + wrong_answers + '</td></tr>');
+    jQuery('div#results table tbody').append('<tr><th>Total score</th><td>' + grade + '%</td></tr>');
+    jQuery('div#results table tbody').append('<tr><th>Overall result</th><td>' + result + '</td></tr>');
+    // add a button to continue depending on result
+    if (result == "Pass") {
+        // get the next course
+        ++course_to_get
+        // if the user is not repeating a course already passed
+        if (course_to_get >= courses_completed) {
+            // increment the number of completed courses
+            setCoursesCompleted(course_to_get);
+            // set the next course as the one to view next
+            setCourseToView(course_to_get);
+        } else {
+            // just set the next course as the one to view next
+            setCourseToView(course_to_get);
+        }
+        jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Continue to next course</a>");
+    } else if (result == "Repeat") {
+        setAttempts(--attempts);
+        // if the user still has attempts
+        if (attempts > 0) {
+            // option to re-attempt the quiz
+            jQuery('div#results').append("<a class='btn btn-block elegant-color white-text' href='./training-content.html'>Repeat this quiz</a>");
+            // option to review material
+            jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Review training material</a>");
+            // if they run out of attempts
+        } else if (attempts == 0) {
+            // get the user to review the material again before trying the quiz
+            jQuery('div#results').append("<p>You have repeated this quiz a number of times, we recommened you review the material before trying again</p>")
+                .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Review training material</a>");
+        }
+    }
+}
+
+function saveResults(grade, course_to_get) {
+
+    var latest_grade = (correct_answers / 5) * 100;
+    var current_user_id = localStorage.getItem("user_id");
+
+    jQuery.ajax({
+        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        type: 'POST',
+        data: {
+            action: 'iwhq_save_quiz_results',
+            'grade': latest_grade,
+            'course': course_to_get,
+            'user_id': current_user_id,
+            dataType: 'jsonp',
+            crossDomain: true
+        },
+        success: function (response) {
+            alert(response);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (textStatus === "timeout") {
+                alert("Call has timed out"); //Handle the timeout
+            } else {
+                alert("Another error was returned" + errorThrown); //Handle other error type
+            }
+        }
+    });
 }
