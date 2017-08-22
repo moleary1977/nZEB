@@ -147,7 +147,7 @@ function showResults() {
     }
 }
 
-function saveResults(grade, course_to_get) {
+function saveResults() {
 
     var latest_grade = (correct_answers / 5) * 100;
     var current_user_id = localStorage.getItem("user_id");
@@ -157,14 +157,14 @@ function saveResults(grade, course_to_get) {
         type: 'POST',
         data: {
             action: 'iwhq_save_quiz_results',
-            'grade': latest_grade,
-            'course': course_to_get,
-            'user_id': current_user_id,
-            dataType: 'jsonp',
+            grade: latest_grade,
+            course: course_to_get,
+            user_id: current_user_id,
+            dataType: 'json',
             crossDomain: true
         },
         success: function (response) {
-            alert(response);
+            alert("Getting a response: " + response);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {

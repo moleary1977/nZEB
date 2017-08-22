@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ie.webhq.concept" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Train-to-nZEB</name>
+    <name>Train to nZEB</name>
     <description>
-        Train-to-nZEB app.
+        Train to nZEB app.
     </description>
     <author email="aaron@irishwebhq.com" href="http://irishwebhq.com">
         Aaron Roles

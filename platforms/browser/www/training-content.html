@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>NZEB Training Content</title>
+    <title>Train to nZEB</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/mdb.min.css" rel="stylesheet">
     <link href="./css/styles.css" rel="stylesheet">
@@ -107,11 +107,13 @@
                                     // add 1 to the index
                                     index = random + 1;
                                     // add a new tab to the top
-                                    jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>Question</a></li>");
+                                    jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>"+data[course_to_get].acf.mcq[random].question+"</a></li>");
                                     // add a new content area for the new tab
-                                    jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'>" + data[course_to_get].acf.mcq[random].question + " </div>");
-                                    // insert a form into the new content area
-                                    jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>");
+                                    jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'></div>");
+                                    // hide the question tabs initially
+                                    jQuery('ul > li').hide();
+                                    // insert a form into the new content area and hide it initially
+                                    jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>").hide();
                                     // add a hidden input field containing the correct answer
                                     jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + data[course_to_get].acf.mcq[random].correct_answer + "'>");
                                     // for each answer option
@@ -124,8 +126,8 @@
                                     // add a div for answer feedback
                                     jQuery('form#question-' + index).append("<div id='answer'></div>");
                                     // make the first tab and content active
-                                    jQuery('ul.nav li:first-child').addClass("active");
-                                    jQuery('div.tab-content div:first-child').addClass("active in");
+                                    jQuery('ul.nav li:first-child').addClass("active").show();
+                                    jQuery('div.tab-content div:first-child').addClass("active in").show();
                                 }
                             }
                         }
@@ -138,6 +140,13 @@
                 jQuery(document).on('click', '.submit', function () {
                     // get the ID of the form that the button is part of, which will be question-#
                     var $form = "#" + jQuery(this).parent().attr('id');
+                    // show the next question, hide the submitted one
+                    // so firstly hide the tab and show the text one
+                    jQuery("li.active").hide().removeClass("active").next().show().addClass("active");
+                    // and then hide the question and show the next one. 
+                    jQuery($form).parent().hide();
+                    jQuery($form).parent().next().show().addClass("active in");
+
                     // if there is a checked radio button inside that form
                     if ($form + ' input:radio:checked') {
                         // update answers
@@ -168,7 +177,7 @@
                         if (answers_submitted == 5) {
                             // show the results tab
                             showResults();
-                            saveResults(grade, course_to_get);
+                            saveResults();
                         }
                     }
                     // if no radio button is selected
