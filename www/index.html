@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>Train to nZEB</title>
+    <title>Train to NZEB</title>
 
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/mdb.min.css" rel="stylesheet">
@@ -15,6 +15,11 @@
 <body class="container elegant-color-dark">
 
     <div class="row">
+        <div class="card-panel menu-top">
+            <div class="col-xs-3 menu-icon">&#9776;</div>
+            <div class="col-xs-6"><a href="./index.html"><img src="./img/train-to-nzeb.png" alt="NZEB"/></a></div>
+            <div class="col-xs-3 profile"><a href="./profile.html"><img src="./img/profile.png" alt="Go to profile"/></a></div>
+        </div>
         <div class="card-panel col-sm-12 index">
         </div>
     </div>
@@ -32,15 +37,16 @@
             if(document.cookie){
                 console.log("Cookie");
                 jQuery("body")
-                    .prepend('<a class="btn btn-sm white black-text" href="./contact.html">Contact</a>')
-                    .prepend('<a class="btn btn-sm white black-text" href="./training-hub.html">Training</a>')
-                    .prepend('<a class="btn btn-sm white black-text" href="./about.html">About NZEB</a>')
-                    .prepend('<a class="btn btn-sm white black-text" href="./index.html">Home</a>');
+                    .append('<a class="btn btn-sm white black-text" href="./links.html">Links</a>')
+                    .append('<a class="btn btn-sm white black-text" href="./contact.html">Contact</a>')
+                    .append('<a class="btn btn-sm white black-text" href="./training-hub.html">Training</a>')
+                    .append('<a class="btn btn-sm white black-text" href="./about.html">About</a>')
+                    .append('<a class="btn btn-sm white black-text" href="./index.html">Home</a>');
                 jQuery("div.index")
                     .append('<h1>NZEB Home</h1><hr>')
                     .append('<div>Welcome <span></span> to the Near-Zero Energy Building app. Take our training courses now!</div>')
                     .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-hub.html'>Training Hub</a>");
-                jQuery("div.row").before('<a class="btn btn-sm white black-text" id="logout" href="./index.html">Logout</a>');
+                jQuery("div.row").after('<a class="btn btn-sm white black-text" id="logout" href="./index.html">Logout</a>');
 
                 jQuery("a#logout").on("click", function(){
                     document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
@@ -82,9 +88,6 @@
                     .append('<label for="displayname">Display Name</label>')
                     .append('<button class="btn btn-block elegant-color white-text" id="register">Register</button>')
                     .append('<a id="showLogin">Already a member? Login now.</a>').hide();
-
-                
-                
                 
                 jQuery("a#showRegister").on('click', function(){
                     jQuery("div.login").hide();

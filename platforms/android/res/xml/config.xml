@@ -7,9 +7,9 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-    <name>Train to nZEB</name>
+    <name>Train to NZEB</name>
     <description>
-        Train to nZEB app.
+        Train to NZEB app.
     </description>
     <author email="aaron@irishwebhq.com" href="http://irishwebhq.com">
         Aaron Roles
