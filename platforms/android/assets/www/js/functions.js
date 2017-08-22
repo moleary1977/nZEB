@@ -164,7 +164,7 @@ function saveResults() {
             crossDomain: true
         },
         success: function (response) {
-            alert("Getting a response: " + response);
+            console.log("Getting a response, server success");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {

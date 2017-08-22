@@ -77,6 +77,7 @@
                             jQuery("div.card-panel").append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
                                 .append("<h3>Unit Summary</h3>" + data[course_to_get].acf.summary)
                                 .append("<h3>Principles and Approaches</h3>" + data[course_to_get].acf.principles_and_approaches)
+                                .append("<h3>Additional Resources</h3>" + data[course_to_get].acf.additional_resources)
                                 .append("<a onclick='setContentView(\"Quiz\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Take the quiz now</a>");
                             // If the user is viewing the quiz
                         } else if (content_view == "Quiz") {

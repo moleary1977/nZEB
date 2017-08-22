@@ -38,3 +38,8 @@ input{
 label{
     margin-bottom: 15px !important;
 }
+
+div.wp-video, video{
+    max-width: 100%;
+    height: auto;
+}
