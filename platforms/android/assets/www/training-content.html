@@ -13,14 +13,27 @@
 
 <body class="container elegant-color-dark">
 
-    <a class="btn btn-sm white black-text" href="./index.html">Home</a>
-    <a class="btn btn-sm white black-text" href="./about.html">About</a>
-    <a class="btn btn-sm white black-text" href="./training-hub.html">Training</a>        
-    <a class="btn btn-sm white black-text" href="./contact.html">Contact</a>
-    <a class="btn btn-sm white black-text" href="./links.html">Links</a>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About NZEB</a>
+        <a href="./training-hub.html">Training</a>
+        <a href="#">Search Members</a>
+        <a href="./links.html">Links</a>
+        <a id="logout" href="./index.html">Logout</a>
+    </div>
 
     <div class="row">
-        <div class="col-sm-12 card-panel">
+
+        <div class="card-panel menu-top">
+            <div class="col-xs-2 menu-icon" onclick="openNav()">&#9776;</div>
+            <div class="col-xs-8"><a href="./index.html"><img src="./img/train-to-nzeb.png" alt="NZEB"/></a></div>
+            <div class="col-xs-2 profile"><a href="./profile.html"><img src="./img/profile.png" alt="Go to profile"/></a></div>
+        </div>
+
+        <img src="./../img/nzeb-bg.jpg" alt="NZEB Background Image" />
+
+        <div class="col-sm-12 card-panel content">
         </div>
     </div>
 
@@ -52,7 +65,7 @@
                     url += lang;
                 }
 
-                jQuery("div.card-panel").append('<p>NZEB Training Materials and Quizzes</p>');
+                jQuery("div.content").append('<p>NZEB Training Materials and Quizzes</p>');
             
                 /**
                  * data[course_to_get] is very important in getting information from a
@@ -75,7 +88,7 @@
                             // reset their attempts to 3
                             setAttempts(3);
                             // for each training post type ("training section")
-                            jQuery("div.card-panel").append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
+                            jQuery("div.content").append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
                                 .append("<h3>Unit Summary</h3>" + data[course_to_get].acf.summary)
                                 .append("<h3>Principles and Approaches</h3>" + data[course_to_get].acf.principles_and_approaches)
                                 .append("<h3>Additional Resources</h3>" + data[course_to_get].acf.additional_resources)
@@ -83,9 +96,9 @@
                             // If the user is viewing the quiz
                         } else if (content_view == "Quiz") {
                             // for each training post type ("training section")
-                            jQuery("div.card-panel").append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
-                            jQuery("div.card-panel").append('<ul class="nav nav-tabs"></ul>');
-                            jQuery("div.card-panel").append('<div class="tab-content"></div>');
+                            jQuery("div.content").append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
+                            jQuery("div.content").append('<ul class="nav nav-tabs"></ul>');
+                            jQuery("div.content").append('<div class="tab-content"></div>');
                             // get the number of questions from the post
                             var questions = data[course_to_get].acf.mcq.length;
                             // if there are less than 5 questions
@@ -196,7 +209,7 @@
                 });
 
             } else if (!document.cookie) {
-                jQuery("div.card-panel").append("Please <a href='./index.html'>login</a> to continue");
+                jQuery("div.content").append("Please <a href='./index.html'>login</a> to continue");
             }
         }
     </script>

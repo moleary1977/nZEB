@@ -13,13 +13,27 @@
 
 <body class="container elegant-color-dark">
 
-    <a class="btn btn-sm white black-text" href="./index.html">Home</a>
-    <a class="btn btn-sm white black-text" href="./about.html">About</a>
-    <a class="btn btn-sm white black-text" href="./training-hub.html">Training</a>        
-    <a class="btn btn-sm white black-text" href="./contact.html">Contact</a>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About NZEB</a>
+        <a href="./training-hub.html">Training</a>
+        <a href="#">Search Members</a>
+        <a href="./links.html">Links</a>
+        <a id="logout" href="./index.html">Logout</a>
+    </div>
     
     <div class="row">
-        <div class="col-sm-12 card-panel">
+        
+        <div class="card-panel menu-top">
+            <div class="col-xs-2 menu-icon" onclick="openNav()">&#9776;</div>
+            <div class="col-xs-8"><a href="./index.html"><img src="./img/train-to-nzeb.png" alt="NZEB"/></a></div>
+            <div class="col-xs-2 profile"><a href="./profile.html"><img src="./img/profile.png" alt="Go to profile"/></a></div>
+        </div>
+
+        <img src="./../img/nzeb-bg.jpg" alt="NZEB Background Image" />
+
+        <div class="col-sm-12 card-panel content">
         </div>
     </div>
 
@@ -32,11 +46,11 @@
 
     if(document.cookie){
 
-        jQuery("div.card-panel").append("<h1>NZEB Training Hub</h1><hr>");
-        jQuery("div.card-panel").append("<h2>Take Course</h2>");
-        jQuery("div.card-panel").append("<div id='course_to_continue'></div>");
-        jQuery("div.card-panel").append("<h2>Courses Complete</h2>");
-        jQuery("div.card-panel").append("<div id='courses_completed'></div>");
+        jQuery("div.content").append("<h1>NZEB Training Hub</h1><hr>");
+        jQuery("div.content").append("<h2>Take Course</h2>");
+        jQuery("div.content").append("<div id='course_to_continue'></div>");
+        jQuery("div.content").append("<h2>Courses Complete</h2>");
+        jQuery("div.content").append("<div id='courses_completed'></div>");
 
         // set the view to Material
         setContentView("Material");
@@ -67,7 +81,7 @@
             document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
         });
     } else if(!document.cookie){
-        jQuery("div.card-panel").append("Please <a href='./index.html'>login</a> to continue");
+        jQuery("div.content").append("Please <a href='./index.html'>login</a> to continue");
     }
 
     </script>

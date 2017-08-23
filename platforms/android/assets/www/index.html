@@ -16,11 +16,12 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Home</a>
+        <a href="./index.html">Home</a>
         <a href="./about.html">About NZEB</a>
         <a href="./training-hub.html">Training</a>
         <a href="#">Search Members</a>
-        <a href="#">Links</a>
+        <a href="./links.html">Links</a>
+        <a id="logout" href="./index.html">Logout</a>
     </div>
 
     <div class="row">
@@ -34,17 +35,10 @@
         <img src="./../img/nzeb-bg.jpg" alt="NZEB Background Image" />
 
         <div class="card-panel col-sm-12 nav"><a href="./about.html">About NZEB</a></div>
-
         <div class="card-panel col-sm-12 nav"><a href="./training-hub.html">Training</a></div>
-
         <div class="card-panel col-sm-12 nav"><a href="#">Search Members Database</a></div>
-
         <div class="card-panel col-sm-12 nav"><a href="./links.html">Links</a></div>
-
         <div class="card-panel amber col-sm-12 nav-bottom"><a href="./training-content.html">Continue Training</a></div>
-
-        <div class="card-panel col-sm-12 index">
-        </div>
 
     </div>
 
@@ -60,16 +54,7 @@
             // if the cookie exists, the user is logged in
             if(document.cookie){
                 console.log("Cookie");
-                jQuery("body")
-                    .append('<a class="btn btn-sm white black-text" href="./links.html">Links</a>')
-                    .append('<a class="btn btn-sm white black-text" href="./contact.html">Contact</a>')
-                    .append('<a class="btn btn-sm white black-text" href="./training-hub.html">Training</a>')
-                    .append('<a class="btn btn-sm white black-text" href="./about.html">About</a>')
-                    .append('<a class="btn btn-sm white black-text" href="./index.html">Home</a>');
-                jQuery("div.index")
-                    .append('<h1>NZEB Home</h1><hr>')
-                    .append('<div>Welcome <span></span> to the Near-Zero Energy Building app. Take our training courses now!</div>')
-                    .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-hub.html'>Training Hub</a>");
+                
                 jQuery("div.row").after('<a class="btn btn-sm white black-text" id="logout" href="./index.html">Logout</a>');
 
                 jQuery("a#logout").on("click", function(){
