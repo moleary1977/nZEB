@@ -46,7 +46,7 @@
 
     if(document.cookie){
 
-        jQuery("div.content").append("<h1>NZEB Training Hub</h1><hr>");
+        jQuery("div.content").append("<h1>Training Hub</h1><hr>");
         jQuery("div.content").append("<h2>Take Course</h2>");
         jQuery("div.content").append("<div id='course_to_continue'></div>");
         jQuery("div.content").append("<h2>Courses Complete</h2>");
@@ -74,8 +74,6 @@
                 jQuery("#courses_completed").append("<a class='btn btn-block elegant-color white-text btn-link' onclick='setCourseToView(" + i + ")' href='./training-content.html'>Course Unit " + (i + 1) + "</a>");
             }
         }
-
-        jQuery("div.row").before('<a class="btn btn-sm white black-text" id="logout" href="./index.html">Logout</a>');
 
         jQuery("a#logout").on("click", function(){
             document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
