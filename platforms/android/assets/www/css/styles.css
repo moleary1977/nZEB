@@ -59,6 +59,7 @@ div.wp-video, video{
 }
 
 .nav-bottom a{
+    text-transform: uppercase;
     color: #333;
 }
 
