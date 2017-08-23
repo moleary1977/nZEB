@@ -6,10 +6,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
 
     if (getLanguage() == null) {
-        jQuery("#activeLang").text("No language selected");
         setLanguage("en");
-    } else {
-        jQuery("#activeLang").text(getLanguage());
     }
 
     if (getCourseToView() == null) {
@@ -34,7 +31,6 @@ function onDeviceReady() {
 // This function takes in a parameter to set the user's language and store it locally
 function setLanguage(language) {
     localStorage.setItem("user_language", language);
-    jQuery("#activeLang").text(language);
 }
 
 // This function returns the language stored locally
@@ -90,6 +86,7 @@ function getAttempts() {
     return localStorage.getItem("attempts");
 }
 
+// 
 function showResults() {
     // calculate the user's grade for that quiz
     var grade = (correct_answers / 5) * 100;
@@ -147,6 +144,7 @@ function showResults() {
     }
 }
 
+// 
 function saveResults() {
 
     var latest_grade = (correct_answers / 5) * 100;
@@ -174,6 +172,74 @@ function saveResults() {
             }
         }
     });
+}
+
+//
+function getUserMeta() {
+    var current_user_id = localStorage.getItem("user_id");
+    var lang = getLanguage();
+
+    var url = 'http://www.webhq.ie/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + current_user_id + '&insecure=cool';
+
+    jQuery.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'jsonp',
+        crossDomain: true,
+        success: function (data) {
+
+            jQuery("#first_name").val(data.first_name);
+            jQuery("#last_name").val(data.last_name);
+            jQuery("#language > option").each(function () {
+                if (jQuery(this).val() === lang) {
+                    jQuery(this).attr("selected", "selected");
+                }
+            });
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (textStatus === "timeout") {
+                alert("Call has timed out"); //Handle the timeout
+            } else {
+                alert("Another error was returned" + errorThrown); //Handle other error type
+            }
+        }
+    });
+}
+
+function updateUserMeta() {
+
+    var current_user_id = localStorage.getItem("user_id");
+    var new_first_name = jQuery("#first_name").val();
+    var new_last_name = jQuery("#last_name").val();
+    var lang = jQuery("#language").val();
+
+    setLanguage(lang);
+
+    jQuery.ajax({
+        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        type: 'POST',
+        data: {
+            action: 'iwhq_update_user_profile',
+            user_id: current_user_id,
+            first_name: new_first_name,
+            last_name: new_last_name,
+            dataType: 'json',
+            crossDomain: true
+        },
+        success: function (response) {
+            console.log("Getting a response, server success");
+            jQuery(".content").prepend("<div class='alert alert-success'>Profile updated</div>");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (textStatus === "timeout") {
+                alert("Call has timed out"); //Handle the timeout
+            } else {
+                alert("Another error was returned" + errorThrown); //Handle other error type
+            }
+        }
+    });
+
 }
 
 function openNav() {

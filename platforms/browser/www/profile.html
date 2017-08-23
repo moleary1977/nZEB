@@ -35,6 +35,30 @@
 
         <div class="col-sm-12 card-panel content">
 
+            <h1>Your Profile</h1><hr>
+
+            <input type="text" name="first_name" id="first_name" placeholder="Enter your first name..." />
+            <label for="first_name">First Name</label>
+
+            <input type="text" name="last_name" id="last_name" placeholder="Enter your last name..." />
+            <label for="last_name">Last Name</label>
+
+            <select name="language" id="language">
+                <option selected disabled>Select Language</option>
+                <option value="en">English</option>
+                <option value="bg">Bulgarian</option>
+                <option value="cs">Czech</option>
+                <option value="ro">Romanian</option>
+                <option value="tr">Turkish</option>
+                <option value="uk">Ukrainian</option>
+            </select>
+            <label for="language">Language</label>
+
+            <button class="btn btn-block elegant-color white-text" id="update" onclick="updateUserMeta()">Update</button>
+
+            <h1>Achievements</h1><hr>
+            <p>We will add achievement badges here for the user's completed courses</p>
+
         </div>
     </div>
 
@@ -46,7 +70,9 @@
     <script type="text/javascript">
         jQuery(document).ready(function(){
             if(document.cookie){
-                jQuery("div.content").prepend("<h1>Your Profile</h1><hr>");
+                getUserMeta();
+            } else {
+                jQuery("div.content").hide();
             }
         });
     </script>
