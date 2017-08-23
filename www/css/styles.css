@@ -63,6 +63,11 @@ div.wp-video, video{
     color: #333;
 }
 
+.nav > img{
+    width: 20px;
+    margin-right: 10px;
+}
+
 select{
     background-color: transparent;
     border: none;
