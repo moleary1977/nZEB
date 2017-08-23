@@ -24,7 +24,6 @@
     </div>
 
     <div class="row">
-
         <div class="card-panel menu-top">
             <div class="col-xs-2 menu-icon" onclick="openNav()">&#9776;</div>
             <div class="col-xs-8"><a href="./index.html"><img src="./res/img/train-to-nzeb.png" alt="NZEB"/></a></div>
@@ -32,8 +31,36 @@
         </div>
 
         <img src="./res/img/nzeb-bg.png" alt="NZEB Background Image" />
-
+        
         <div class="col-sm-12 card-panel content">
+            <h1>Search for Members</h1><hr>
+            
+            <select name="category" id="category">
+                <option selected disabled>Choose a category</option>
+                <option value="Building Concepts">Building Concepts</option>
+                <option value="Continuous Insulation">Continuous Insulation</option>
+                <option value="Thermal Bridging">Thermal Bridging</option>
+                <option value="Air Tightness">Air Tightness</option>
+                <option value="Controlled Ventilation">Controlled Ventilation</option>
+                <option value="Mechanicals and RES">Mechanicals and RES</option>
+                <option value="Cost Optimisation">Cost Optimisation</option>
+            </select>
+            <label for="category">Category</label>
+
+            <select name="country" id="country">
+                <option selected disabled>Choose a country</option>
+                <option value="ir">Ireland</option>
+                <option value="en">United Kingdom</option>
+                <option value="bg">Bulgaria</option>
+                <option value="cs">Czech Republic</option>
+                <option value="ro">Romania</option>
+                <option value="tr">Turkey</option>
+                <option value="uk">Ukraine</option>
+            </select>
+            <label for="country">Country</label>
+
+            <button class="btn btn-block elegant-color white-text" id="search">Search</button>
+
         </div>
     </div>
 
@@ -42,26 +69,6 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
-    <script type="text/javascript">
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        function onDeviceReady() {
-
-            var url = 'http://webhq.ie/wp-json/wp/v2/pages/297';
-
-            jQuery.ajax({
-                type: 'GET',
-                url: url,
-                dataType: 'json',
-                crossDomain: true,
-                success: function (data) {
-                    jQuery('div.content')
-                        .append('<h1>Helpful Links</h1><hr>')
-                        .append(data.content.rendered);
-                }
-            });
-        }
-    </script>
 
 </body>
 
