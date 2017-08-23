@@ -31,9 +31,9 @@
             <div class="col-xs-2 profile"><a href="./profile.html"><img src="./img/profile.png" alt="Go to profile"/></a></div>
         </div>
 
-        <img src="./img/nzeb-bg.jpg" alt="NZEB Background Image" />
+        <img src="./img/nzeb-bg.png" alt="NZEB Background Image" />
 
-        <div class="col-sm-12 card-panel">
+        <div class="col-sm-12 card-panel content">
         </div>
     </div>
 
@@ -55,7 +55,7 @@
                 dataType: 'json',
                 crossDomain: true,
                 success: function (data) {
-                    jQuery('div.card-panel')
+                    jQuery('div.content')
                         .append('<h1>Helpful Links</h1><hr>')
                         .append(data.content.rendered);
                 }
