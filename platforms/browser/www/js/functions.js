@@ -14,7 +14,26 @@ function onDeviceReady() {
     }
 
     if (getCoursesCompleted() == null) {
-        setCoursesCompleted(0);
+        var current_user_id = localStorage.getItem("user_id");
+
+        var url = 'http://www.webhq.ie/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + current_user_id + '&insecure=cool&meta_key=courses_completed';
+
+        jQuery.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'jsonp',
+            crossDomain: true,
+            success: function (data) {
+                setCoursesCompleted(data.courses_completed);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (textStatus === "timeout") {
+                    alert("Call has timed out"); //Handle the timeout
+                } else {
+                    alert("Another error was returned" + errorThrown); //Handle other error type
+                }
+            }
+        });
     }
 
     if (getContentView() == null) {
@@ -364,3 +383,7 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
+
+jQuery("a#logout").on("click", function () {
+    document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+});
