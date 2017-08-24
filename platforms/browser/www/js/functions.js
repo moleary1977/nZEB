@@ -55,6 +55,8 @@ function getCourseToView() {
 // Set the number of courses completed by a user
 function setCoursesCompleted(courses) {
     localStorage.setItem("courses_completed", courses);
+
+    
 }
 
 // Get the number of courses completed by a user
@@ -86,8 +88,11 @@ function getAttempts() {
     return localStorage.getItem("attempts");
 }
 
-// 
+
+
+// This function shows the result of a user's attempt at a quiz
 function showResults() {
+    
     // calculate the user's grade for that quiz
     var grade = (correct_answers / 5) * 100;
     // decide if its a pass or fail
@@ -107,11 +112,12 @@ function showResults() {
     // add a results table to the content area
     jQuery('div#results').append("<table class='table'><tbody></tbody></table>");
     // add information to the table about the user's results
-    jQuery('div#results table tbody').append('<tr><th>Total questions</th><td>5</td></tr>');
-    jQuery('div#results table tbody').append('<tr><th>Correct answers</th><td>' + correct_answers + '</td></tr>');
-    jQuery('div#results table tbody').append('<tr><th>Wrong answers</th><td>' + wrong_answers + '</td></tr>');
-    jQuery('div#results table tbody').append('<tr><th>Total score</th><td>' + grade + '%</td></tr>');
-    jQuery('div#results table tbody').append('<tr><th>Overall result</th><td>' + result + '</td></tr>');
+    jQuery('div#results table tbody')
+        .append('<tr><th>Total questions</th><td>5</td></tr>')
+        .append('<tr><th>Correct answers</th><td>' + correct_answers + '</td></tr>')
+        .append('<tr><th>Wrong answers</th><td>' + wrong_answers + '</td></tr>')
+        .append('<tr><th>Total score</th><td>' + grade + '%</td></tr>')
+        .append('<tr><th>Overall result</th><td>' + result + '</td></tr>');
     // add a button to continue depending on result
     if (result == "Pass") {
         // get the next course
@@ -126,6 +132,24 @@ function showResults() {
             // just set the next course as the one to view next
             setCourseToView(course_to_get);
         }
+
+        jQuery('div#results').append("<div class='feedback'></div>");
+        jQuery('div.feedback')
+            .append("<h2>Feedback</h2><hr>")
+            .append("<select name='rating' id='rating'></select>")
+            .append("<label for='rating'>How satisfied are you with this training unit?</label>")
+            .append("<input type='text' name='comments' id='comments'>")
+            .append("<label for='comments'>Additional Comments</label>")
+            .append("<button class='btn btn-block elegant-color white-text' onclick='saveUserFeedback()'>Submit Feedback</button>");
+        
+        jQuery('div.feedback select')
+            .append("<option selected disabled>Select rating</option>")    
+            .append("<option value='1'>1 - Very unsatisfied</option>")
+            .append("<option value='2'>2 - Unsatisfied</option>")
+            .append("<option value='3'>3 - No opinion either way</option>")
+            .append("<option value='4'>4 - Satisfied</option>")
+            .append("<option value='5'>5 - Very satisfied</option>");
+        
         jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Continue to next course</a>");
     } else if (result == "Repeat") {
         setAttempts(--attempts);
@@ -144,8 +168,10 @@ function showResults() {
     }
 }
 
-// 
+// This function saves the user's quiz results to their user meta data
 function saveResults() {
+
+    // Save the user's grade to user meta
 
     var latest_grade = (correct_answers / 5) * 100;
     var current_user_id = localStorage.getItem("user_id");
@@ -172,9 +198,39 @@ function saveResults() {
             }
         }
     });
+
+    // Save the user's current courses completed number to user meta
+
+    var courses_completed = getCoursesCompleted();
+
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.webhq.ie/api/user/update_user_meta/?",
+        data: "cookie=" + document.cookie + "&meta_key=courses_completed&meta_value=" + courses_completed + "&insecure=cool",
+        crossDomain: true,
+        cache: false,
+        success: function (data) {
+            console.log(JSON.stringify(data));
+        },
+        error: function (x, e) {
+            if (x.status == 0) {
+                alert('You are offline!!\n Please Check Your Network.');
+            } else if (x.status == 404) {
+                alert('Requested URL not found.');
+            } else if (x.status == 500) {
+                alert('Internel Server Error.');
+            } else if (e == 'parsererror') {
+                alert('Error.\nParsing JSON Request failed.');
+            } else if (e == 'timeout') {
+                alert('Request Time out.');
+            } else {
+                alert('Unknown Error.\n' + x.responseText);
+            }
+        }
+    });
 }
 
-//
+// This function gets the data for the logged in user's profile
 function getUserMeta() {
     var current_user_id = localStorage.getItem("user_id");
     var lang = getLanguage();
@@ -207,7 +263,8 @@ function getUserMeta() {
     });
 }
 
-function updateUserMeta() {
+// This function updates the logged in user's profile details
+function updateUserProfile() {
 
     var current_user_id = localStorage.getItem("user_id");
     var new_first_name = jQuery("#first_name").val();
@@ -239,13 +296,71 @@ function updateUserMeta() {
             }
         }
     });
-
 }
 
+// This function saves the user's feedback
+function saveUserFeedback(){
+    // Save the user's feedback
+    var current_user_id = localStorage.getItem("user_id");
+    var unit = localStorage.getItem("course_to_view");
+    var user_rating = jQuery("div.feedback select").val();
+    var additional_comments = jQuery("div.feedback #comments").val();
+
+    jQuery.ajax({
+        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        type: 'POST',
+        data: {
+            action: 'iwhq_save_feedback',
+            user_id: current_user_id,
+            training_unit: unit,
+            rating: user_rating,
+            comments: additional_comments,
+            dataType: 'json',
+            crossDomain: true
+        },
+        success: function (response) {
+            jQuery('div.feedback').hide();
+            jQuery("div#results").append("<div class='alert alert-success'>Feedback submitted</div>");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (textStatus === "timeout") {
+                alert("Call has timed out"); //Handle the timeout
+            } else {
+                alert("Another error was returned" + errorThrown); //Handle other error type
+            }
+        }
+    });
+}
+
+// This function gets all users
+// function getUsers() {
+//     jQuery.ajax({
+//         url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+//         type: 'POST',
+//         data: {
+//             action: 'iwhq_get_users',
+//             dataType: 'jsonp',
+//             crossDomain: true
+//         },
+//         success: function (data) {
+//             console.log(data);
+//         }, 
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             if (textStatus === "timeout") {
+//                 alert("Call has timed out"); //Handle the timeout
+//             } else {
+//                 alert("Another error was returned" + errorThrown); //Handle other error type
+//             }
+//         }
+//     });
+// }
+
+// This function opens the sidebar menu
 function openNav() {
     document.getElementById("mySidenav").style.width = "50%";
 }
 
+// This function closes the sidebar menu
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }

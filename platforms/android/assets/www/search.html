@@ -34,6 +34,9 @@
         
         <div class="col-sm-12 card-panel content">
             <h1>Search for Members</h1><hr>
+
+            <input type="text" name="names" id="names" placeholder="Search for member names">
+            <label for="names">Names</label>
             
             <select name="category" id="category">
                 <option selected disabled>Choose a category</option>
@@ -69,7 +72,15 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
-
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            if(document.cookie){
+                // getUsers();
+            } else {
+                jQuery("div.content").hide();
+            }
+        });
+    </script>
 </body>
 
 </html>
