@@ -14,26 +14,28 @@ function onDeviceReady() {
     }
 
     if (getCoursesCompleted() == null) {
-        var current_user_id = localStorage.getItem("user_id");
+        setCoursesCompleted(0);
+        // var current_user_id = localStorage.getItem("user_id");
 
-        var url = 'http://www.webhq.ie/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + current_user_id + '&insecure=cool&meta_key=courses_completed';
+        // var url = 'http://www.webhq.ie/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + current_user_id + '&insecure=cool&meta_key=courses_completed';
 
-        jQuery.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'jsonp',
-            crossDomain: true,
-            success: function (data) {
-                setCoursesCompleted(data.courses_completed);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                if (textStatus === "timeout") {
-                    alert("Call has timed out"); //Handle the timeout
-                } else {
-                    alert("Another error was returned" + errorThrown); //Handle other error type
-                }
-            }
-        });
+        // jQuery.ajax({
+        //     url: url,
+        //     type: 'GET',
+        //     dataType: 'jsonp',
+        //     crossDomain: true,
+        //     success: function (data) {
+        //         console.log(data.courses_completed);
+        //         setCoursesCompleted(data.courses_completed);
+        //     },
+        //     error: function (jqXHR, textStatus, errorThrown) {
+        //         if (textStatus === "timeout") {
+        //             alert("Call has timed out"); //Handle the timeout
+        //         } else {
+        //             alert("Another error was returned" + errorThrown); //Handle other error type
+        //         }
+        //     }
+        // });
     }
 
     if (getContentView() == null) {
@@ -45,8 +47,6 @@ function onDeviceReady() {
     }
 }
 
-
-
 // This function takes in a parameter to set the user's language and store it locally
 function setLanguage(language) {
     localStorage.setItem("user_language", language);
@@ -56,8 +56,6 @@ function setLanguage(language) {
 function getLanguage() {
     return localStorage.getItem("user_language");
 }
-
-
 
 // Set the number for the training course the user last viewed
 function setCourseToView(course) {
@@ -69,21 +67,15 @@ function getCourseToView() {
     return localStorage.getItem("course_to_view");
 }
 
-
-
 // Set the number of courses completed by a user
 function setCoursesCompleted(courses) {
-    localStorage.setItem("courses_completed", courses);
-
-    
+    localStorage.setItem("courses_completed", courses);  
 }
 
 // Get the number of courses completed by a user
 function getCoursesCompleted() {
     return localStorage.getItem("courses_completed");
 }
-
-
 
 // Set the view for training content
 function setContentView(view) {
@@ -95,8 +87,6 @@ function getContentView() {
     return localStorage.getItem("content_view");
 }
 
-
-
 // Set the number of quiz attempts
 function setAttempts(attempts) {
     localStorage.setItem("attempts", attempts);
@@ -106,8 +96,6 @@ function setAttempts(attempts) {
 function getAttempts() {
     return localStorage.getItem("attempts");
 }
-
-
 
 // This function shows the result of a user's attempt at a quiz
 function showResults() {
@@ -129,7 +117,11 @@ function showResults() {
     // add a new content area for the new tab
     jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade active in' id='results'></div>");
     // add a results table to the content area
-    jQuery('div#results').append("<table class='table'><tbody></tbody></table>");
+    jQuery('div#results')
+        .append("<table class='table'><tbody></tbody></table>")
+    // add continue btn
+        .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Continue to next course</a>");
+
     // add information to the table about the user's results
     jQuery('div#results table tbody')
         .append('<tr><th>Total questions</th><td>5</td></tr>')
@@ -152,14 +144,17 @@ function showResults() {
             setCourseToView(course_to_get);
         }
 
-        jQuery('div#results').append("<div class='feedback'></div>");
+        jQuery('div.tab-content')
+            .append("<div class='alert alert-info'><a onclick='feedback()'>&#9660; Give feedback?</a></div>")    
+            .append("<div class='feedback'></div>");
         jQuery('div.feedback')
-            .append("<h2>Feedback</h2><hr>")
+            .append("<h2><span id='feedback'>Feedback</span></h2><hr>")    
             .append("<select name='rating' id='rating'></select>")
             .append("<label for='rating'>How satisfied are you with this training unit?</label>")
             .append("<input type='text' name='comments' id='comments'>")
             .append("<label for='comments'>Additional Comments</label>")
-            .append("<button class='btn btn-block elegant-color white-text' onclick='saveUserFeedback()'>Submit Feedback</button>");
+            .append("<button id='submit-feedback' class='btn btn-block elegant-color white-text' onclick='saveUserFeedback()'>Submit Feedback</button>")
+            .hide();
         
         jQuery('div.feedback select')
             .append("<option selected disabled>Select rating</option>")    
@@ -169,7 +164,6 @@ function showResults() {
             .append("<option value='4'>4 - Satisfied</option>")
             .append("<option value='5'>5 - Very satisfied</option>");
         
-        jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Continue to next course</a>");
     } else if (result == "Repeat") {
         setAttempts(--attempts);
         // if the user still has attempts
@@ -229,7 +223,7 @@ function saveResults() {
         crossDomain: true,
         cache: false,
         success: function (data) {
-            console.log(JSON.stringify(data));
+            //console.log(JSON.stringify(data));
         },
         error: function (x, e) {
             if (x.status == 0) {
@@ -322,29 +316,39 @@ function saveUserFeedback(){
     // Save the user's feedback
     var current_user_id = localStorage.getItem("user_id");
     var unit = localStorage.getItem("course_to_view");
+    
+    // if we have values    
+    if (jQuery("div.feedback select").val() && jQuery("div.feedback #comments").val()) {
+
     var user_rating = jQuery("div.feedback select").val();
     var additional_comments = jQuery("div.feedback #comments").val();
 
-    jQuery.ajax({
-        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
-        type: 'POST',
-        data: {
-            action: 'iwhq_save_feedback',
-            dataType: 'json',
-            crossDomain: true
-        },
-        success: function (response) {
-            jQuery('div.feedback').hide();
-            jQuery("div#results").append("<div class='alert alert-success'>Feedback submitted</div>");
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            if (textStatus === "timeout") {
-                alert("Call has timed out"); //Handle the timeout
-            } else {
-                alert("Another error was returned" + errorThrown); //Handle other error type
+        jQuery.ajax({
+            url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+            type: 'POST',
+            data: {
+                action: 'iwhq_save_feedback',
+                dataType: 'json',
+                crossDomain: true
+            },
+            success: function (response) {
+                jQuery('div.feedback').hide();
+                jQuery("div#results").append("<div class='alert alert-success'>Feedback submitted</div>");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (textStatus === "timeout") {
+                    alert("Call has timed out"); //Handle the timeout
+                } else {
+                    alert("Another error was returned" + errorThrown); //Handle other error type
+                }
             }
-        }
-    });
+        });
+    } else {
+        jQuery("div.alert-warning").detach();
+        jQuery("div.feedback hr").after("<div class='alert alert-danger'>Please fill in the fields</div>");
+    }
+
+   
 }
 
 // This function gets members 
@@ -434,7 +438,7 @@ function getMembers() {
 
 // This function opens the sidebar menu
 function openNav() {
-    document.getElementById("mySidenav").style.width = "50%";
+    document.getElementById("mySidenav").style.width = "80%";
 }
 
 // This function closes the sidebar menu
@@ -445,6 +449,11 @@ function closeNav() {
 function searchAgain() {
     jQuery(".results").detach();
     jQuery(".search").show();
+}
+
+function feedback() {
+    jQuery("div.feedback").toggle("slow");
+    jQuery("div.feedback button").trigger('focus');
 }
 
 jQuery("a#logout").on("click", function () {

@@ -15,23 +15,20 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="./index.html">Home</a>
-        <a href="./about.html">About NZEB</a>
-        <a href="./training-hub.html">Training</a>
-        <a href="./search.html">Search Members</a>
-        <a href="./links.html">Links</a>
-        <a id="logout" href="./index.html">Logout</a>
+        <a href="./index.html"><img src="./res/icons/home.png">Home</a>
+        <a href="./about.html"><img src="./res/icons/info.png">About NZEB</a>
+        <a href="./training-hub.html"><img src="./res/icons/blackboard.png">Training</a>
+        <a href="./search.html"><img src="./res/icons/group.png">Search Members</a>
+        <a href="./links.html"><img src="./res/icons/link.png">Links</a>
+        <a id="logout" href="./index.html"><img src="./res/icons/logout.png">Logout</a>
     </div>
 
     <div class="row">
-
-        <div class="card-panel menu-top">
+        <div class="card-panel menu-top not-home">
             <div class="col-xs-2 menu-icon" onclick="openNav()">&#9776;</div>
             <div class="col-xs-8"><a href="./index.html"><img src="./res/img/train-to-nzeb.png" alt="NZEB"/></a></div>
             <div class="col-xs-2 profile"><a href="./profile.html"><img src="./res/img/profile.png" alt="Go to profile"/></a></div>
         </div>
-
-        <img src="./res/img/nzeb-bg.png" alt="NZEB Background Image" />
 
         <div class="col-sm-12 card-panel content">
         </div>
@@ -151,15 +148,16 @@
                 jQuery(document).on('click', '.submit', function () {
                     // get the ID of the form that the button is part of, which will be question-#
                     var $form = "#" + jQuery(this).parent().attr('id');
-                    // show the next question, hide the submitted one
-                    // so firstly hide the tab and show the text one
-                    jQuery("li.active").hide().removeClass("active").next().show().addClass("active");
-                    // and then hide the question and show the next one. 
-                    jQuery($form).parent().hide();
-                    jQuery($form).parent().next().show().addClass("active in");
 
                     // if there is a checked radio button inside that form
-                    if ($form + ' input:radio:checked') {
+                    if (jQuery($form + ' li > input[type="radio"]').is(':checked'))  {
+                        jQuery('div.alert').detach();
+                        // show the next question, hide the submitted one
+                        // so firstly hide the tab and show the text one
+                        jQuery("li.active").hide().removeClass("active").next().show().addClass("active");
+                        // and then hide the question and show the next one. 
+                        jQuery($form).parent().hide();
+                        jQuery($form).parent().next().show().addClass("active in");
                         // update answers
                         ++answers_submitted;
                         // remove the button's ID
@@ -193,10 +191,8 @@
                     }
                     // if no radio button is selected
                     else {
-                        // tell the user to make a selection
-                        jQuery($form + ' div#answer').attr('class', '').addClass("badge red").text("Please choose an answer");
-                        ++wrong_answers;
-                        ++answers_submitted;
+                        jQuery('div.alert').detach();
+                        jQuery("div#answer").before("<div class='alert alert-danger'>Please select an answer</div>");
                     }
                 });
 
