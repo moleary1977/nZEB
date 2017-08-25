@@ -280,9 +280,15 @@ function getUserMeta() {
 function updateUserProfile() {
 
     var current_user_id = localStorage.getItem("user_id");
+
     var new_first_name = jQuery("#first_name").val();
     var new_last_name = jQuery("#last_name").val();
+    var new_email = jQuery("#email").val();
+    var new_phone = jQuery("#phone").val();
     var lang = jQuery("#language").val();
+    var new_country = jQuery("#country").val();
+    var new_interest = jQuery('#interest').val();
+    var new_expertise = jQuery('#expertise').val();
 
     setLanguage(lang);
 
@@ -294,6 +300,12 @@ function updateUserProfile() {
             user_id: current_user_id,
             first_name: new_first_name,
             last_name: new_last_name,
+            email: new_email,
+            phone: new_phone,
+            language: lang,
+            country: new_country,
+            interest: new_interest,
+            expertise: new_expertise,
             dataType: 'json',
             crossDomain: true
         },
