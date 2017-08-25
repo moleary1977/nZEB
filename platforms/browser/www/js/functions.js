@@ -350,54 +350,56 @@ function saveUserFeedback(){
 // This function gets members
 function getMembers() {
 
+    // This ajax request gets data belonging to each user subscriber
+    // such as id, email and display name
     jQuery.ajax({
         url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
         type: 'POST',
         data: {
-            action: 'iwhq_get_members',
+            action: 'iwhq_get_members_data',
             dataType: 'jsonp',
             crossDomain: true
         },
+        // on successful reqest
         success: function (data) {
-            data = JSON.parse(data);
-            jQuery.each(data, function (user, user_data) {
-                console.log("----- USER: " + user + " -----");
 
-                var user_id = user_data.data.ID; // ID
+            data = JSON.parse(data);
+            // Loop through the data so we can get the individual items
+            jQuery.each(data, function (user, user_data) {
+            
+                var id = user_data.data.ID; // ID
                 var user_email = user_data.data.user_email; // USER_EMAIL
                 var display_name = user_data.data.display_name; // DISPLAY_NAME
-
-                console.log("ID: "+user_id);
-                console.log("Email: "+user_email);
-                console.log("Display Name: " + display_name);
                 
-                var url = 'http://www.webhq.ie/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + user_id + '&insecure=cool';
-                console.log("User Meta URL: " + url);
-                
-                // //////////////////////////
-                // BELOW DOESN'T GET WHAT WE WANT BECAUSE OF THE COOKIE
-                // SO WE NEED TO CREATE AN AJAX REQUEST LIKE THE ONE ABOVE
-                // TO RETRIEVE EACH USER'S META DATA
-                // //////////////////////////
+                // We have the user's ID, with this we want to get each user's meta data
+                // which will have the information to search through
+                jQuery.ajax({
+                    url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+                    type: 'POST',
+                    data: {
+                        action: 'iwhq_get_members_meta',
+                        user_id: id,
+                        dataType: 'jsonp',
+                        crossDomain: true
+                    },
+                    success: function (meta_data) {
 
-                // jQuery.ajax({
-                //     url: url,
-                //     type: 'GET',
-                //     dataType: 'jsonp',
-                //     crossDomain: true,
-                //     success: function (data) {
-                //         console.log(data);
-                //     },
-                //     error: function (jqXHR, textStatus, errorThrown) {
-                //         if (textStatus === "timeout") {
-                //             alert("Call has timed out"); //Handle the timeout
-                //         } else {
-                //             alert("Another error was returned" + errorThrown); //Handle other error type
-                //         }
-                //     }
-                // });
+                        meta_data = JSON.parse(meta_data);
+                        var nickname = meta_data.nickname[0];
+                        var first_name = meta_data.first_name[0];
+                        var last_name = meta_data.last_name[0];
+
+                    },        
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        if (textStatus === "timeout") {
+                            alert("Call has timed out"); //Handle the timeout
+                        } else {
+                            alert("Another error was returned" + errorThrown); //Handle other error type
+                        }
+                    }
+                });
             });
-        },
+        },        
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
                 alert("Call has timed out"); //Handle the timeout
