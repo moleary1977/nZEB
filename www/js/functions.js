@@ -347,8 +347,22 @@ function saveUserFeedback(){
     });
 }
 
-// This function gets members
+// This function gets members 
 function getMembers() {
+
+    jQuery(".search").hide();
+        jQuery(".content").append("<div class='results'></div>");
+        jQuery(".results")
+            .append("<h1>Results</h1><hr>")
+            .append("<table class='table'><thead></thead><tbody></tbody></table>")
+            .append("<button class='btn btn-block elegant-color white-text' onclick='searchAgain()' id='search'>Search Again</button>");
+        jQuery(".results table thead")
+            .append("<tr></tr>");
+        jQuery(".results table thead tr")
+            .append("<th>Name</th>")
+            .append("<th>Area of Interest</th>")
+            .append("<th>Service</th>")
+            .append("<th>Country</th>");
 
     // This ajax request gets data belonging to each user subscriber
     // such as id, email and display name
@@ -366,6 +380,8 @@ function getMembers() {
             data = JSON.parse(data);
             // Loop through the data so we can get the individual items
             jQuery.each(data, function (user, user_data) {
+
+                jQuery(".results table tbody")
             
                 var id = user_data.data.ID; // ID
                 var user_email = user_data.data.user_email; // USER_EMAIL
@@ -386,8 +402,11 @@ function getMembers() {
 
                         meta_data = JSON.parse(meta_data);
                         var nickname = meta_data.nickname[0];
-                        var first_name = meta_data.first_name[0];
-                        var last_name = meta_data.last_name[0];
+                        var name = meta_data.first_name[0] + " " + meta_data.last_name[0];
+                        console.log(name);
+
+                        jQuery(".results table tbody")
+                            .append("<tr> <td>"+display_name+"</td> <td>Area of Interest</td> <td>Service</td> <td>Country</td> </tr>");
 
                     },        
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -407,7 +426,10 @@ function getMembers() {
                 alert("Another error was returned" + errorThrown); //Handle other error type
             }
         }
+
+        
     });
+    
 }
 
 // This function opens the sidebar menu
@@ -418,6 +440,11 @@ function openNav() {
 // This function closes the sidebar menu
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
+}
+
+function searchAgain() {
+    jQuery(".results").detach();
+    jQuery(".search").show();
 }
 
 jQuery("a#logout").on("click", function () {

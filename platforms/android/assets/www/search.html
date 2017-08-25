@@ -33,38 +33,39 @@
         <img src="./res/img/nzeb-bg.png" alt="NZEB Background Image" />
         
         <div class="col-sm-12 card-panel content">
-            <h1>Search for Members</h1><hr>
+            <div class="search">
+                <h1>Search for Members</h1><hr>
 
-            <select name="interest" id="interest">
-                <option selected disabled>Choose area of interest</option>
-                <option value="Placeholder">Area of Interest Placeholder</option>
-                <option value="Placeholder">Area of Interest Placeholder</option>
-                <option value="Placeholder">Area of Interest Placeholder</option>
-            </select>
-            <label for="interest">Area of Interest</label>
-            
-            <select name="service" id="service">
-                <option selected disabled>Choose a service</option>
-                <option value="Placeholder">Placeholder Service</option>
-                <option value="Placeholder">Placeholder Service</option>
-                <option value="Placeholder">Placeholder Service</option>
-            </select>
-            <label for="service">Service</label>
+                <select name="interest" id="interest">
+                    <option selected disabled>Choose area of interest</option>
+                    <option value="Placeholder">Area of Interest Placeholder</option>
+                    <option value="Placeholder">Area of Interest Placeholder</option>
+                    <option value="Placeholder">Area of Interest Placeholder</option>
+                </select>
+                <label for="interest">Area of Interest</label>
+                
+                <select name="service" id="service">
+                    <option selected disabled>Choose a service</option>
+                    <option value="Placeholder">Placeholder Service</option>
+                    <option value="Placeholder">Placeholder Service</option>
+                    <option value="Placeholder">Placeholder Service</option>
+                </select>
+                <label for="service">Service</label>
 
-            <select name="country" id="country">
-                <option selected disabled>Choose a country</option>
-                <option value="ir">Ireland</option>
-                <option value="en">United Kingdom</option>
-                <option value="bg">Bulgaria</option>
-                <option value="cs">Czech Republic</option>
-                <option value="ro">Romania</option>
-                <option value="tr">Turkey</option>
-                <option value="uk">Ukraine</option>
-            </select>
-            <label for="country">Country</label>
+                <select name="country" id="country">
+                    <option selected disabled>Choose a country</option>
+                    <option value="ir">Ireland</option>
+                    <option value="en">United Kingdom</option>
+                    <option value="bg">Bulgaria</option>
+                    <option value="cs">Czech Republic</option>
+                    <option value="ro">Romania</option>
+                    <option value="tr">Turkey</option>
+                    <option value="uk">Ukraine</option>
+                </select>
+                <label for="country">Country</label>
 
-            <button class="btn btn-block elegant-color white-text" onclick="getMembers()" id="search">Search</button>
-
+                <button class="btn btn-block elegant-color white-text" onclick="getMembers()" id="search">Search</button>
+            </div>
         </div>
     </div>
 
