@@ -259,8 +259,24 @@ function getUserMeta() {
 
             jQuery("#first_name").val(data.first_name);
             jQuery("#last_name").val(data.last_name);
+            jQuery("#phone").val(data.phone);
             jQuery("#language > option").each(function () {
                 if (jQuery(this).val() === lang) {
+                    jQuery(this).attr("selected", "selected");
+                }
+            });
+            jQuery("#country > option").each(function () {
+                if (jQuery(this).val() === data.country) {
+                    jQuery(this).attr("selected", "selected");
+                }
+            });
+            jQuery("#interest > option").each(function () {
+                if (jQuery(this).val() === data.interest) {
+                    jQuery(this).attr("selected", "selected");
+                }
+            });
+            jQuery("#expertise > option").each(function () {
+                if (jQuery(this).val() === data.expertise) {
                     jQuery(this).attr("selected", "selected");
                 }
             });
@@ -283,7 +299,7 @@ function updateUserProfile() {
 
     var new_first_name = jQuery("#first_name").val();
     var new_last_name = jQuery("#last_name").val();
-    var new_email = jQuery("#email").val();
+    // var new_email = jQuery("#email").val();
     var new_phone = jQuery("#phone").val();
     var lang = jQuery("#language").val();
     var new_country = jQuery("#country").val();
@@ -300,7 +316,7 @@ function updateUserProfile() {
             user_id: current_user_id,
             first_name: new_first_name,
             last_name: new_last_name,
-            email: new_email,
+            // email: new_email,
             phone: new_phone,
             language: lang,
             country: new_country,
@@ -311,6 +327,7 @@ function updateUserProfile() {
         },
         success: function (response) {
             console.log("Getting a response, server success");
+            jQuery("div.alert-success").detach();
             jQuery(".content").prepend("<div class='alert alert-success'>Profile updated</div>");
         },
         error: function (jqXHR, textStatus, errorThrown) {

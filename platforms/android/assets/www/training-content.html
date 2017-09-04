@@ -75,7 +75,6 @@
                     type: 'GET',
                     url: url,
                     dataType: 'json',
-                    crossDomain: true,
                     success: function (data) {
                     
                         // If the user is viewing content material (default)
@@ -91,9 +90,10 @@
                             // If the user is viewing the quiz
                         } else if (content_view == "Quiz") {
                             // for each training post type ("training section")
-                            jQuery("div.content").append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
-                            jQuery("div.content").append('<ul class="nav nav-tabs"></ul>');
-                            jQuery("div.content").append('<div class="tab-content"></div>');
+                            jQuery("div.content")
+                                .append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
+                                .append('<ul class="nav nav-tabs"></ul>')
+                                .append('<div class="tab-content"></div>');
                             // get the number of questions from the post
                             var questions = data[course_to_get].acf.mcq.length;
                             // if there are less than 5 questions

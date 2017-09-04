@@ -111,20 +111,80 @@
                 jQuery(".nav-menu").append('<div class="card-panel register"></div>');
                 jQuery("div.register")
                     .append('<h1>Register</h1><hr>')
+
                     .append('<input type="text" name="username" id="username" placeholder="Enter your username..." />')
                     .append('<label for="username">Username</label>')
+
                     .append('<input type="password" name="password" id="password" placeholder="Enter your password..." />')
                     .append('<label for="password">Password</label>')
+
                     .append('<input type="email" name="email" id="email" placeholder="Enter your email..." />')
                     .append('<label for="email">Email</label>')
+
                     .append('<input type="text" name="firstname" id="firstname" placeholder="Enter your first name..." />')
                     .append('<label for="firstname">First Name</label>')
+
                     .append('<input type="text" name="lastname" id="lastname" placeholder="Enter your last name..." />')
                     .append('<label for="lastname">Last Name</label>')
+
                     .append('<input type="text" name="displayname" id="displayname" placeholder="Enter your display name..." />')
                     .append('<label for="displayname">Display Name</label>')
+//meta  
+                    .append('<input type="tel" name="phone" id="phone" placeholder="Enter your phone number..." />')
+                    .append('<label for="phone">Phone Number</label>')
+//meta  
+                    .append('<select name="language" id="language"></select>')
+                    .append('<label for="language">Language</label>')
+//meta  
+                    .append('<select name="country" id="country"></select>')
+                    .append('<label for="country">Country</label>')
+//meta  
+                    .append('<select name="interest" id="interest"></select>')
+                    .append('<label for="interest">Interest</label>')
+//meta  
+                    .append('<select name="expertise" id="expertise"></select>')
+                    .append('<label for="expertise">Expertise</label>')
+
                     .append('<button class="btn btn-block elegant-color white-text" id="register">Register</button>')
+                    
                     .append('<a id="showLogin">Already a member? Login now.</a>').hide();
+
+                jQuery('div.register select#language')
+                    .append('<option selected disabled>Select Language</option>')
+                    .append('<option value="en">English</option>')
+                    .append('<option value="bg">Bulgarian</option>')
+                    .append('<option value="cs">Czech</option>')
+                    .append('<option value="ro">Romanian</option>')
+                    .append('<option value="tr">Turkish</option>')
+                    .append('<option value="uk">Ukrainian</option>');
+
+                jQuery('div.register select#country')
+                    .append('<option selected disabled>Choose a country</option>')
+                    .append('<option value="ir">Ireland</option>')
+                    .append('<option value="en">United Kingdom</option>')
+                    .append('<option value="bg">Bulgaria</option>')
+                    .append('<option value="cs">Czech Republic</option>')
+                    .append('<option value="ro">Romania</option>')
+                    .append('<option value="tr">Turkey</option>')
+                    .append('<option value="uk">Ukraine</option>');
+
+                jQuery('div.register select#interest')
+                    .append('<option selected disabled>Select area of interest</option>')
+                    .append('<option value="Air Tightness">Air Tightness</option>')
+                    .append('<option value="Solar">Solar</option>')
+                    .append('<option value="Glazing">Glazing</option>')
+                    .append('<option value="Passive House">Passive House</option>')
+                    .append('<option value="Timber Frame">Timber Frame</option>')
+                    .append('<option value="Ventilation">Ventilation</option>');
+
+                jQuery('div.register select#expertise')
+                    .append('<option selected disabled>Select area of expertise</option>')
+                    .append('<option value="Air Tightness">Air Tightness</option>')
+                    .append('<option value="Solar">Solar</option>')
+                    .append('<option value="Glazing">Glazing</option>')
+                    .append('<option value="Passive House">Passive House</option>')
+                    .append('<option value="Timber Frame">Timber Frame</option>')
+                    .append('<option value="Ventilation">Ventilation</option>');
                 
                 jQuery("a#showRegister").on('click', function(){
                     jQuery("div.login").hide();
@@ -203,6 +263,12 @@
                 var password = jQuery(".register #password").val();
                 var first_name = jQuery(".register #firstname").val();
                 var last_name = jQuery(".register #lastname").val();
+                // meta data
+                var phone = jQuery(".register #phone").val();
+                var language = jQuery(".register #language").val();
+                var country = jQuery(".register #country").val();
+                var interest = jQuery(".register #interest").val();
+                var expertise = jQuery(".register #expertise").val();
 
                 jQuery.ajax({
                     type: "POST",
@@ -226,7 +292,34 @@
                             success: function(data){
                                 if(data.status == "ok"){
                                     document.cookie = data.cookie;
-                                    location.href = "./index.html";
+                                    localStorage.setItem("user_id", data.user_id)
+                                    var the_user_id = data.user_id;
+
+                                    jQuery.ajax({
+                                        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+                                        type: 'POST',
+                                        data: {
+                                            action: 'iwhq_new_user_meta',
+                                            user_id: the_user_id,
+                                            phone: phone,
+                                            language: language,
+                                            country: country,
+                                            interest: interest,
+                                            expertise: expertise,
+                                            dataType: 'jsonp',
+                                            crossDomain: true
+                                        },
+                                        success: function (response) {console.log("Getting a response, server success");
+                                            location.href = "./index.html";
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            if (textStatus === "timeout") {
+                                                alert("Call has timed out"); //Handle the timeout
+                                            } else {
+                                                alert("Another error was returned" + errorThrown); //Handle other error type
+                                            }
+                                        }
+                                    })
                                 } else {
                                     jQuery("div.alert").detach();
                                     jQuery("#register").before("<div class='alert alert-danger'>Please fill in every field</div>");
