@@ -15,27 +15,6 @@ function onDeviceReady() {
 
     if (getCoursesCompleted() == null) {
         setCoursesCompleted(0);
-        // var current_user_id = localStorage.getItem("user_id");
-
-        // var url = 'http://www.webhq.ie/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + current_user_id + '&insecure=cool&meta_key=courses_completed';
-
-        // jQuery.ajax({
-        //     url: url,
-        //     type: 'GET',
-        //     dataType: 'jsonp',
-        //     crossDomain: true,
-        //     success: function (data) {
-        //         console.log(data.courses_completed);
-        //         setCoursesCompleted(data.courses_completed);
-        //     },
-        //     error: function (jqXHR, textStatus, errorThrown) {
-        //         if (textStatus === "timeout") {
-        //             alert("Call has timed out"); //Handle the timeout
-        //         } else {
-        //             alert("Another error was returned" + errorThrown); //Handle other error type
-        //         }
-        //     }
-        // });
     }
 
     if (getContentView() == null) {
@@ -179,6 +158,8 @@ function showResults() {
                 .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Review training material</a>");
         }
     }
+
+    saveResults();
 }
 
 // This function saves the user's quiz results to their user meta data
@@ -201,7 +182,23 @@ function saveResults() {
             crossDomain: true
         },
         success: function (response) {
+            console.log(response);
             console.log("Getting a response, server success");
+            jQuery.ajax({
+                url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+                type: 'POST',
+                data: {
+                    action: 'iwhq_get_courses_completed',
+                    user_id: current_user_id,
+                    type: 'POST',
+                    dataType: 'json',
+                    crossDomain: true
+                },
+                success: function (data) {
+                    setCoursesCompleted(data)
+                }
+            })
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
