@@ -5,6 +5,26 @@ document.addEventListener("deviceready", onDeviceReady, false);
 */
 function onDeviceReady() {
 
+    var user = localStorage.getItem("user_id");
+
+    jQuery.ajax({
+        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        type: 'POST',
+        data: {
+            action: 'iwhq_get_courses_completed',
+            type: 'POST',
+            user_id: user,
+            dataType: 'json'
+        },
+        success: function (data) {
+            setCoursesCompleted(data);
+            setCourseToView(data);
+        }, 
+        error: function (x, e) {
+            setCoursesCompleted(0);
+        }
+    });
+
     if (getLanguage() == null) {
         setLanguage("en");
     }
@@ -14,7 +34,24 @@ function onDeviceReady() {
     }
 
     if (getCoursesCompleted() == null) {
-        setCoursesCompleted(0);
+
+        jQuery.ajax({
+            url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+            type: 'POST',
+            data: {
+                action: 'iwhq_get_courses_completed',
+                type: 'POST',
+                user_id: user,
+                dataType: 'json'
+            },
+            success: function (data) {
+                setCoursesCompleted(data);
+                setCourseToView(data);
+            }, 
+            error: function (x, e) {
+                setCoursesCompleted(0);
+            }
+        });
     }
 
     if (getContentView() == null) {
@@ -380,6 +417,10 @@ function saveUserFeedback(){
 // This function gets members 
 function getMembers() {
 
+    var country = jQuery("#country").val();
+    var interest = jQuery("#interest").val();
+    var expertise = jQuery("#expertise").val();
+
     jQuery(".search").hide();
         jQuery(".content").append("<div class='results'></div>");
         jQuery(".results")
@@ -410,8 +451,6 @@ function getMembers() {
             data = JSON.parse(data);
             // Loop through the data so we can get the individual items
             jQuery.each(data, function (user, user_data) {
-
-                jQuery(".results table tbody")
             
                 var id = user_data.data.ID; // ID
                 var user_email = user_data.data.user_email; // USER_EMAIL
@@ -433,10 +472,19 @@ function getMembers() {
                         meta_data = JSON.parse(meta_data);
                         var nickname = meta_data.nickname[0];
                         var name = meta_data.first_name[0] + " " + meta_data.last_name[0];
-                        console.log(name);
 
-                        jQuery(".results table tbody")
-                            .append("<tr> <td>"+display_name+"</td> <td>Area of Interest</td> <td>Service</td> <td>Country</td> </tr>");
+                        jQuery(".results").append("User search under construction <br>");
+
+                        // COUNTY = meta_data.country[0]
+                        // INTEREST = meta_data.interest[0]
+                        // EXPERTISE = meta_data.expertise[0]
+
+                        // if (meta_data.country[0] && meta_data.interest[0] && meta_data.expertise[0]) {
+                        //     if (meta_data.country[0] == country && meta_data.interest[0] == interest && meta_data.expertise[0] == expertise) {
+                        //         jQuery(".results table tbody")
+                        //             .append("<tr> <td>" + display_name + "</td> <td>Area of Interest</td> <td>Service</td> <td>Country</td> </tr>");
+                        //     }
+                        // }
 
                     },        
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -503,7 +551,7 @@ function getMedals() {
             }
 
             $silver.after("<p>You have an 80% grade in " + silver + "/7 quizzes</p>");
-            $gold.after("<p>You have 100% grade in " + gold + "/7 quizzes</p>");
+            $gold.after("<p>You have a 100% grade in " + gold + "/7 quizzes</p>");
 
             console.log("Silver: " + silver);
             console.log("Gold: " + gold);
