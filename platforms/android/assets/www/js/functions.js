@@ -456,10 +456,66 @@ function getMembers() {
                 alert("Another error was returned" + errorThrown); //Handle other error type
             }
         }
-
-        
     });
-    
+}
+
+// this function gets the users achievement medals
+function getMedals() {
+    var $silver = jQuery("#silver");
+    var $gold = jQuery("#gold");
+    var user = localStorage.getItem("user_id");
+
+    jQuery.ajax({
+        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        type: 'POST',
+        data: {
+            action: 'iwhq_get_quiz_results',
+            user_id: user,
+            dataType: 'jsonp',
+            crossDomain: true
+        },
+        success: function (results) {
+
+            var silver = 0;
+            var gold = 0;
+
+            if (results == "No results") {
+                jQuery(".content").append("<div class='alert alert-info'>You have not attempted any quizzes. Take your <a href='./training-content.html'>first quiz</a> now.</div>");
+            } else {
+                results = JSON.parse(results);
+
+                for (i in results) {
+                    console.log(results[i].grade + "% in Quiz " + results[i].quiz_no);
+                    if (results[i].grade == 80) {
+                        silver++;
+                    } else if (results[i].grade == 100) {
+                        gold++;
+                    }
+                }
+            }
+
+            if (silver == 0) {
+                $silver.css('opacity', 0.2);
+            }
+
+            if (gold == 0) {
+                $gold.css('opacity', 0.2);
+            }
+
+            $silver.after("<p>You have an 80% grade in " + silver + "/7 quizzes</p>");
+            $gold.after("<p>You have 100% grade in " + gold + "/7 quizzes</p>");
+
+            console.log("Silver: " + silver);
+            console.log("Gold: " + gold);
+        },        
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (textStatus === "timeout") {
+                alert("Call has timed out"); //Handle the timeout
+            } else {
+                alert("Another error was returned" + errorThrown); //Handle other error type
+            }
+        }
+    });
 }
 
 // This function opens the sidebar menu
