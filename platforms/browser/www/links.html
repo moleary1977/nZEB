@@ -59,7 +59,7 @@
                 url: url,
                 dataType: 'json',
                 success: function (data) {
-                    jQuery(".content").append("<h1>"+data.title.rendered+"</h1><hr>" + data.content.rendered);
+                    jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
                 }
             });
         }
