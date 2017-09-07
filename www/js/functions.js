@@ -453,43 +453,49 @@ function getMembers() {
         // on successful reqest
         success: function (data) {
 
-            data = JSON.parse(data);
+            if (data == 0) {
+                jQuery("div.alert-info").detach();
+                jQuery(".content").append("<div class='alert alert-info'>No members found</div>");
+                console.log("Oops no users found");
+            } else {
+                data = JSON.parse(data);
 
-            //Loop through the data so we can get the individual items
-            jQuery.each(data, function (user, user_data) {
-            
-                var id = user_data.data.ID; // ID
-                var user_email = user_data.data.user_email; // USER_EMAIL
+                //Loop through the data so we can get the individual items
+                jQuery.each(data, function (user, user_data) {
                 
-                // We have the user's ID, with this we want to get each user's meta data
-                // which will have the information to search through
-                jQuery.ajax({
-                    url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
-                    type: 'POST',
-                    data: {
-                        action: 'iwhq_get_members_meta',
-                        user_id: id,
-                        dataType: 'jsonp',
-                        crossDomain: true
-                    },
-                    success: function (meta_data) {
+                    var id = user_data.data.ID; // ID
+                    var user_email = user_data.data.user_email; // USER_EMAIL
+                    
+                    // We have the user's ID, with this we want to get each user's meta data
+                    // which will have the information to search through
+                    jQuery.ajax({
+                        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+                        type: 'POST',
+                        data: {
+                            action: 'iwhq_get_members_meta',
+                            user_id: id,
+                            dataType: 'jsonp',
+                            crossDomain: true
+                        },
+                        success: function (meta_data) {
 
-                        meta_data = JSON.parse(meta_data);
-                        var name = meta_data.first_name[0] + " " + meta_data.last_name[0];
+                            meta_data = JSON.parse(meta_data);
+                            var name = meta_data.first_name[0] + " " + meta_data.last_name[0];
 
-                        jQuery(".results table tbody")
-                            .append("<tr> <td>" + name + "</td> <td>" + meta_data.interest[0] + "</td> <td>" + meta_data.expertise[0] + " </td> <td>" + meta_data.country[0] + "</td> </tr>");
+                            jQuery(".results table tbody")
+                                .append("<tr> <td>" + name + "</td> <td>" + meta_data.interest[0] + "</td> <td>" + meta_data.expertise[0] + " </td> <td>" + meta_data.country[0] + "</td> </tr>");
 
-                    },        
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        if (textStatus === "timeout") {
-                            alert("Call has timed out"); //Handle the timeout
-                        } else {
-                            alert("Another error was returned" + errorThrown); //Handle other error type
+                        },        
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            if (textStatus === "timeout") {
+                                alert("Call has timed out"); //Handle the timeout
+                            } else {
+                                alert("Another error was returned" + errorThrown); //Handle other error type
+                            }
                         }
-                    }
-                });
-            }); 
+                    });
+                }); 
+            }
         },        
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
