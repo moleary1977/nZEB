@@ -417,6 +417,7 @@ function saveUserFeedback(){
 // This function gets members 
 function getMembers() {
 
+    var name = jQuery("#name").val();
     var country = jQuery("#country").val();
     var interest = jQuery("#interest").val();
     var expertise = jQuery("#expertise").val();
@@ -431,8 +432,8 @@ function getMembers() {
             .append("<tr></tr>");
         jQuery(".results table thead tr")
             .append("<th>Name</th>")
-            .append("<th>Area of Interest</th>")
-            .append("<th>Service</th>")
+            .append("<th>Interest</th>")
+            .append("<th>Expertise</th>")
             .append("<th>Country</th>");
 
     // This ajax request gets data belonging to each user subscriber
@@ -443,18 +444,22 @@ function getMembers() {
         data: {
             action: 'iwhq_get_members_data',
             dataType: 'jsonp',
-            crossDomain: true
+            crossDomain: true,
+            name: name,
+            country: country,
+            interest: interest,
+            expertise: expertise
         },
         // on successful reqest
         success: function (data) {
 
             data = JSON.parse(data);
-            // Loop through the data so we can get the individual items
+
+            //Loop through the data so we can get the individual items
             jQuery.each(data, function (user, user_data) {
             
                 var id = user_data.data.ID; // ID
                 var user_email = user_data.data.user_email; // USER_EMAIL
-                var display_name = user_data.data.display_name; // DISPLAY_NAME
                 
                 // We have the user's ID, with this we want to get each user's meta data
                 // which will have the information to search through
@@ -470,21 +475,10 @@ function getMembers() {
                     success: function (meta_data) {
 
                         meta_data = JSON.parse(meta_data);
-                        var nickname = meta_data.nickname[0];
                         var name = meta_data.first_name[0] + " " + meta_data.last_name[0];
 
-                        jQuery(".results").append("User search under construction <br>");
-
-                        // COUNTY = meta_data.country[0]
-                        // INTEREST = meta_data.interest[0]
-                        // EXPERTISE = meta_data.expertise[0]
-
-                        // if (meta_data.country[0] && meta_data.interest[0] && meta_data.expertise[0]) {
-                        //     if (meta_data.country[0] == country && meta_data.interest[0] == interest && meta_data.expertise[0] == expertise) {
-                        //         jQuery(".results table tbody")
-                        //             .append("<tr> <td>" + display_name + "</td> <td>Area of Interest</td> <td>Service</td> <td>Country</td> </tr>");
-                        //     }
-                        // }
+                        jQuery(".results table tbody")
+                            .append("<tr> <td>" + name + "</td> <td>" + meta_data.interest[0] + "</td> <td>" + meta_data.expertise[0] + " </td> <td>" + meta_data.country[0] + "</td> </tr>");
 
                     },        
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -495,7 +489,7 @@ function getMembers() {
                         }
                     }
                 });
-            });
+            }); 
         },        
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
@@ -580,6 +574,10 @@ function closeNav() {
 
 function searchAgain() {
     jQuery(".results").detach();
+    jQuery("#name").val("");
+    jQuery("#interest").val(jQuery("#interest option:first").val());
+    jQuery("#expertise").val(jQuery("#expertise option:first").val());
+    jQuery("#country").val(jQuery("#country option:first").val());
     jQuery(".search").show();
 }
 
