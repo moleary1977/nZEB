@@ -31,7 +31,6 @@
         </div>
         
         <div class="col-sm-12 card-panel content">
-            <h1>About NZEB</h1><hr>
         </div>
     </div>
 
@@ -40,6 +39,53 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
+     <script type="text/javascript">
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        var answers_submitted = 0;
+        var correct_answers = 0;
+        var wrong_answers = 0;
+        var already_selected = [];
+        var course_to_get = getCourseToView();
+        var courses_completed = getCoursesCompleted();
+        var content_view = getContentView();
+        var attempts = getAttempts();
+        var data;
+
+        function onDeviceReady() {
+
+            if (document.cookie) {
+
+                var url = "";
+                var lang = localStorage.getItem("user_language");
+                if(lang == "en"){
+                    url = "https://www.webhq.ie/wp-json/wp/v2/pages/?slug=about-nzeb";
+                } else if(lang != "en"){
+                    url = "https://www.webhq.ie/wp-json/wp/v2/pages/?slug=about-nzeb&lang="+lang;
+                }
+
+                console.log(url);
+
+                jQuery.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    crossDomain: true,
+                    success: function (data) {
+                        console.log(data);
+                        jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
+                    }
+                });
+
+                jQuery("a#logout").on("click", function () {
+                    document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                });
+
+            } else if (!document.cookie) {
+                jQuery("div.content").append("Please <a href='./index.html'>login</a> to continue");
+            }
+        }
+    </script>
 
 </body>
 

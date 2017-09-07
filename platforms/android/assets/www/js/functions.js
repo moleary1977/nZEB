@@ -550,8 +550,10 @@ function getMedals() {
                 $gold.css('opacity', 0.2);
             }
 
-            $silver.after("<p>You have an 80% grade in " + silver + "/7 quizzes</p>");
-            $gold.after("<p>You have a 100% grade in " + gold + "/7 quizzes</p>");
+            $silver.before("<span>" + silver + "/7</span>");
+            $silver.after("<p>Passed with 80%</p>");
+            $gold.before("<span>" + gold + "/7</span>");
+            $gold.after("<p>Passed with 100%</p>");
 
             console.log("Silver: " + silver);
             console.log("Gold: " + gold);

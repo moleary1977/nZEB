@@ -56,12 +56,13 @@
 
             if (document.cookie) {
 
-                var url = "https://webhq.ie/wp-json/wp/v2/training?filter[orderby]=date&order=asc";
-                if (localStorage.getItem("user_language") != "en") {
-                    var lang = "/?lang=" + localStorage.getItem("user_language");
-                    url += lang;
+                var url = "https://www.webhq.ie/wp-json/wp/v2/training?orderby=title&order=asc";
+                var lang = localStorage.getItem("user_language");
+                if(lang == "en"){
+                    url = "https://www.webhq.ie/wp-json/wp/v2/training?orderby=title&order=asc";
+                } else if(lang != "en"){
+                    url = "https://www.webhq.ie/wp-json/wp/v2/training?orderby=title&order=asc&lang="+lang;
                 }
-            
                 /**
                  * data[course_to_get] is very important in getting information from a
                  * specific custom post type of training
@@ -70,6 +71,8 @@
                  * such as material and quiz 
                  * 
                  */
+
+                console.log(url);
 
                 jQuery.ajax({
                     type: 'GET',

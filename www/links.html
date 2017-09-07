@@ -44,17 +44,22 @@
 
         function onDeviceReady() {
 
-            var url = 'http://webhq.ie/wp-json/wp/v2/pages/297';
+            var url = "";
+            var lang = localStorage.getItem("user_language");
+            if(lang == "en"){
+                url = "https://www.webhq.ie/wp-json/wp/v2/pages/?slug=links";
+            } else if(lang != "en"){
+                url = "https://www.webhq.ie/wp-json/wp/v2/pages/?slug=links&lang="+lang;
+            }
+
+            console.log(url);
 
             jQuery.ajax({
                 type: 'GET',
                 url: url,
                 dataType: 'json',
-                crossDomain: true,
                 success: function (data) {
-                    jQuery('div.content')
-                        .append('<h1>Helpful Links</h1><hr>')
-                        .append(data.content.rendered);
+                    jQuery(".content").append("<h1>"+data.title.rendered+"</h1><hr>" + data.content.rendered);
                 }
             });
         }

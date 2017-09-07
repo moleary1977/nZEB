@@ -47,7 +47,7 @@
             <label for="phone">Phone Number</label>
 
             <select name="language" id="language">
-                <option selected disabled>Select Language</option>
+                <option selected disabled>Select language</option>
                 <option value="en">English</option>
                 <option value="bg">Bulgarian</option>
                 <option value="cs">Czech</option>
@@ -58,7 +58,7 @@
             <label for="language">Language</label>
 
             <select name="country" id="country">
-                <option selected disabled>Choose a country</option>
+                <option selected disabled>Select a country</option>
                 <option value="Ireland">Ireland</option>
                 <option value="UK">United Kingdom</option>
                 <option value="Bulgaria">Bulgaria</option>
@@ -94,12 +94,19 @@
             <button class="btn btn-block elegant-color white-text" id="update" onclick="updateUserProfile()">Update</button>
 
             <h1>Achievements</h1><hr>
-            
-            <h2>Silver Medal</h2>
-            <img src="./res/img/nzeb-silver.png" alt="Silver" id="silver">
 
-            <h2>Gold Medal</h2>
-            <img src="./res/img/nzeb-gold.png" alt="Gold" id="gold">
+            <div class="medals container-fluid">
+                <div class="col-xs-6">
+                    <img src="./res/img/nzeb-silver.png" alt="Silver" id="silver">
+                </div>
+                <div class="col-xs-6">
+                    <img src="./res/img/nzeb-gold.png" alt="Gold" id="gold">
+                </div>
+            </div>
+            
+            
+
+            
 
         </div>
     </div>
