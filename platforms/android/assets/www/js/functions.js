@@ -579,6 +579,7 @@ function closeNav() {
 }
 
 function searchAgain() {
+    jQuery("div.alert-info").detach();
     jQuery(".results").detach();
     jQuery("#name").val("");
     jQuery("#interest").val(jQuery("#interest option:first").val());
