@@ -64,7 +64,7 @@
         }
         // if more than 0 courses have been taken
         else if (completed_courses > 0) {
-            if(completed_courses == 7){
+            if(completed_courses >= 7){
                 jQuery("#course_to_continue").append("<div class='alert alert-success'>You have completed all training units.</div>");
             } else {
                 // show a button for the user to continue to the next course
