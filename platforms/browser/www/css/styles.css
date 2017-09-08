@@ -118,6 +118,10 @@ select{
   color: #9e9e9e;
 }
 
+.medals{
+    text-align: center;
+}
+
 .medals span{
     background-color: #F8BB1F;
     border-radius: 20px;
