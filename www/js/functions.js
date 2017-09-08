@@ -18,7 +18,6 @@ function onDeviceReady() {
         },
         success: function (data) {
             setCoursesCompleted(data);
-            setCourseToView(data);
         }, 
         error: function (x, e) {
             setCoursesCompleted(0);

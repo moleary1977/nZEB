@@ -72,9 +72,11 @@
                  * 
                  */
 
-                console.log(url);
-
-                jQuery.ajax({
+                if(course_to_get > 6){
+                    jQuery(".content").append("<div class='alert alert-success'>You have completed all training units. <a href='./training-hub.html'>Back to Hub</a>.</div>");
+                } 
+                else {
+                    jQuery.ajax({
                     type: 'GET',
                     url: url,
                     dataType: 'json',
@@ -141,63 +143,64 @@
                                     // make the first tab and content active
                                     jQuery('ul.nav li:first-child').addClass("active").show();
                                     jQuery('div.tab-content div:first-child').addClass("active in").show();
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
 
-                // when I click on a submit button
-                jQuery(document).on('click', '.submit', function () {
-                    // get the ID of the form that the button is part of, which will be question-#
-                    var $form = "#" + jQuery(this).parent().attr('id');
+                    // when I click on a submit button
+                    jQuery(document).on('click', '.submit', function () {
+                        // get the ID of the form that the button is part of, which will be question-#
+                        var $form = "#" + jQuery(this).parent().attr('id');
 
-                    // if there is a checked radio button inside that form
-                    if (jQuery($form + ' li > input[type="radio"]').is(':checked'))  {
-                        jQuery('div.alert').detach();
-                        // show the next question, hide the submitted one
-                        // so firstly hide the tab and show the text one
-                        jQuery("li.active").hide().removeClass("active").next().show().addClass("active");
-                        // and then hide the question and show the next one. 
-                        jQuery($form).parent().hide();
-                        jQuery($form).parent().next().show().addClass("active in");
-                        // update answers
-                        ++answers_submitted;
-                        // remove the button's ID
-                        jQuery(this).removeClass('submit');
-                        // find all radio buttons in it and disable them
-                        jQuery($form).find('input:radio').attr('disabled', '');
-                        // disable the submit button
-                        jQuery(this).attr('disabled', '').text("Answer submitted");
-                        // store the user's selected answer
-                        var user_ans = jQuery($form + ' input:radio:checked').val();
-                        // store the correct answer
-                        var correct_ans = jQuery($form + ' input#correct_answer').val();
-                        // if the user's answer matches the correct answer
-                        if (user_ans == correct_ans) {
-                            // they got it right
-                            jQuery($form + ' div#answer').attr('class', '').addClass("badge green").text("CORRECT ANSWER");
-                            // increment correct answers
-                            ++correct_answers;
-                        } else {
-                            // otherwise, they got it wrong - but give them the right answer so they can learn from it
-                            jQuery($form + ' div#answer').attr('class', '').addClass("badge red").text("WRONG ANSWER - Correct answer is " + correct_ans);
-                            // increment wrong answers
-                            ++wrong_answers;
+                        // if there is a checked radio button inside that form
+                        if (jQuery($form + ' li > input[type="radio"]').is(':checked'))  {
+                            jQuery('div.alert').detach();
+                            // show the next question, hide the submitted one
+                            // so firstly hide the tab and show the text one
+                            jQuery("li.active").hide().removeClass("active").next().show().addClass("active");
+                            // and then hide the question and show the next one. 
+                            jQuery($form).parent().hide();
+                            jQuery($form).parent().next().show().addClass("active in");
+                            // update answers
+                            ++answers_submitted;
+                            // remove the button's ID
+                            jQuery(this).removeClass('submit');
+                            // find all radio buttons in it and disable them
+                            jQuery($form).find('input:radio').attr('disabled', '');
+                            // disable the submit button
+                            jQuery(this).attr('disabled', '').text("Answer submitted");
+                            // store the user's selected answer
+                            var user_ans = jQuery($form + ' input:radio:checked').val();
+                            // store the correct answer
+                            var correct_ans = jQuery($form + ' input#correct_answer').val();
+                            // if the user's answer matches the correct answer
+                            if (user_ans == correct_ans) {
+                                // they got it right
+                                jQuery($form + ' div#answer').attr('class', '').addClass("badge green").text("CORRECT ANSWER");
+                                // increment correct answers
+                                ++correct_answers;
+                            } else {
+                                // otherwise, they got it wrong - but give them the right answer so they can learn from it
+                                jQuery($form + ' div#answer').attr('class', '').addClass("badge red").text("WRONG ANSWER - Correct answer is " + correct_ans);
+                                // increment wrong answers
+                                ++wrong_answers;
+                            }
+                            // if 5 answers have been submitted
+                            if (answers_submitted == 5) {
+                                // show the results tab
+                                showResults();
+                                // saveResults();
+                            }
                         }
-                        // if 5 answers have been submitted
-                        if (answers_submitted == 5) {
-                            // show the results tab
-                            showResults();
-                            // saveResults();
+                        // if no radio button is selected
+                        else {
+                            jQuery('div.alert').detach();
+                            jQuery("div#answer").before("<div class='alert alert-danger'>Please select an answer</div>");
                         }
-                    }
-                    // if no radio button is selected
-                    else {
-                        jQuery('div.alert').detach();
-                        jQuery("div#answer").before("<div class='alert alert-danger'>Please select an answer</div>");
-                    }
-                });
+                    });
+                }
 
                 jQuery("a#logout").on("click", function () {
                     document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";

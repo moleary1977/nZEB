@@ -43,11 +43,12 @@
 
     if(document.cookie){
 
-        jQuery("div.content").append("<h1>Training Hub</h1><hr>");
-        jQuery("div.content").append("<h2>Take Course</h2>");
-        jQuery("div.content").append("<div id='course_to_continue'></div>");
-        jQuery("div.content").append("<h2>Courses Complete</h2>");
-        jQuery("div.content").append("<div id='courses_completed'></div>");
+        jQuery("div.content")
+            .append("<h1>Training Hub</h1><hr>")
+            .append("<h2>Take Course</h2>")
+            .append("<div id='course_to_continue'></div>")
+            .append("<h2>Courses Complete</h2>")
+            .append("<div id='courses_completed'></div>");
 
         // set the view to Material
         setContentView("Material");
@@ -63,8 +64,13 @@
         }
         // if more than 0 courses have been taken
         else if (completed_courses > 0) {
-            // show a button for the user to continue to the next course
-            jQuery("#course_to_continue").append("<a class='btn btn-block elegant-color white-text btn-link'onclick='setCourseToView(" + completed_courses + ")' href='./training-content.html'>Continue</a>");  
+            if(completed_courses == 7){
+                jQuery("#course_to_continue").append("<div class='alert alert-success'>You have completed all training units.</div>");
+            } else {
+                // show a button for the user to continue to the next course
+                jQuery("#course_to_continue").append("<a class='btn btn-block elegant-color white-text btn-link'onclick='setCourseToView(" + completed_courses + ")' href='./training-content.html'>Continue</a>");  
+        
+            }
             // for each completed course
             for (var i = 0; i < completed_courses; i++) {
                 // show a button so the user can look back on completed courses
