@@ -204,7 +204,7 @@
 
                 jQuery.ajax({
                     type: "POST",
-                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=generate_auth_cookie",
+                    url:"http://www.train-to-nzeb-app.com/api/get_nonce/?controller=user&method=generate_auth_cookie",
                     crossDomain: true,
                     dataType: 'jsonp',
                     cache: false,
@@ -215,7 +215,7 @@
 
                         jQuery.ajax({
                             type: "POST",
-                            url: "http://www.webhq.ie/api/user/generate_auth_cookie/?",
+                            url: "http://www.train-to-nzeb-app.com/api/user/generate_auth_cookie/?",
                             data: dataString,
                             crossDomain: true,
                             cache: false,
@@ -272,7 +272,7 @@
 
                 jQuery.ajax({
                     type: "POST",
-                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=register",
+                    url:"http://www.train-to-nzeb-app.com/api/get_nonce/?controller=user&method=register",
                     crossDomain: true,
                     dataType: 'jsonp',
                     cache: false,
@@ -284,7 +284,7 @@
                         
                         jQuery.ajax({
                             type: "POST",
-                            url:"http://www.webhq.ie/api/user/register",
+                            url:"http://www.train-to-nzeb-app.com/api/user/register",
                             dataType: "jsonp",
                             data: dataString,
                             crossDomain: true,
@@ -296,7 +296,7 @@
                                     var the_user_id = data.user_id;
 
                                     jQuery.ajax({
-                                        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+                                        url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
                                         type: 'POST',
                                         data: {
                                             action: 'iwhq_new_user_meta',

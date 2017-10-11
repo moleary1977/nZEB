@@ -16,7 +16,7 @@
                 var password = jQuery("#password").val();
                 jQuery.ajax({
                     type: "POST",
-                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=generate_auth_cookie",
+                    url:"http://www.train-to-nzeb-app.com/api/get_nonce/?controller=user&method=generate_auth_cookie",
                     crossDomain: true,
                     dataType: 'jsonp',
                     cache: false,
@@ -25,7 +25,7 @@
                         var dataString = "nonce="+nonce+"&username="+username+"&password="+password+"&insecure=cool";
                         jQuery.ajax({
                             type: "POST",
-                            url: "http://www.webhq.ie/api/user/generate_auth_cookie/?",
+                            url: "http://www.train-to-nzeb-app.com/api/user/generate_auth_cookie/?",
                             data: dataString,
                             crossDomain: true,
                             cache: false,
@@ -37,7 +37,7 @@
 
                                 jQuery.ajax({
                                     type: "POST",
-                                    url: "http://www.webhq.ie/api/user/update_user_meta/?",
+                                    url: "http://www.train-to-nzeb-app.com/api/user/update_user_meta/?",
                                     data: "cookie="+data.cookie+"&meta_key=test_key&meta_value=test_value&insecure=cool",
                                     crossDomain: true,
                                     cache: false,

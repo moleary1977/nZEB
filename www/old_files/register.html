@@ -17,7 +17,7 @@
                 var password = jQuery("#password").val();
                 jQuery.ajax({
                     type: "POST",
-                    url:"http://www.webhq.ie/api/get_nonce/?controller=user&method=register",
+                    url:"http://www.train-to-nzeb-app.com/api/get_nonce/?controller=user&method=register",
                     crossDomain: true,
                     dataType: 'jsonp',
                     cache: false,
@@ -26,7 +26,7 @@
                         var dataString = "display_name="+display_name+"&email="+email+"&username="+username+"&password="+password+"&nonce="+nonce+"&insecure=cool";
                         jQuery.ajax({
                             type: "POST",
-                            url:"http://www.webhq.ie/api/user/register",
+                            url:"http://www.train-to-nzeb-app.com/api/user/register",
                             dataType: "jsonp",
                             data: dataString,
                             crossDomain: true,

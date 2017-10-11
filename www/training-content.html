@@ -56,12 +56,12 @@
 
             if (document.cookie) {
 
-                var url = "https://www.webhq.ie/wp-json/wp/v2/training?orderby=title&order=asc";
+                var url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/training?orderby=title&order=asc";
                 var lang = localStorage.getItem("user_language");
                 if(lang == "en"){
-                    url = "https://www.webhq.ie/wp-json/wp/v2/training?orderby=title&order=asc";
+                    url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/training?orderby=title&order=asc";
                 } else if(lang != "en"){
-                    url = "https://www.webhq.ie/wp-json/wp/v2/training?orderby=title&order=asc&lang="+lang;
+                    url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/training?orderby=title&order=asc&lang="+lang;
                 }
                 /**
                  * data[course_to_get] is very important in getting information from a

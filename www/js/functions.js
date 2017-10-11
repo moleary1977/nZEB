@@ -8,7 +8,7 @@ function onDeviceReady() {
     var user = localStorage.getItem("user_id");
 
     jQuery.ajax({
-        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
         type: 'POST',
         data: {
             action: 'iwhq_get_courses_completed',
@@ -35,7 +35,7 @@ function onDeviceReady() {
     if (getCoursesCompleted() == null) {
 
         jQuery.ajax({
-            url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+            url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
             type: 'POST',
             data: {
                 action: 'iwhq_get_courses_completed',
@@ -207,7 +207,7 @@ function saveResults() {
     var current_user_id = localStorage.getItem("user_id");
 
     jQuery.ajax({
-        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
         type: 'POST',
         data: {
             action: 'iwhq_save_quiz_results',
@@ -221,7 +221,7 @@ function saveResults() {
             console.log(response);
             console.log("Getting a response, server success");
             jQuery.ajax({
-                url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+                url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
                 type: 'POST',
                 data: {
                     action: 'iwhq_get_courses_completed',
@@ -251,7 +251,7 @@ function saveResults() {
 
     jQuery.ajax({
         type: "POST",
-        url: "http://www.webhq.ie/api/user/update_user_meta/?",
+        url: "http://www.train-to-nzeb-app.com/api/user/update_user_meta/?",
         data: "cookie=" + document.cookie + "&meta_key=courses_completed&meta_value=" + courses_completed + "&insecure=cool",
         crossDomain: true,
         cache: false,
@@ -281,7 +281,7 @@ function getUserMeta() {
     var current_user_id = localStorage.getItem("user_id");
     var lang = getLanguage();
 
-    var url = 'http://www.webhq.ie/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + current_user_id + '&insecure=cool';
+    var url = 'http://www.train-to-nzeb-app.com/api/user/get_user_meta/?cookie=' + document.cookie + '&user_id=' + current_user_id + '&insecure=cool';
 
     jQuery.ajax({
         url: url,
@@ -342,7 +342,7 @@ function updateUserProfile() {
     setLanguage(lang);
 
     jQuery.ajax({
-        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
         type: 'POST',
         data: {
             action: 'iwhq_update_user_profile',
@@ -386,7 +386,7 @@ function saveUserFeedback(){
     var additional_comments = jQuery("div.feedback #comments").val();
 
         jQuery.ajax({
-            url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+            url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
             type: 'POST',
             data: {
                 action: 'iwhq_save_feedback',
@@ -438,7 +438,7 @@ function getMembers() {
     // This ajax request gets data belonging to each user subscriber
     // such as id, email and display name
     jQuery.ajax({
-        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
         type: 'POST',
         data: {
             action: 'iwhq_get_members_data',
@@ -468,7 +468,7 @@ function getMembers() {
                     // We have the user's ID, with this we want to get each user's meta data
                     // which will have the information to search through
                     jQuery.ajax({
-                        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+                        url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
                         type: 'POST',
                         data: {
                             action: 'iwhq_get_members_meta',
@@ -513,7 +513,7 @@ function getMedals() {
     var user = localStorage.getItem("user_id");
 
     jQuery.ajax({
-        url: 'http://www.webhq.ie/wp-admin/admin-ajax.php',
+        url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
         type: 'POST',
         data: {
             action: 'iwhq_get_quiz_results',
