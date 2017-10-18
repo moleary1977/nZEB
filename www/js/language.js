@@ -1,9 +1,12 @@
-jQuery(document).ready(function () {
+document.addEventListener("deviceready", onDeviceReady, false);
+
+
+function onDeviceReady() {
 
     // if the cookie exists, the user is logged in
     if (document.cookie) {
         lang = getLanguage();
-        url = '../res/json/language.json';
+        url = './../res/json/language.json';
         // get the json data from the url
         jQuery.getJSON(url, function(json){
             // loop through the json
@@ -45,4 +48,4 @@ jQuery(document).ready(function () {
         });
     }
 
-});
+};
