@@ -1,0 +1,104 @@
+{
+  "en" : [
+    {
+      "menu_about" : "About NZEB",
+      "menu_training" : "Training",
+      "menu_search" : "Search Members",
+      "menu_links" : "Links", 
+      "menu_bottom_start" : "Begin Training",
+      "menu_bottom_continue" : "Continue Training",
+      "menu_home" : "Home",
+      "menu_logout" : "Logout",
+
+      "subtitle_about" : "Learn more about NZEB",
+      "subtitle_training" : "Proceed and learn with training material",
+      "subtitle_search" : "Discover other members' interests and services",
+      "subtitle_links" : "Helpful and relevant links"
+    }
+  ],
+  "bg" : [
+    {
+      "menu_about" : "За NZEB",
+      "menu_training" : "обучение",
+      "menu_search" : "Търсене на членове",
+      "menu_links" : "звена", 
+      "menu_bottom_start" : "Започнете обучението",
+      "menu_bottom_continue" : "Продължете обучението",
+      "menu_home" : "У дома",
+      "menu_logout" : "изход",
+
+      "subtitle_about" : "Научете повече за NZEB",
+      "subtitle_training" : "Продължете и научете с учебния материал",
+      "subtitle_search" : "Открийте интересите и услугите на други членове",
+      "subtitle_links" : "Полезни и подходящи връзки"
+    }
+  ],
+  "cs" : [
+    {
+      "menu_about" : "",
+      "menu_training" : "",
+      "menu_search" : "",
+      "menu_links" : "", 
+      "menu_bottom_start" : "",
+      "menu_bottom_continue" : "",
+      "menu_home" : "",
+      "menu_logout" : "",
+
+      "subtitle_about" : "",
+      "subtitle_training" : "",
+      "subtitle_search" : "",
+      "subtitle_links" : ""
+    }
+  ],
+  "ro" : [
+    {
+      "menu_about" : "",
+      "menu_training" : "",
+      "menu_search" : "",
+      "menu_links" : "", 
+      "menu_bottom_start" : "",
+      "menu_bottom_continue" : "",
+      "menu_home" : "",
+      "menu_logout" : "",
+
+      "subtitle_about" : "",
+      "subtitle_training" : "",
+      "subtitle_search" : "",
+      "subtitle_links" : ""
+    }
+  ],
+  "tr" : [
+    {
+      "menu_about" : "",
+      "menu_training" : "",
+      "menu_search" : "",
+      "menu_links" : "", 
+      "menu_bottom_start" : "",
+      "menu_bottom_continue" : "",
+      "menu_home" : "",
+      "menu_logout" : "",
+
+      "subtitle_about" : "",
+      "subtitle_training" : "",
+      "subtitle_search" : "",
+      "subtitle_links" : ""
+    }
+  ],
+  "uk" : [
+    {
+      "menu_about" : "",
+      "menu_training" : "",
+      "menu_search" : "",
+      "menu_links" : "", 
+      "menu_bottom_start" : "",
+      "menu_bottom_continue" : "",
+      "menu_home" : "",
+      "menu_logout" : "",
+
+      "subtitle_about" : "",
+      "subtitle_training" : "",
+      "subtitle_search" : "",
+      "subtitle_links" : ""
+    }
+  ]
+}

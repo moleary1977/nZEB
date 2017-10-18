@@ -15,12 +15,12 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="./index.html"><img src="./res/icons/home.png">Home</a>
-        <a href="./about.html"><img src="./res/icons/info.png">About NZEB</a>
-        <a href="./training-hub.html"><img src="./res/icons/blackboard.png">Training</a>
-        <a href="./search.html"><img src="./res/icons/group.png">Search Members</a>
-        <a href="./links.html"><img src="./res/icons/link.png">Links</a>
-        <a id="logout" href="./index.html"><img src="./res/icons/logout.png">Logout</a>
+        <a id="menu_home" href="./index.html"><img src="./res/icons/home.png"></a>
+        <a class="menu_about" href="./about.html"><img src="./res/icons/info.png"></a>
+        <a class="menu_training" href="./training-hub.html"><img src="./res/icons/blackboard.png"></a>
+        <a class="menu_search" href="./search.html"><img src="./res/icons/group.png"></a>
+        <a class="menu_links" href="./links.html"><img src="./res/icons/link.png"></a>
+        <a id="logout" href="./index.html"><img src="./res/icons/logout.png"></a>
     </div>
 
     <div class="row">
@@ -39,6 +39,7 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
+    <script type="text/javascript" src="./js/language.js"></script>
     <script type="text/javascript">
         document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -87,16 +88,16 @@
                             // reset their attempts to 3
                             setAttempts(3);
                             // for each training post type ("training section")
-                            jQuery("div.content").append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
-                                .append("<h3>Unit Summary</h3>" + data[course_to_get].acf.summary)
-                                .append("<h3>Principles and Approaches</h3>" + data[course_to_get].acf.principles_and_approaches)
-                                .append("<h3>Additional Resources</h3>" + data[course_to_get].acf.additional_resources)
+                            jQuery("div.content").append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
+                                .append("<h2>Unit Summary</h2>" + data[course_to_get].acf.summary)
+                                .append("<h2>Principles and Approaches</h2>" + data[course_to_get].acf.principles_and_approaches)
+                                .append("<h2>Additional Resources</h2>" + data[course_to_get].acf.additional_resources)
                                 .append("<a onclick='setContentView(\"Quiz\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Take the quiz now</a>");
                             // If the user is viewing the quiz
                         } else if (content_view == "Quiz") {
                             // for each training post type ("training section")
                             jQuery("div.content")
-                                .append("<h2>"+data[course_to_get].title.rendered+"</h2><hr>")
+                                .append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
                                 .append('<ul class="nav nav-tabs"></ul>')
                                 .append('<div class="tab-content"></div>');
                             // get the number of questions from the post

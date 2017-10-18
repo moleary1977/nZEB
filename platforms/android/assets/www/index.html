@@ -14,14 +14,16 @@
 
 <body class="container elegant-color-dark">
 
+    <input type="hidden" id="subtitles_on_page">
+
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="./index.html"><img src="./res/icons/home.png">Home</a>
-        <a href="./about.html"><img src="./res/icons/info.png">About NZEB</a>
-        <a href="./training-hub.html"><img src="./res/icons/blackboard.png">Training</a>
-        <a href="./search.html"><img src="./res/icons/group.png">Search Members</a>
-        <a href="./links.html"><img src="./res/icons/link.png">Links</a>
-        <a id="logout" href="./index.html"><img src="./res/icons/logout.png">Logout</a>
+        <a id="menu_home" href="./index.html"><img src="./res/icons/home.png"></a>
+        <a class="menu_about" href="./about.html"><img src="./res/icons/info.png"></a>
+        <a class="menu_training" href="./training-hub.html"><img src="./res/icons/blackboard.png"></a>
+        <a class="menu_search" href="./search.html"><img src="./res/icons/group.png"></a>
+        <a class="menu_links" href="./links.html"><img src="./res/icons/link.png"></a>
+        <a id="logout" href="./index.html"><img src="./res/icons/logout.png"></a>
     </div>
 
     <div class="row">
@@ -37,25 +39,25 @@
         <div class="nav-menu">
             <div class="card-panel col-sm-12 nav">
                 <img src="./res/icons/info.png"> 
-                <a href="./about.html">About NZEB</a><br>
-                <span class="subtitle">Learn more about NZEB</span>
+                <a class="menu_about" href="./about.html"></a><br>
+                <span id="subtitle_about" class="subtitle"></span>
             </div>
             <div class="card-panel col-sm-12 nav">
                 <img src="./res/icons/blackboard.png"> 
-                <a href="./training-hub.html">Training</a><br>
-                <span class="subtitle">Proceed and learn with training material</span>
+                <a class="menu_training" href="./training-hub.html"></a><br>
+                <span id="subtitle_training" class="subtitle"></span>
             </div>
             <div class="card-panel col-sm-12 nav">
                 <img src="./res/icons/group.png"> 
-                <a href="./search.html">Search Members Database</a><br>
-                <span class="subtitle">Discover other members interests and services</span>
+                <a class="menu_search" href="./search.html"></a><br>
+                <span id="subtitle_search" class="subtitle"></span>
             </div>
             <div class="card-panel col-sm-12 nav">
                 <img src="./res/icons/link.png"> 
-                <a href="./links.html">Links</a><br>
-                <span class="subtitle">Helpful and relevant links</span>
+                <a class="menu_links" href="./links.html"></a><br>
+                <span id="subtitle_links" class="subtitle"></span>
             </div>
-            <div class="card-panel amber col-sm-12 nav-bottom"><a href="./training-content.html"></a></div>
+            <div id="menu_bottom" class="card-panel amber col-sm-12 nav-bottom"><a href="./training-content.html"></a></div>
         </div>
 
     </div>
@@ -65,6 +67,7 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
+    <script type="text/javascript" src="./js/language.js"></script>
 
     <script type="text/javascript">
 
@@ -73,18 +76,6 @@
             // if the cookie exists, the user is logged in
             if(document.cookie){
                 console.log("Cookie");
-
-                if(getCoursesCompleted() == 0){
-                    jQuery(".nav-bottom a").text("Begin Training");
-                } else {
-                    jQuery(".nav-bottom a").text("Continue Training");
-                }
-                
-                jQuery("a#logout").on("click", function(){
-                    document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-                    localStorage.setItem("user_id", "");
-                });
-
                 // TODO? - get_user_meta user's name for welcome message after logging in
 
             // if the cookie does not exist, the user must log in
