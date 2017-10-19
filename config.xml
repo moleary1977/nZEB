@@ -13,7 +13,7 @@
     <content src="index.html" />
 
     <access origin="*" />
-    <plugin name="cordova-plugin-whitelist" version="1" />
+    <plugin name="cordova-plugin-whitelist" source="npm" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <platform name="android">
