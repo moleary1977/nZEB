@@ -128,22 +128,22 @@ function showResults() {
     jQuery('li').attr("class", "");
     jQuery('div.tab-content > div').attr("class", "tab-pane fade");
     // add a new tab to the top
-    jQuery('ul.nav-tabs').append("<li class='active'><a data-toggle='tab' href='#results'>Results</a></li>");
+    jQuery('ul.nav-tabs').append("<li class='active'><a data-toggle='tab' href='#results' id='result'></a></li>");
     // add a new content area for the new tab
     jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade active in' id='results'></div>");
     // add a results table to the content area
     jQuery('div#results')
         .append("<table class='table'><tbody></tbody></table>")
     // add continue btn
-        .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Continue to next course</a>");
+        .append("<a onclick='setContentView(\"Material\")' id='continue' class='btn btn-block elegant-color white-text' href='./training-content.html'></a>");
 
     // add information to the table about the user's results
     jQuery('div#results table tbody')
-        .append('<tr><th>Total questions</th><td>5</td></tr>')
-        .append('<tr><th>Correct answers</th><td>' + correct_answers + '</td></tr>')
-        .append('<tr><th>Wrong answers</th><td>' + wrong_answers + '</td></tr>')
-        .append('<tr><th>Total score</th><td>' + grade + '%</td></tr>')
-        .append('<tr><th>Overall result</th><td>' + result + '</td></tr>');
+        .append('<tr><th id="th_total"></th><td>5</td></tr>')
+        .append('<tr><th id="th_correct"></th><td>' + correct_answers + '</td></tr>')
+        .append('<tr><th id="th_wrong"></th><td>' + wrong_answers + '</td></tr>')
+        .append('<tr><th id="th_score"></th><td>' + grade + '%</td></tr>')
+        .append('<tr><th id="th_overall"></th><td>' + result + '</td></tr>');
     // add a button to continue depending on result
     if (result == "Pass") {
         // get the next course
@@ -179,22 +179,25 @@ function showResults() {
             .append("<option value='4'>4 - Satisfied</option>")
             .append("<option value='5'>5 - Very satisfied</option>");
         
+        loadLanguagePack();
+
     } else if (result == "Repeat") {
         setAttempts(--attempts);
         // if the user still has attempts
         if (attempts > 0) {
             // option to re-attempt the quiz
-            jQuery('div#results').append("<a class='btn btn-block elegant-color white-text' href='./training-content.html'>Repeat this quiz</a>");
+            jQuery('div#results').append("<a class='btn btn-block elegant-color white-text repeat' href='./training-content.html'></a>");
             // option to review material
-            jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Review training material</a>");
+            jQuery('div#results').append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text review' href='./training-content.html'></a>");
             // if they run out of attempts
         } else if (attempts == 0) {
             // get the user to review the material again before trying the quiz
-            jQuery('div#results').append("<p>You have repeated this quiz a number of times, we recommened you review the material before trying again</p>")
-                .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text' href='./training-content.html'>Review training material</a>");
+            jQuery('div#results').append("<p class='retry'></p>")
+                .append("<a onclick='setContentView(\"Material\")' class='btn btn-block elegant-color white-text review' href='./training-content.html'></a>");
         }
     }
 
+    loadLanguagePack();    
     saveResults();
 }
 
@@ -423,16 +426,18 @@ function getMembers() {
     jQuery(".search").hide();
         jQuery(".content").append("<div class='results'></div>");
         jQuery(".results")
-            .append("<h1>Results</h1><hr>")
+            .append("<input type='hidden' id='results_on_page'>")    
+            .append("<h1></h1><hr>")
             .append("<table class='table'><thead></thead><tbody></tbody></table>")
-            .append("<button class='btn btn-block elegant-color white-text' onclick='searchAgain()' id='search'>Search Again</button>");
+            .append("<button class='btn btn-block elegant-color white-text' onclick='searchAgain()' id='search'></button>");
         jQuery(".results table thead")
             .append("<tr></tr>");
         jQuery(".results table thead tr")
-            .append("<th>Name</th>")
-            .append("<th>Interest</th>")
-            .append("<th>Expertise</th>")
-            .append("<th>Country</th>");
+            .append("<th id='th_name'></th>")
+            .append("<th id='th_interest'></th>")
+            .append("<th id='th_expertise'></th>")
+            .append("<th id='th_country'></th>");
+        loadLanguagePack();
 
     // This ajax request gets data belonging to each user subscriber
     // such as id, email and display name

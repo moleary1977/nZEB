@@ -53,7 +53,39 @@
       "achievement_heading" : "Achievements",
       "eighty" : "Passed with 80%",
       "hundred" : "Passed with 100%",
-      "no_quizzes" : "You have not attempted any quizzes."
+      "no_quizzes" : "You have not attempted any quizzes.",
+
+      "search_heading" : "Search for Members",
+      "input_membername" : "Enter name...",
+      "label_membername" : "Member Name",
+      "search_button" : "Search",
+
+      "results_heading" : "Search Results",
+      "th_name" : "Name",
+      "th_interest" : "Interest",
+      "th_expertise" : "Expertise",
+      "th_country" : "Country",
+      "results_button" : "Search Again?",
+
+      "training_hub_heading" : "Training Hub",
+      "take_courses_heading" : "Take Course",
+      "courses_complete_heading" : "Completed Courses",
+      "complete" : "You have completed all training units.",
+      "incomplete" : "Continue",
+      "start" : "Get Started",
+      "course" : "Course",
+      "take_quiz" : "Take The Quiz Now!",
+      "submit_answer" : "Submit Your Answer",
+      "result_tab" : "Results",
+      "continue_next" : "Continue to next course",
+      "th_total" : "Total Questions",
+      "th_correct" : "Correct Answers",
+      "th_wrong" : "Wrong Answers",
+      "th_score" : "Total Score",
+      "th_overall" : "Overall Results",
+      "repeat" : "Repeat this quiz",
+      "review" : "Review training material",
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again"
     }
   ],
   "bg" : [
@@ -110,7 +142,40 @@
       "achievement_heading" : "Постижения",
       "eighty" : "Преминали с 80%",
       "hundred" : "Преминали с 100%",
-      "no_quizzes" : "Не сте се опитали да проверите викторини."
+      "no_quizzes" : "Не сте се опитали да проверите викторини.",
+
+      "search_heading" : "Търсене на членове",
+      "input_membername" : "Въведи име...",
+      "label_membername" : "Име на участник",
+      "search_button" : "Търсене",
+
+      "results_heading" : "Резултати от търсенето",
+      "th_name" : "име",
+      "th_interest" : "интерес",
+      "th_expertise" : "Експертиза",
+      "th_country" : "Държава",
+      "results_button" : "Търси отново?",
+
+      "training_hub_heading" : "Тренировъчен център",
+      "take_courses_heading" : "Обърнете курса",
+      "courses_complete_heading" : "Завършени курсове",
+      "complete" : "Вие сте завършили всички учебни единици.",
+      "incomplete" : "продължи",
+      "start" : "Първи стъпки",
+      "course" : "Курс",
+      "take_quiz" : "Вземете теста сега",
+      "submit_answer" : "Изпратете отговор",
+      "result_tab" : "Results BG",
+      "continue_next" : "Continue to next course BG",
+      "th_total" : "BG",
+      "th_correct" : "BG",
+      "th_wrong" : "BG",
+      "th_score" : "BG",
+      "th_overall" : "BG",
+      "repeat" : "Repeat this quiz in BG",
+      "review" : "Review training material BG",
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again BG"
+
     }
   ],
   "cs" : [

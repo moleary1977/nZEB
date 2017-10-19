@@ -13,14 +13,18 @@
 
 <body class="container elegant-color-dark">
 
+    <input type="hidden" id="search_on_page">
+    <input type="hidden" id="ie_on_page">
+    <input type="hidden" id="country_on_page">
+
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a id="menu_home" href="./index.html"><img src="./res/icons/home.png"></a>
-        <a class="menu_about" href="./about.html"><img src="./res/icons/info.png"></a>
-        <a class="menu_training" href="./training-hub.html"><img src="./res/icons/blackboard.png"></a>
-        <a class="menu_search" href="./search.html"><img src="./res/icons/group.png"></a>
-        <a class="menu_links" href="./links.html"><img src="./res/icons/link.png"></a>
-        <a id="logout" href="./index.html"><img src="./res/icons/logout.png"></a>
+        <a id="menu_home" href="./index.html"></a>
+        <a id="menu_about" href="./about.html"></a>
+        <a id="menu_training" href="./training-hub.html"></a>
+        <a id="menu_search" href="./search.html"></a>
+        <a id="menu_links" href="./links.html"></a>
+        <a id="logout" href="./index.html"></a>
     </div>
 
     <div class="row">
@@ -32,46 +36,46 @@
         
         <div class="col-sm-12 card-panel content">
             <div class="search">
-                <h1>Search for Members</h1><hr>
+                <h1 id="search_heading"></h1><hr>
 
                 <input type="text" name="name" id="name" placeholder="Enter name...">
-                <label for="name">Member Name</label>
+                <label id="label_name" for="name"></label>
 
                 <select name="interest" id="interest">
-                    <option selected disabled>Choose interest</option>
-                    <option value="Air Tightness">Air Tightness</option>
-                    <option value="Solar">Solar</option>
-                    <option value="Glazing">Glazing</option>
-                    <option value="Passive House">Passive House</option>
-                    <option value="Timber Frame">Timber Frame</option>
-                    <option value="Ventilation">Ventilation</option>
+                    <option id="interest_disabled" selected disabled></option>
+                    <option class="ie_a" value="Air Tightness"></option>
+                    <option class="ie_b" value="Solar"></option>
+                    <option class="ie_c" value="Glazing"></option>
+                    <option class="ie_d" value="Passive House"></option>
+                    <option class="ie_e" value="Timber Frame"></option>
+                    <option class="ie_f" value="Ventilation"></option>
                 </select>
-                <label for="interest">Area of Interest</label>
-                
+                <label id="label_interest" for="interest"></label>
+
                 <select name="expertise" id="expertise">
-                    <option selected disabled>Choose expertise</option>
-                    <option value="Air Tightness">Air Tightness</option>
-                    <option value="Solar">Solar</option>
-                    <option value="Glazing">Glazing</option>
-                    <option value="Passive House">Passive House</option>
-                    <option value="Timber Frame">Timber Frame</option>
-                    <option value="Ventilation">Ventilation</option>
+                    <option id="expertise_disabled" selected disabled></option>
+                    <option class="ie_a" value="Air Tightness"></option>
+                    <option class="ie_b" value="Solar"></option>
+                    <option class="ie_c" value="Glazing"></option>
+                    <option class="ie_d" value="Passive House"></option>
+                    <option class="ie_e" value="Timber Frame"></option>
+                    <option class="ie_f" value="Ventilation"></option>
                 </select>
-                <label for="expertise">Expertise</label>
+                <label id="label_expertise" for="expertise"></label>
 
                 <select name="country" id="country">
-                    <option selected disabled>Choose country</option>
-                    <option value="ir">Ireland</option>
-                    <option value="en">United Kingdom</option>
-                    <option value="bg">Bulgaria</option>
-                    <option value="cs">Czech Republic</option>
-                    <option value="ro">Romania</option>
-                    <option value="tr">Turkey</option>
-                    <option value="uk">Ukraine</option>
+                    <option id="country_disabled" selected disabled></option>
+                    <option id="country_ir" value="ir"></option>
+                    <option id="country_en" value="en"></option>
+                    <option id="country_bg" value="bg"></option>
+                    <option id="country_cs" value="cs"></option>
+                    <option id="country_ro" value="ro"></option>
+                    <option id="country_tr" value="tr"></option>
+                    <option id="country_uk" value="uk"></option>
                 </select>
-                <label for="country">Country</label>
+                <label id="label_country" for="country"></label>
 
-                <button class="btn btn-block elegant-color white-text" onclick="getMembers()" id="search">Search</button>
+                <button class="btn btn-block elegant-color white-text" onclick="getMembers()" id="search"></button>
             </div>
         </div>
     </div>
@@ -81,7 +85,7 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
-    <script type="text/javascript" src="./js/language.js"></script>
+    <script type="text/javascript" src="language.js"></script>
     <script type="text/javascript">
         jQuery(document).ready(function(){
 
