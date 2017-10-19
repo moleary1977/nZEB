@@ -527,8 +527,9 @@ function getMedals() {
             var gold = 0;
 
             if (results == "No results") {
-                jQuery(".content").append("<div class='alert alert-info'>You have not attempted any quizzes. Take your <a href='./training-content.html'>first quiz</a> now.</div>");
+                jQuery("#no_quizzes").show();
             } else {
+                jQuery("#no_quizzes").hide().detach();
                 results = JSON.parse(results);
 
                 for (i in results) {
@@ -550,9 +551,7 @@ function getMedals() {
             }
 
             $silver.before("<span>" + silver + "/7</span>");
-            $silver.after("<p>Passed with 80%</p>");
             $gold.before("<span>" + gold + "/7</span>");
-            $gold.after("<p>Passed with 100%</p>");
 
             console.log("Silver: " + silver);
             console.log("Gold: " + gold);

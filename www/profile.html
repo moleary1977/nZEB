@@ -13,6 +13,8 @@
 
 <body class="container elegant-color-dark">
 
+    <input type="hidden" id="profile_on_page">
+
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a id="menu_home" href="./index.html"><img src="./res/icons/home.png"></a>
@@ -32,68 +34,68 @@
 
         <div class="col-sm-12 card-panel content">
 
-            <h1>Your Profile</h1><hr>
+            <h1 id="profile_heading"></h1><hr>
 
-            <input type="text" name="first_name" id="first_name" placeholder="Enter your first name..." />
-            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" id="first_name" placeholder="" />
+            <label id="label_firstname" for="first_name"></label>
 
-            <input type="text" name="last_name" id="last_name" placeholder="Enter your last name..." />
-            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" id="last_name" placeholder="" />
+            <label id="label_lastname" for="last_name"></label>
 
             <!--<input type="email" name="email" id="email" placeholder="Enter your email..." />
             <label for="email">Email</label>-->
 
-            <input type="tel" name="phone" id="phone" placeholder="Enter your phone number..." />
-            <label for="phone">Phone Number</label>
+            <input type="tel" name="phone" id="phone" placeholder="" />
+            <label id="label_tel" for="phone"></label>
 
             <select name="language" id="language">
-                <option selected disabled>Select language</option>
-                <option value="en">English</option>
-                <option value="bg">Bulgarian</option>
-                <option value="cs">Czech</option>
-                <option value="ro">Romanian</option>
-                <option value="tr">Turkish</option>
-                <option value="uk">Ukrainian</option>
+                <option id="lang_disabled" selected disabled></option>
+                <option id="lang_en" value="en"></option>
+                <option id="lang_bg" value="bg"></option>
+                <option id="lang_cs" value="cs"></option>
+                <option id="lang_ro" value="ro"></option>
+                <option id="lang_tr" value="tr"></option>
+                <option id="lang_uk" value="uk"></option>
             </select>
-            <label for="language">Language</label>
+            <label id="label_lang" for="language"></label>
 
             <select name="country" id="country">
-                <option selected disabled>Select a country</option>
-                <option value="ir">Ireland</option>
-                <option value="en">United Kingdom</option>
-                <option value="bg">Bulgaria</option>
-                <option value="cs">Czech Republic</option>
-                <option value="ro">Romania</option>
-                <option value="tr">Turkey</option>
-                <option value="uk">Ukraine</option>
+                <option id="country_disabled" selected disabled></option>
+                <option id="country_ir" value="ir"></option>
+                <option id="country_en" value="en"></option>
+                <option id="country_bg" value="bg"></option>
+                <option id="country_cs" value="cs"></option>
+                <option id="country_ro" value="ro"></option>
+                <option id="country_tr" value="tr"></option>
+                <option id="country_uk" value="uk"></option>
             </select>
-            <label for="country">Country</label>
+            <label id="label_country" for="country"></label>
 
             <select name="interest" id="interest">
-                <option selected disabled>Select area of interest</option>
-                <option value="Air Tightness">Air Tightness</option>
-                <option value="Solar">Solar</option>
-                <option value="Glazing">Glazing</option>
-                <option value="Passive House">Passive House</option>
-                <option value="Timber Frame">Timber Frame</option>
-                <option value="Ventilation">Ventilation</option>
+                <option id="interest_disabled" selected disabled></option>
+                <option class="ie_a" value="Air Tightness"></option>
+                <option class="ie_b" value="Solar"></option>
+                <option class="ie_c" value="Glazing"></option>
+                <option class="ie_d" value="Passive House"></option>
+                <option class="ie_e" value="Timber Frame"></option>
+                <option class="ie_f" value="Ventilation"></option>
             </select>
-            <label for="interest">Area of Interest</label>
+            <label id="label_interest" for="interest"></label>
 
             <select name="expertise" id="expertise">
-                <option selected disabled>Select area of expertise</option>
-                <option value="Air Tightness">Air Tightness</option>
-                <option value="Solar">Solar</option>
-                <option value="Glazing">Glazing</option>
-                <option value="Passive House">Passive House</option>
-                <option value="Timber Frame">Timber Frame</option>
-                <option value="Ventilation">Ventilation</option>
+                <option id="expertise_disabled" selected disabled></option>
+                <option class="ie_a" value="Air Tightness"></option>
+                <option class="ie_b" value="Solar"></option>
+                <option class="ie_c" value="Glazing"></option>
+                <option class="ie_d" value="Passive House"></option>
+                <option class="ie_e" value="Timber Frame"></option>
+                <option class="ie_f" value="Ventilation"></option>
             </select>
-            <label for="expertise">Area of Expertise</label>
+            <label id="label_expertise" for="expertise"></label>
 
-            <button class="btn btn-block elegant-color white-text" id="update" onclick="updateUserProfile()">Update</button>
+            <button class="btn btn-block elegant-color white-text" id="update" onclick="updateUserProfile()"></button>
 
-            <h1>Achievements</h1><hr>
+            <h1 id="achievement_heading"></h1><hr>
 
             <div class="medals container-fluid">
                 <div class="col-xs-6">
@@ -103,6 +105,7 @@
                     <img src="./res/img/nzeb-gold.png" alt="Gold" id="gold">
                 </div>
             </div>
+            <div id="no_quizzes" class="alert alert-info"></div>
         </div>
     </div>
 
@@ -111,19 +114,21 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/mdb.min.js"></script>
     <script type="text/javascript" src="./js/functions.js"></script>
-    <script type="text/javascript" src="./js/language.js"></script>
+    <script type="text/javascript" src="language.js"></script>
 
-    
     <script type="text/javascript">
         jQuery(document).ready(function(){
             if(document.cookie){
                 getUserMeta();
                 getMedals();
+                //loadLanguagePack();
             } else {
                 jQuery("div.content").hide();
             }
         });
     </script>
+
+
 
 </body>
 
