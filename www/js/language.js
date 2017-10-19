@@ -3,12 +3,16 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
 
+    alert("Ready to load language");
+
     // if the cookie exists, the user is logged in
     if (document.cookie) {
         lang = getLanguage();
-        url = './../res/json/language.json';
+        url = '../res/json/language.json';
+        alert("Cookie found - user is logged");
         // get the json data from the url
-        jQuery.getJSON(url, function(json){
+        jQuery.getJSON(url, function (json) {
+            alert("Loading JSON");
             // loop through the json
             jQuery.each(json, function (language_pack, pack) {
                 // If the user's language matches a language package
