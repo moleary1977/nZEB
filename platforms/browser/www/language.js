@@ -10,7 +10,6 @@ function loadLanguagePack() {
 
         // get the json data from the url
         jQuery.getJSON(url, function (json) {
-
             // loop through the json
             jQuery.each(json, function (language_pack, pack) {
                 // If the user's language matches a language package

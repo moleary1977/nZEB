@@ -360,8 +360,7 @@ function updateUserProfile() {
         },
         success: function (response) {
             console.log("Getting a response, server success");
-            jQuery("div.alert-success").detach();
-            jQuery(".content").prepend("<div class='alert alert-success'>Profile updated</div>");
+            location.reload(true);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
