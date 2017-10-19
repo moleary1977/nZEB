@@ -8,7 +8,7 @@ function onDeviceReady() {
     // if the cookie exists, the user is logged in
     if (document.cookie) {
         lang = getLanguage();
-        url = '../res/json/language.json';
+        url = 'language.json';
         alert("Cookie found - user is logged");
         // get the json data from the url
         jQuery.getJSON(url, function (json) {
