@@ -155,7 +155,7 @@
 
                     } else {
 
-                        // go to server for data
+                        // go to server for data and store it locally
                         jQuery.ajax({
                             type: 'GET',
                             url: url,
@@ -234,6 +234,7 @@
                                     loadLanguagePack();
                                 }
                         });
+                        console.log("Loading server data");
 
                     }
 
