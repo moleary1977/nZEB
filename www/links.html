@@ -54,17 +54,29 @@
                 url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/pages/?slug=links&lang="+lang;
             }
 
-            console.log(url);
-
-            jQuery.ajax({
+            // if the json is stored locally
+            if(localStorage.getItem('json_links')){
+                // parse and display it
+                jQuery(".loader").detach();
+                data = JSON.parse(localStorage.getItem('json_links'));
+                jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
+                console.log("Loading local data");
+            } else {
+                // otherwise run the ajax request to the server
+                jQuery.ajax({
                 type: 'GET',
                 url: url,
                 dataType: 'json',
                 success: function (data) {
-                    jQuery(".loader").detach();
-                    jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
-                }
-            });
+                        // display the retrieved data and store it locally
+                        jQuery(".loader").detach();
+                        data_to_store = JSON.stringify(data);
+                        localStorage.setItem('json_links', data_to_store);
+                        jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
+                        console.log("Loading server data");
+                    }
+                });
+            }
         }
     </script>
 

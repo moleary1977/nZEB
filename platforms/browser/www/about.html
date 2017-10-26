@@ -66,19 +66,29 @@
                     url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/pages/?slug=about&lang="+lang;
                 }
 
-                console.log(url);
-
-                jQuery.ajax({
+                // check local data
+                if(localStorage.getItem('json_about')){
+                    jQuery(".loader").detach();
+                    data = JSON.parse(localStorage.getItem('json_about'));
+                    jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
+                    console.log("Loading local data");
+                } else {
+                    // go to server for data
+                    jQuery.ajax({
                     type: 'GET',
                     url: url,
                     dataType: 'json',
                     crossDomain: true,
                     success: function (data) {
-                        console.log(data);
-                        jQuery(".loader").detach();
-                        jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
-                    }
-                });
+                            console.log(data);
+                            jQuery(".loader").detach();
+                            data_to_store = JSON.stringify(data);
+                            localStorage.setItem('json_about', data_to_store);
+                            jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
+                            console.log("Loading server data");
+                        }
+                    });
+                }
 
                 jQuery("a#logout").on("click", function () {
                     document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";

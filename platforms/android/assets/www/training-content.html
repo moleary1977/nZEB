@@ -80,17 +80,17 @@
                     jQuery(".content").append("<div class='alert alert-success'>You have completed all training units. <a href='./training-hub.html'>Back to Hub</a>.</div>");
                 } 
                 else {
-                    jQuery.ajax({
-                    type: 'GET',
-                    url: url,
-                    dataType: 'json',
-                    success: function (data) {
-                    
+
+                    // check local data
+                    if(localStorage.getItem('json_courses')){
+
+                        jQuery(".loader").detach();
+                        data = JSON.parse(localStorage.getItem('json_courses'));
                         // If the user is viewing content material (default)
                         if (content_view == "Material") {
                             // reset their attempts to 3
                             setAttempts(3);
-                            console.log(data[course_to_get]);
+                            //console.log(data[course_to_get]);
                             // for each training post type ("training section")
                             jQuery("div.content").append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
                                 .append(data[course_to_get].acf.summary)
@@ -99,62 +99,143 @@
                                 .append("<a onclick='setContentView(\"Quiz\")' class='take-now btn btn-block elegant-color white-text' href='./training-content.html'></a>");
                             // If the user is viewing the quiz
                         } else if (content_view == "Quiz") {
-                            // for each training post type ("training section")
-                            jQuery("div.content")
-                                .append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
-                                .append('<ul class="nav nav-tabs"></ul>')
-                                .append('<div class="tab-content"></div>');
-                            // get the number of questions from the post
-                            var questions = data[course_to_get].acf.mcq.length;
-                            // if there are less than 5 questions
-                            if (questions < 5) {
-                                // then the number of questions needed is what we're given
-                                var qneeded = questions;
-                            } else {
-                                // otherwise get 5 questions
-                                var qneeded = 5;
-                            }
-                            // loop until we have 5 unique questions loaded
-                            while (already_selected.length < qneeded) {
-                                // get a random number based on the number of questions available
-                                var random = Math.floor(Math.random() * questions);
-                                // if the number is already in the array 
-                                if (jQuery.inArray(random, already_selected) !== -1) {
-                                    // then it already exists, don't need to add it again
-                                } else {
-                                    // otherwise, add it into the array
-                                    already_selected.push(random);
-                                    // add 1 to the index
-                                    index = random + 1;
-                                    // add a new tab to the top
-                                    jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>"+data[course_to_get].acf.mcq[random].question+"</a></li>");
-                                    // add a new content area for the new tab
-                                    jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'></div>");
-                                    // hide the question tabs initially
-                                    jQuery('ul > li').hide();
-                                    // insert a form into the new content area and hide it initially
-                                    jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>").hide();
-                                    // add a hidden input field containing the correct answer
-                                    jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + data[course_to_get].acf.mcq[random].correct_answer + "'>");
-                                    // for each answer option
-                                    jQuery.each(data[course_to_get].acf.mcq[random].answers, function (i, ans) {
-                                        // put it onto the page
-                                        jQuery('form#question-' + index).append('<li>' + (i + 1) + '. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
-                                    });
-                                    // add a submit button
-                                    jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='submit btn btn-block elegant-color white-text'></a>");
-                                    // add a div for answer feedback
-                                    jQuery('form#question-' + index).append("<div id='answer'></div>");
-                                    // make the first tab and content active
-                                    jQuery('ul.nav li:first-child').addClass("active").show();
-                                    jQuery('div.tab-content div:first-child').addClass("active in").show();
+                                    // for each training post type ("training section")
+                                    jQuery("div.content")
+                                        .append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
+                                        .append('<ul class="nav nav-tabs"></ul>')
+                                        .append('<div class="tab-content"></div>');
+                                    // get the number of questions from the post
+                                    var questions = data[course_to_get].acf.mcq.length;
+                                    // if there are less than 5 questions
+                                    if (questions < 5) {
+                                        // then the number of questions needed is what we're given
+                                        var qneeded = questions;
+                                    } else {
+                                        // otherwise get 5 questions
+                                        var qneeded = 5;
                                     }
+                                    // loop until we have 5 unique questions loaded
+                                    while (already_selected.length < qneeded) {
+                                        // get a random number based on the number of questions available
+                                        var random = Math.floor(Math.random() * questions);
+                                        // if the number is already in the array 
+                                        if (jQuery.inArray(random, already_selected) !== -1) {
+                                            // then it already exists, don't need to add it again
+                                        } else {
+                                            // otherwise, add it into the array
+                                            already_selected.push(random);
+                                            // add 1 to the index
+                                            index = random + 1;
+                                            // add a new tab to the top
+                                            jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>"+data[course_to_get].acf.mcq[random].question+"</a></li>");
+                                            // add a new content area for the new tab
+                                            jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'></div>");
+                                            // hide the question tabs initially
+                                            jQuery('ul > li').hide();
+                                            // insert a form into the new content area and hide it initially
+                                            jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>").hide();
+                                            // add a hidden input field containing the correct answer
+                                            jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + data[course_to_get].acf.mcq[random].correct_answer + "'>");
+                                            // for each answer option
+                                            jQuery.each(data[course_to_get].acf.mcq[random].answers, function (i, ans) {
+                                                // put it onto the page
+                                                jQuery('form#question-' + index).append('<li>' + (i + 1) + '. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
+                                            });
+                                            // add a submit button
+                                            jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='submit btn btn-block elegant-color white-text'></a>");
+                                            // add a div for answer feedback
+                                            jQuery('form#question-' + index).append("<div id='answer'></div>");
+                                            // make the first tab and content active
+                                            jQuery('ul.nav li:first-child').addClass("active").show();
+                                            jQuery('div.tab-content div:first-child').addClass("active in").show();
+                                            }
+                                        }
+                                    }
+                        console.log("Loading local data");
+
+                    } else {
+
+                        // go to server for data
+                        jQuery.ajax({
+                            type: 'GET',
+                            url: url,
+                            dataType: 'json',
+                            success: function (data) {
+                                jQuery(".loader").detach();
+                                // save the data locally
+                                data_to_store = JSON.stringify(data);
+                                localStorage.setItem('json_courses', data_to_store);
+                                // If the user is viewing content material (default)
+                                if (content_view == "Material") {
+                                    // reset their attempts to 3
+                                    setAttempts(3);
+                                    //console.log(data[course_to_get]);
+                                    // for each training post type ("training section")
+                                    jQuery("div.content").append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
+                                        .append(data[course_to_get].acf.summary)
+                                        .append(data[course_to_get].acf.principles_and_approaches)
+                                        .append(data[course_to_get].acf.additional_resources)
+                                        .append("<a onclick='setContentView(\"Quiz\")' class='take-now btn btn-block elegant-color white-text' href='./training-content.html'></a>");
+                                    // If the user is viewing the quiz
+                                } else if (content_view == "Quiz") {
+                                    // for each training post type ("training section")
+                                    jQuery("div.content")
+                                        .append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
+                                        .append('<ul class="nav nav-tabs"></ul>')
+                                        .append('<div class="tab-content"></div>');
+                                    // get the number of questions from the post
+                                    var questions = data[course_to_get].acf.mcq.length;
+                                    // if there are less than 5 questions
+                                    if (questions < 5) {
+                                        // then the number of questions needed is what we're given
+                                        var qneeded = questions;
+                                    } else {
+                                        // otherwise get 5 questions
+                                        var qneeded = 5;
+                                    }
+                                    // loop until we have 5 unique questions loaded
+                                    while (already_selected.length < qneeded) {
+                                        // get a random number based on the number of questions available
+                                        var random = Math.floor(Math.random() * questions);
+                                        // if the number is already in the array 
+                                        if (jQuery.inArray(random, already_selected) !== -1) {
+                                            // then it already exists, don't need to add it again
+                                        } else {
+                                            // otherwise, add it into the array
+                                            already_selected.push(random);
+                                            // add 1 to the index
+                                            index = random + 1;
+                                            // add a new tab to the top
+                                            jQuery('ul.nav-tabs').append("<li><a data-toggle='tab' href='#" + index + "'>"+data[course_to_get].acf.mcq[random].question+"</a></li>");
+                                            // add a new content area for the new tab
+                                            jQuery('div.tab-content').append("<div role='tabpanel' class='tab-pane fade' id='" + index + "'></div>");
+                                            // hide the question tabs initially
+                                            jQuery('ul > li').hide();
+                                            // insert a form into the new content area and hide it initially
+                                            jQuery('div.tab-pane#' + index).wrapInner("<form id='question-" + index + "' data-id='" + index + "'></form>").hide();
+                                            // add a hidden input field containing the correct answer
+                                            jQuery('form#question-' + index).append("<input id='correct_answer' type='hidden' value='" + data[course_to_get].acf.mcq[random].correct_answer + "'>");
+                                            // for each answer option
+                                            jQuery.each(data[course_to_get].acf.mcq[random].answers, function (i, ans) {
+                                                // put it onto the page
+                                                jQuery('form#question-' + index).append('<li>' + (i + 1) + '. <input value="' + ans.answer + '" name="answers-' + index + '" type="radio"> ' + ans.answer + "</li>");
+                                            });
+                                            // add a submit button
+                                            jQuery('form#question-' + index).append("<a id='submit-" + index + "' class='submit btn btn-block elegant-color white-text'></a>");
+                                            // add a div for answer feedback
+                                            jQuery('form#question-' + index).append("<div id='answer'></div>");
+                                            // make the first tab and content active
+                                            jQuery('ul.nav li:first-child').addClass("active").show();
+                                            jQuery('div.tab-content div:first-child').addClass("active in").show();
+                                            }
+                                        }
+                                    }
+                                    jQuery(".loader").detach();
+                                    loadLanguagePack();
                                 }
-                            }
-                            jQuery(".loader").detach();
-                            loadLanguagePack();
-                        }
-                    });
+                        });
+
+                    }
 
                     // when I click on a submit button
                     jQuery(document).on('click', '.submit', function () {
