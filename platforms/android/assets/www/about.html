@@ -31,6 +31,7 @@
         </div>
         
         <div class="col-sm-12 card-panel content">
+            <div class="loader"></div>
         </div>
     </div>
 
@@ -60,9 +61,9 @@
                 var url = "";
                 var lang = localStorage.getItem("user_language");
                 if(lang == "en"){
-                    url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/pages/?slug=about-nzeb";
+                    url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/pages/?slug=about";
                 } else if(lang != "en"){
-                    url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/pages/?slug=about-nzeb&lang="+lang;
+                    url = "http://www.train-to-nzeb-app.com/wp-json/wp/v2/pages/?slug=about&lang="+lang;
                 }
 
                 console.log(url);
@@ -74,6 +75,7 @@
                     crossDomain: true,
                     success: function (data) {
                         console.log(data);
+                        jQuery(".loader").detach();
                         jQuery(".content").append("<h1>"+data[0].title.rendered+"</h1><hr>" + data[0].content.rendered);
                     }
                 });

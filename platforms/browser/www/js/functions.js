@@ -293,6 +293,8 @@ function getUserMeta() {
         crossDomain: true,
         success: function (data) {
 
+            jQuery(".loader").detach();
+
             jQuery("#first_name").val(data.first_name);
             jQuery("#last_name").val(data.last_name);
             jQuery("#phone").val(data.phone);
@@ -426,6 +428,7 @@ function getMembers() {
     jQuery(".search").hide();
         jQuery(".content").append("<div class='results'></div>");
         jQuery(".results")
+            .append("<div class='loader'></div>")    
             .append("<input type='hidden' id='results_on_page'>")    
             .append("<h1></h1><hr>")
             .append("<table class='table'><thead></thead><tbody></tbody></table>")
@@ -457,6 +460,7 @@ function getMembers() {
         success: function (data) {
 
             if (data == 0) {
+                jQuery(".loader").detach();
                 jQuery("div.alert-info").detach();
                 jQuery(".content").append("<div class='alert alert-info'>No members found</div>");
                 console.log("Oops no users found");
@@ -487,7 +491,8 @@ function getMembers() {
 
                             jQuery(".results table tbody")
                                 .append("<tr> <td>" + name + "</td> <td>" + meta_data.interest[0] + "</td> <td>" + meta_data.expertise[0] + " </td> <td>" + meta_data.country[0] + "</td> </tr>");
-
+                            jQuery(".loader").detach();
+                            
                         },        
                         error: function (jqXHR, textStatus, errorThrown) {
                             if (textStatus === "timeout") {

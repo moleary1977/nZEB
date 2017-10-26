@@ -33,6 +33,9 @@
         </div>
         
         <div class="col-sm-12 card-panel content">
+
+            <div class="loader"></div>
+
             <h1 id="hub"></h1><hr>
             <h2 id="take_course"></h2>
             <div id='course_to_continue'></div>
@@ -49,7 +52,7 @@
     
     <script type="text/javascript">
 
-    if(document.cookie){            
+    if(document.cookie){
 
         // set the view to Material
         setContentView("Material");
@@ -78,6 +81,8 @@
                 jQuery("#courses_completed").append("<a class='course btn btn-block elegant-color white-text btn-link' onclick='setCourseToView(" + i + ")' href='./training-content.html'>Course " + (i + 1) + "</a>");
             }
         }
+
+        jQuery(".loader").detach();
 
         jQuery("a#logout").on("click", function(){
             document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";
