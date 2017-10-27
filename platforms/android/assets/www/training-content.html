@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=2, user-scalable=yes, width=device-width">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>Train to NZEB</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/mdb.min.css" rel="stylesheet">
@@ -32,7 +32,7 @@
             <div class="col-xs-2 profile"><a href="./profile.html"><img src="./res/img/profile.png" alt="Go to profile"/></a></div>
         </div>
 
-        <div class="col-sm-12 card-panel content">
+        <div class="col-sm-12 card-panel content training-content">
             <div class="loader"></div>
         </div>
     </div>
@@ -95,8 +95,14 @@
                             jQuery("div.content").append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
                                 .append(data[course_to_get].acf.summary)
                                 .append(data[course_to_get].acf.principles_and_approaches)
-                                .append(data[course_to_get].acf.additional_resources)
-                                .append("<a onclick='setContentView(\"Quiz\")' class='take-now btn btn-block elegant-color white-text' href='./training-content.html'></a>");
+                                .append(data[course_to_get].acf.additional_resources);
+                                if(course_to_get < 6){
+                                    jQuery("div.content")
+                                        .append("<a onclick='setContentView(\"Quiz\")' class='take-now btn btn-block elegant-color white-text' href='./training-content.html'></a>");
+                                } else if(course_to_get >= 6){
+                                    jQuery("div.content")
+                                        .append("<a class='completed-courses btn btn-block elegant-color white-text' href='./training-hub.html'></a>");
+                                }
                             // If the user is viewing the quiz
                         } else if (content_view == "Quiz") {
                                     // for each training post type ("training section")

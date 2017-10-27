@@ -136,6 +136,7 @@ function loadLanguagePack() {
                         // If training content page
                         if (jQuery('#training_content').length) {
                             jQuery('.take-now').text(pack[element].take_quiz);
+                            jQuery('.completed-courses').text(pack[element].completed_quizzes);
                             jQuery('.submit').text(pack[element].submit_answer);
                             jQuery('#th_total').text(pack[element].th_total);
                             jQuery('#th_correct').text(pack[element].th_correct);
