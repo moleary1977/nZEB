@@ -11,7 +11,7 @@
 
 </head>
 
-<body class="container elegant-color-dark">
+<body class="container">
 
     <input type="hidden" id="training_content">
 
@@ -243,6 +243,11 @@
                         console.log("Loading server data");
 
                     }
+
+                    // remove unnecessary attributes added by wordpress
+                    jQuery('.training-content img').removeAttr('sizes width height');
+                    // and move any images outside of a hyperlink
+                    jQuery('.training-content a > img').unwrap();
 
                     // when I click on a submit button
                     jQuery(document).on('click', '.submit', function () {

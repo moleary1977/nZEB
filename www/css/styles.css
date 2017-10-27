@@ -2,6 +2,10 @@
 * My CSS
 */
 
+body{
+    background-color: #fff;
+}
+
 table{
     max-width: 100%;
 }
@@ -34,14 +38,18 @@ img{
 }
 
 .training-content img{
+    width: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    transition: all 500ms ease-in-out;
 }
 
-/*.training-content img:hover{
-    transform: scale(1.3);
-}*/
+.training-content img:hover{
+    width: 150%;
+    max-width: 150%;
+    transition: all 500ms ease-in-out;
+}
 
 div.wp-video, video{
     max-width: 100%;
@@ -193,6 +201,8 @@ select{
 /**
 * Overriding MD Bootstrap CSS
 */
+
+
 .col-xs-2, .col-xs-8{
     padding: 0;
 }
@@ -228,6 +238,7 @@ h4{
 }
 
 .card-panel{
+    box-shadow: none;
     border-radius: 0;
     margin: 0;
 }

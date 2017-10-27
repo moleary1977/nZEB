@@ -62,17 +62,6 @@ function onDeviceReady() {
     }
 }
 
- jQuery("div.training-content").children('img').click(function () {
-    alert("Clicking on an image");
-    PhotoViewer.show(jQuery(this).attr('src'), 'View Image'); 
-});
-
-jQuery("div.training-content").click(function () {
-    //alert('return false');
-    PhotoViewer.show('./res/img/train-to-nzeb.png', 'View Image'); 
-    //return false;
-});
-
 // This function takes in a parameter to set the user's language and store it locally
 function setLanguage(language) {
     localStorage.setItem("user_language", language);
