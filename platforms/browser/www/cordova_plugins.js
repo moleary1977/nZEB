@@ -30,6 +30,14 @@ module.exports = [
         "id": "cordova-plugin-network-information.NetworkInfoProxy",
         "pluginId": "cordova-plugin-network-information",
         "runs": true
+    },
+    {
+        "file": "plugins/com-sarriaroman-photoviewer/www/PhotoViewer.js",
+        "id": "com-sarriaroman-photoviewer.PhotoViewer",
+        "pluginId": "com-sarriaroman-photoviewer",
+        "clobbers": [
+            "PhotoViewer"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -37,7 +45,8 @@ module.exports.metadata =
 {
     "cordova-plugin-force-lock": "0.0.1",
     "cordova-plugin-network-information": "1.3.3",
-    "cordova-plugin-whitelist": "1.3.2"
+    "cordova-plugin-whitelist": "1.3.2",
+    "com-sarriaroman-photoviewer": "1.1.10"
 }
 // BOTTOM OF METADATA
 });

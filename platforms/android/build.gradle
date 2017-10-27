@@ -88,6 +88,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "com-sarriaroman-photoviewer/concept-photoviewer.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
