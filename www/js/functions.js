@@ -241,9 +241,9 @@ function saveResults() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
-                alert("Call has timed out"); //Handle the timeout
+                console.error("Call has timed out"); //Handle the timeout
             } else {
-                alert("Another error was returned" + errorThrown); //Handle other error type
+                console.error("Another error was returned" + errorThrown); //Handle other error type
             }
         }
     });
@@ -263,17 +263,17 @@ function saveResults() {
         },
         error: function (x, e) {
             if (x.status == 0) {
-                alert('You are offline!!\n Please Check Your Network.');
+                console.warn('You are offline!!\n Please Check Your Network.');
             } else if (x.status == 404) {
-                alert('Requested URL not found.');
+                console.warn('Requested URL not found.');
             } else if (x.status == 500) {
-                alert('Internel Server Error.');
+                console.warn('Internel Server Error.');
             } else if (e == 'parsererror') {
-                alert('Error.\nParsing JSON Request failed.');
+                console.warn('Error.\nParsing JSON Request failed.');
             } else if (e == 'timeout') {
-                alert('Request Time out.');
+                console.warn('Request Time out.');
             } else {
-                alert('Unknown Error.\n' + x.responseText);
+                console.warn('Unknown Error.\n' + x.responseText);
             }
         }
     });
@@ -322,9 +322,9 @@ function getUserMeta() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
-                alert("Call has timed out"); //Handle the timeout
+                console.warn("Call has timed out"); //Handle the timeout
             } else {
-                alert("Another error was returned" + errorThrown); //Handle other error type
+                console.warn("Another error was returned" + errorThrown); //Handle other error type
             }
         }
     });
@@ -369,9 +369,9 @@ function updateUserProfile() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
-                alert("Call has timed out"); //Handle the timeout
+                console.warn("Call has timed out"); //Handle the timeout
             } else {
-                alert("Another error was returned" + errorThrown); //Handle other error type
+                console.warn("Another error was returned" + errorThrown); //Handle other error type
             }
         }
     });
@@ -403,9 +403,9 @@ function saveUserFeedback(){
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 if (textStatus === "timeout") {
-                    alert("Call has timed out"); //Handle the timeout
+                    console.warn("Call has timed out"); //Handle the timeout
                 } else {
-                    alert("Another error was returned" + errorThrown); //Handle other error type
+                    console.warn("Another error was returned" + errorThrown); //Handle other error type
                 }
             }
         });
@@ -496,9 +496,9 @@ function getMembers() {
                         },        
                         error: function (jqXHR, textStatus, errorThrown) {
                             if (textStatus === "timeout") {
-                                alert("Call has timed out"); //Handle the timeout
+                                console.warn("Call has timed out"); //Handle the timeout
                             } else {
-                                alert("Another error was returned" + errorThrown); //Handle other error type
+                                console.warn("Another error was returned" + errorThrown); //Handle other error type
                             }
                         }
                     });
@@ -507,9 +507,9 @@ function getMembers() {
         },        
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
-                alert("Call has timed out"); //Handle the timeout
+                console.warn("Call has timed out"); //Handle the timeout
             } else {
-                alert("Another error was returned" + errorThrown); //Handle other error type
+                console.warn("Another error was returned" + errorThrown); //Handle other error type
             }
         }
     });
@@ -567,9 +567,9 @@ function getMedals() {
         },        
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
-                alert("Call has timed out"); //Handle the timeout
+                console.warn("Call has timed out"); //Handle the timeout
             } else {
-                alert("Another error was returned" + errorThrown); //Handle other error type
+                console.warn("Another error was returned" + errorThrown); //Handle other error type
             }
         }
     });

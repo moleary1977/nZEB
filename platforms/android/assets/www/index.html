@@ -222,25 +222,25 @@
                             },
                             error: function(x,e){ 
                                 if (x.status == 0) {
-                                    alert('You are offline!!\n Please Check Your Network.');
+                                    console.warn('You are offline!!\n Please Check Your Network.');
                                 } else if (x.status == 404) {
-                                    //alert('Requested URL not found \n Username and/or email is incorrect.');
+                                    //console.warn('Requested URL not found \n Username and/or email is incorrect.');
                                     jQuery("div.alert").detach();
                                     jQuery("#login").before("<div class='alert alert-danger'>Invalid Username and/or Password</div>");
                                 } else if (x.status == 500) {
-                                    alert('Internel Server Error.');
+                                    console.warn('Internel Server Error.');
                                 } else if (e == 'parsererror') {
-                                    alert('Error.\nParsing JSON Request failed.');
+                                    console.warn('Error.\nParsing JSON Request failed.');
                                 } else if (e == 'timeout') {
-                                    alert('Request Time out.');
+                                    console.warn('Request Time out.');
                                 } else {
-                                    alert('Unknown Error.\n' + x.responseText);
+                                    console.warn('Unknown Error.\n' + x.responseText);
                                 }
                             }
                         })
                     },
                     error: function(data){
-                        alert("error");
+                        console.warn("error");
                     }
                 });
             });
@@ -305,9 +305,9 @@
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
                                             if (textStatus === "timeout") {
-                                                alert("Call has timed out"); //Handle the timeout
+                                                console.warn("Call has timed out"); //Handle the timeout
                                             } else {
-                                                alert("Another error was returned" + errorThrown); //Handle other error type
+                                                console.warn("Another error was returned" + errorThrown); //Handle other error type
                                             }
                                         }
                                     })
@@ -320,17 +320,17 @@
                             },
                             error:function(x,e) {
                                 if (x.status == 0) {
-                                    alert('You are offline!!\n Please Check Your Network.');
+                                    console.warn('You are offline!!\n Please Check Your Network.');
                                 } else if (x.status == 404) {
-                                    alert('Requested URL not found.');
+                                    console.warn('Requested URL not found.');
                                 } else if (x.status == 500) {
-                                    alert('Internel Server Error.');
+                                    console.warn('Internel Server Error.');
                                 } else if (e == 'parsererror') {
-                                    alert('Error.\nParsing JSON Request failed.');
+                                    console.warn('Error.\nParsing JSON Request failed.');
                                 } else if (e == 'timeout') {
-                                    alert('Request Time out.');
+                                    console.warn('Request Time out.');
                                 } else {
-                                    alert('Unknown Error.\n' + x.responseText);
+                                    console.warn('Unknown Error.\n' + x.responseText);
                                 }
                             }
                         });
