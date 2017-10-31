@@ -7,6 +7,7 @@ function onDeviceReady() {
 
     var user = localStorage.getItem("user_id");
 
+
     jQuery.ajax({
         url: 'http://www.train-to-nzeb-app.com/wp-admin/admin-ajax.php',
         type: 'POST',
@@ -598,6 +599,23 @@ function searchAgain() {
 function feedback() {
     jQuery("div.feedback").toggle("slow");
     jQuery("div.feedback button").trigger('focus');
+}
+
+function convertDate(date_to_convert) {
+    date = new Date(date_to_convert);
+    year = date.getFullYear();
+    month = date.getMonth()+1;
+    dt = date.getDate();
+    time = date.toLocaleTimeString();
+
+    if (dt < 10) {
+    dt = '0' + dt;
+    }
+    if (month < 10) {
+    month = '0' + month;
+    }
+
+    return time+' '+dt+'-'+month+'-'+year;
 }
 
 jQuery("a#logout").on("click", function () {
