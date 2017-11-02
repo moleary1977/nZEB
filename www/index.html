@@ -190,56 +190,65 @@
                 var username = jQuery(".login #username").val();
                 var password = jQuery(".login #password").val();
 
-                jQuery.ajax({
-                    type: "POST",
-                    url:"http://www.train-to-nzeb-app.com/api/get_nonce/?controller=user&method=generate_auth_cookie",
-                    crossDomain: true,
-                    dataType: 'jsonp',
-                    cache: false,
-                    success: function(data){
+                // if the data is filled
+                if(username != "" && password != ""){
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"http://www.train-to-nzeb-app.com/api/get_nonce/?controller=user&method=generate_auth_cookie",
+                        crossDomain: true,
+                        dataType: 'jsonp',
+                        cache: false,
+                        success: function(data){
 
-                        var nonce = data.nonce;
-                        var dataString = "nonce="+nonce+"&username="+username+"&password="+password+"&insecure=cool";
+                            var nonce = data.nonce;
+                            var dataString = "nonce="+nonce+"&username="+username+"&password="+password+"&insecure=cool";
 
-                        jQuery.ajax({
-                            type: "POST",
-                            url: "http://www.train-to-nzeb-app.com/api/user/generate_auth_cookie/?",
-                            data: dataString,
-                            crossDomain: true,
-                            cache: false,
-                            success: function(data){
-                                if(data.status == "ok"){
-                                    localStorage.setItem("user_id", data.user.id)
-                                    document.cookie = data.cookie;
-                                    location.href = "./index.html";
-                                } else if(data.status == "error"){ 
+                            jQuery.ajax({
+                                type: "POST",
+                                url: "http://www.train-to-nzeb-app.com/api/user/generate_auth_cookie/?",
+                                data: dataString,
+                                crossDomain: true,
+                                cache: false,
+                                success: function(data){
+                                    if(data.status == "ok"){
+                                        localStorage.setItem("user_id", data.user.id)
+                                        document.cookie = data.cookie;
+                                        location.href = "./index.html";
+                                    } else if(data.status == "error"){ 
+                                        jQuery("div.alert").detach();
+                                        jQuery("#login").before("<div class='alert alert-danger'>Invalid username and/or password</div>");
+                                    }
+                                },
+                                error: function(x,e){ 
+
                                     jQuery("div.alert").detach();
-                                    jQuery("#login").before("<div class='alert alert-danger'>Invalid Username and/or Password</div>");
+                                    jQuery("#login").before("<div class='alert alert-danger'>Invalid username and/or password</div>");
+
+                                    if (x.status == 0) {
+                                        console.warn('You are offline! \nPlease Check Your Network.');
+                                    } else if (x.status == 404) {
+                                        console.warn('Requested URL not found \n Username and/or email is incorrect.');
+                                    } else if (x.status == 500) {
+                                        console.warn('Internel Server Error.');
+                                    } else if (e == 'parsererror') {
+                                        console.warn('Error.\nParsing JSON Request failed.');
+                                    } else if (e == 'timeout') {
+                                        console.warn('Request Time out.');
+                                    } else {
+                                        console.warn('Unknown Error.\n' + x.responseText);
+                                    }
                                 }
-                            },
-                            error: function(x,e){ 
-                                if (x.status == 0) {
-                                    console.warn('You are offline!!\n Please Check Your Network.');
-                                } else if (x.status == 404) {
-                                    //console.warn('Requested URL not found \n Username and/or email is incorrect.');
-                                    jQuery("div.alert").detach();
-                                    jQuery("#login").before("<div class='alert alert-danger'>Invalid Username and/or Password</div>");
-                                } else if (x.status == 500) {
-                                    console.warn('Internel Server Error.');
-                                } else if (e == 'parsererror') {
-                                    console.warn('Error.\nParsing JSON Request failed.');
-                                } else if (e == 'timeout') {
-                                    console.warn('Request Time out.');
-                                } else {
-                                    console.warn('Unknown Error.\n' + x.responseText);
-                                }
-                            }
-                        })
-                    },
-                    error: function(data){
-                        console.warn("error");
-                    }
-                });
+                            })
+                        },
+                        error: function(data){
+                            jQuery("div.alert").detach();
+                            jQuery("#login").before("<div class='alert alert-danger'>Unknown login error, try again.</div>");
+                        }
+                    });
+                } else {
+                    jQuery("div.alert").detach();
+                    jQuery("#login").before("<div class='alert alert-danger'>Fill in your correct username and password</div>");
+                }
             });
 
             // Click register button

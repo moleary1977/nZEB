@@ -95,7 +95,13 @@
                             setAttempts(3);
                             //console.log(data[course_to_get]);
                             // for each training post type ("training section")
-                            jQuery("div.content").append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
+
+                            if(course_to_get == 0){
+                                jQuery("div.content").append("<div class='img-tip card-panel'></div>")
+                            }
+
+                            jQuery("div.content")
+                                .append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
                                 .append(data[course_to_get].acf.summary)
                                 .append(data[course_to_get].acf.principles_and_approaches)
                                 .append(data[course_to_get].acf.additional_resources);
@@ -268,7 +274,8 @@
                                     setAttempts(3);
                                     //console.log(data[course_to_get]);
                                     // for each training post type ("training section")
-                                    jQuery("div.content").append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
+                                    jQuery("div.content")
+                                        .append("<h1>"+data[course_to_get].title.rendered+"</h1><hr>")
                                         .append(data[course_to_get].acf.summary)
                                         .append(data[course_to_get].acf.principles_and_approaches)
                                         .append(data[course_to_get].acf.additional_resources)

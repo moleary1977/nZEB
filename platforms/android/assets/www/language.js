@@ -149,6 +149,7 @@ function loadLanguagePack() {
                             jQuery('.retry').text(pack[element].retry);
                             jQuery('.review').text(pack[element].review);
                             jQuery('#continue').text(pack[element].continue_next);
+                            jQuery('.img-tip').text(pack[element].img_tip);
                         }
                     });
                 }

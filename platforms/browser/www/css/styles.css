@@ -175,6 +175,10 @@ select{
     font-size: 18px;
 }
 
+.img-tip{
+    background-color: #F8BB1F;
+}
+
 /**
 * LOADER CSS
 */

@@ -88,7 +88,8 @@
       "th_overall" : "Overall Results",
       "repeat" : "Repeat this quiz",
       "review" : "Review training material",
-      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again"
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again",
+      "img_tip" : "You can zoom on images by clicking on them"
     }
   ],
   "bg" : [
@@ -180,7 +181,8 @@
       "th_overall" : "BG",
       "repeat" : "Repeat this quiz in BG",
       "review" : "Review training material BG",
-      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again BG"
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again BG",
+      "img_tip" : "You can zoom on images by clicking on them"
 
     }
   ],
@@ -273,7 +275,8 @@
       "th_overall" : "Overall Results",
       "repeat" : "Repeat this quiz",
       "review" : "Review training material",
-      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again"
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again",
+      "img_tip" : "TIP - You can zoom on images by clicking on them"
     }
   ],
   "ro" : [
@@ -365,7 +368,8 @@
       "th_overall" : "Overall Results",
       "repeat" : "Repeat this quiz",
       "review" : "Review training material",
-      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again"
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again",
+      "img_tip" : "TIP - You can zoom on images by clicking on them"
     }
   ],
   "tr" : [
@@ -457,7 +461,8 @@
       "th_overall" : "Overall Results",
       "repeat" : "Repeat this quiz",
       "review" : "Review training material",
-      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again"
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again",
+      "img_tip" : "TIP - You can zoom on images by clicking on them"
     }
   ],
   "uk" : [
@@ -549,7 +554,8 @@
       "th_overall" : "Overall Results",
       "repeat" : "Repeat this quiz",
       "review" : "Review training material",
-      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again"
+      "retry" : "You have repeated this quiz a number of times, we recommened you review the material before trying again",
+      "img_tip" : "You can zoom on images by clicking on them"
     }
   ]
 }

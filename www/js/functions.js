@@ -567,13 +567,13 @@ function getMedals() {
                 $silver.css('opacity', 0.2);
             }
 
-            if (gold >= 5) {
+            if (gold >= 21) {
                 jQuery('.gold-container').show();
                 $gold.before("<span>" + gold + "/30</span>");
             }
 
-            $bronze.before("<span>" + bronze + "/7</span>");
-            $silver.before("<span>" + silver + "/7</span>");
+            $bronze.before("<span>" + bronze + "/6</span>");
+            $silver.before("<span>" + silver + "/6</span>");
             
             // console.log("bronze: " + bronze);
             // console.log("silver: " + silver);
