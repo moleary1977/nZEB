@@ -336,7 +336,7 @@
                     }
 
                     // remove unnecessary attributes added by wordpress
-                    jQuery('.training-content img').removeAttr('sizes width height');
+                    jQuery('.training-content img').removeAttr('srcset sizes width height');
                     // and move any images outside of a hyperlink
                     jQuery('.training-content a > img').unwrap();
 
@@ -392,6 +392,9 @@
                         }
                     });
                 }
+
+                // remove unnecessary attributes added by wordpress
+                jQuery('.training-content img').removeAttr('srcset sizes width height');
 
                 jQuery("a#logout").on("click", function () {
                     document.cookie += ";expires=Thu, 01 Jan 1970 00:00:00 UTC;";

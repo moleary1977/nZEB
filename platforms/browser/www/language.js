@@ -60,11 +60,11 @@ function loadLanguagePack() {
                             jQuery('#lang_uk').append(pack[element].lang_uk);
                             jQuery('#label_lang').append(pack[element].label_lang);
                             
-                            
                             jQuery('#update').append(pack[element].update_button);     
                             jQuery('#achievement_heading').append(pack[element].achievement_heading);
-                            jQuery('#silver').after('<p>'+pack[element].eighty+'</p>');
-                            jQuery('#gold').after('<p>'+pack[element].hundred+'</p>');
+                            jQuery('#bronze').after('<p>'+pack[element].eighty+'</p>');
+                            jQuery('#silver').after('<p>'+pack[element].hundred+'</p>');
+                            jQuery('#gold').after('<p>'+pack[element].overall_pass+'</p>');
                             jQuery('#no_quizzes').append(pack[element].no_quizzes);
                             
                         }     
@@ -117,6 +117,7 @@ function loadLanguagePack() {
                         // If training hub page
                         if (jQuery('#training_hub').length) {
                             jQuery('#hub').append(pack[element].training_hub_heading);
+                            jQuery('#quiz_info').append(pack[element].quiz_info);
                             jQuery('#take_course').append(pack[element].take_courses_heading);
                             jQuery('#courses_complete').append(pack[element].courses_complete_heading);
 

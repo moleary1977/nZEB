@@ -518,8 +518,12 @@ function getMembers() {
 
 // this function gets the users achievement medals
 function getMedals() {
+
+    var $bronze = jQuery("#bronze");
     var $silver = jQuery("#silver");
     var $gold = jQuery("#gold");
+    jQuery('.gold-container').hide();
+
     var user = localStorage.getItem("user_id");
 
     jQuery.ajax({
@@ -533,6 +537,7 @@ function getMedals() {
         },
         success: function (results) {
 
+            var bronze = 0;
             var silver = 0;
             var gold = 0;
 
@@ -545,26 +550,33 @@ function getMedals() {
                 for (i in results) {
                     console.log(results[i].grade + "% in Quiz " + results[i].quiz_no);
                     if (results[i].grade == 80) {
-                        silver++;
+                        bronze++;
+                        gold += 4;
                     } else if (results[i].grade == 100) {
-                        gold++;
+                        silver++;
+                        gold += 5;
                     }
                 }
+            }
+
+            if (bronze == 0) {
+                $bronze.css('opacity', 0.2);
             }
 
             if (silver == 0) {
                 $silver.css('opacity', 0.2);
             }
 
-            if (gold == 0) {
-                $gold.css('opacity', 0.2);
+            if (gold >= 5) {
+                jQuery('.gold-container').show();
+                $gold.before("<span>" + gold + "/30</span>");
             }
 
+            $bronze.before("<span>" + bronze + "/7</span>");
             $silver.before("<span>" + silver + "/7</span>");
-            $gold.before("<span>" + gold + "/7</span>");
-
-            console.log("Silver: " + silver);
-            console.log("Gold: " + gold);
+            
+            // console.log("bronze: " + bronze);
+            // console.log("silver: " + silver);
         },        
         error: function (jqXHR, textStatus, errorThrown) {
             if (textStatus === "timeout") {
